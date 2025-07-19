@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/src/ListaTarefas/web/salvarTarefa.jsp</file>
+            <file>file:/C:/src/ListaTarefas/web/novaTarefa.jsp</file>
+            <file>file:/C:/src/ListaTarefas/src/java/Tarefas/TarefaDAO.java</file>
+            <file>file:/C:/src/ListaTarefas/web/index.jsp</file>
+            <file>file:/C:/src/ListaTarefas/src/java/Tarefas/SubtarefaDAO.java</file>
+            <file>file:/C:/src/ListaTarefas/web/listar_tarefas.jsp</file>
+            <file>file:/C:/src/ListaTarefas/src/java/Tarefas/TarefaServlet.java</file>
+        </group>
+    </open-files>
+</project-private>

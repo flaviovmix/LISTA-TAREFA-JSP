@@ -21,8 +21,6 @@
         <meta charset="UTF-8" />
         <title>To-Do List</title>
         <link rel="stylesheet" href="./css/style.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
     </head>
     <body>
 
@@ -65,11 +63,9 @@
                     aux.append("    </div>");
 
                     aux.append("    <div class='task-meta'>");
-                    aux.append("      <span><i class='fas fa-layer-group'></i> " + tarefa.getSubtarefas().size() + " subtarefas</span>");
-                    aux.append("      <span><i class='fas fa-calendar-day'></i> " + tarefa.getData_criacao() + "</span>");
-                    aux.append("      <span><i class='fas fa-comments'></i> 0</span>");
-
-
+                    aux.append("      <span>🔗 " + tarefa.getSubtarefas().size() + " subtarefas</span>");
+                    aux.append("      <span>🕒 " + tarefa.getData_criacao() + "</span>");
+                    aux.append("      <span>💬 0</span>");
                     aux.append("    </div>");
 
                     aux.append("    <span class='descricao'>");
@@ -156,25 +152,22 @@
                 <h2>Confirmar Exclusão</h2>
                 <table class="tabela-confirmacao">
                     <tr>
-                        <td><i class="fas fa-pen"></i> Título:</td>
+                        <td>Título:</td>
                         <td id="tituloDeletar"></td>
                     </tr>
                     <tr>
-                        <td><i class="fas fa-user"></i> Responsável:</td>
-                        <td id="tituloResponsavel"></td>
+                        <td>Responsável:</td>
+                        <td id="tituloResponsaval"></td>
                     </tr>
                     <tr>
-                        <td><i class="fas fa-bolt"></i> Prioridade:</td>
+                        <td>Prioridade:</td>
                         <td id="tituloPrioridade"></td>
                     </tr>
                     <tr>
-                        <td><i class="fas fa-thumbtack"></i> Status:</td>
+                        <td>Status:</td>
                         <td id="tituloStatus"></td>
                     </tr>
                 </table>
-
-
-
                 <form id="formDeletar" method="post" action="deletarTarefa.jsp">
                     <input type="hidden" name="id_tarefas" id="id_tarefa_deletar" value="0" />
                     <div class="modal-buttons">
@@ -184,6 +177,8 @@
                 </form>
             </div>
         </div>
+
+        
         
         <script>
 

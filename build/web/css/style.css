@@ -6,6 +6,16 @@ body {
     padding-top: 70px;
 }
 
+.task-meta i {
+    margin-right: 6px;
+    color: #888;
+}
+.task-meta span {
+    margin-right: 15px;
+    display: inline-block;
+}
+
+
 header {
     position: fixed;
     top: 0;
@@ -206,11 +216,12 @@ header h1 {
     z-index: 1000;
 }
 
+
 .modal {
     background: #2b2b2b;
     padding: 20px 30px 20px 20px;
     border-radius: 8px;
-    width: 300px;
+    width: 400px;
     box-shadow: 0 0 10px #000;
 }
 
@@ -303,27 +314,6 @@ header h1 {
     color: #DDD;            /* mantém a cor no hover */
 }
 
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.6);
-    display: none; /* padrão escondido */
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-.modal {
-    background: #2b2b2b;
-    padding: 20px 30px 20px 20px;
-    border-radius: 8px;
-    width: 300px;
-    box-shadow: 0 0 10px #000;
-}
-
 .deletar-link {
     display: inline-block;
     padding: 6px 12px;
@@ -344,18 +334,45 @@ header h1 {
 
 .tabela-confirmacao {
     width: 100%;
-    margin-top: 10px;
     border-collapse: collapse;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: "Segoe UI", sans-serif;
+    color: #ccc;
+    font-size: 14px;
+}
+
+.tabela-confirmacao tr:not(:last-child) {
+    border-bottom: 1px solid #2a2a2a;
 }
 
 .tabela-confirmacao td {
-    padding: 8px;
-    border-bottom: 1px solid #ddd;
-    font-size: 15px;
-    color: #ddd;
+    padding: 12px 16px;
+    vertical-align: middle;
 }
 
 .tabela-confirmacao td:first-child {
-    font-weight: bold;
-    width: 30%;
+    color: #999;
+    width: 35%;
+    white-space: nowrap;
+}
+
+.tabela-confirmacao i {
+    margin-right: 8px;
+    color: #888;
+}
+
+
+.container-imagem {
+      overflow: hidden;
+      border-radius: 8px;
+      width: 500px;
+      margin: 0 auto;
+}
+
+.container-imagem img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
 }

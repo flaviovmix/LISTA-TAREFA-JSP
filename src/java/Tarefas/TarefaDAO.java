@@ -150,30 +150,37 @@ public class TarefaDAO {
     }
 
     public List<TarefaBean> listarTarefasComSubtarefas(Integer id_tarefas) throws SQLException {
-        List<TarefaBean> listaTarefas = new ArrayList<>();
-        Map<Integer, TarefaBean> mapaTarefas = new LinkedHashMap<>();
+    List<TarefaBean> listaTarefas = new ArrayList<>();
+    Map<Integer, TarefaBean> mapaTarefas = new LinkedHashMap<>();
 
-        String sql = "SELECT "
-                + "t.id_tarefas, "
-                + "t.titulo, "
-                + "t.descricao AS descricao_tarefa, "
-                + "t.status, "
-                + "t.prioridade, "
-                + "t.responsavel, "
-                + "t.data_criacao, "
-                + "t.data_conclusao AS data_conclusao_tarefa, "
-                + "d.id_detalhe, "
-                + "d.fk_tarefa, "
-                + "d.descricao AS descricao_detalhe, "
-                + "d.data_conclusao AS data_conclusao_detalhe "
-                + "FROM tarefas t "
-                + "LEFT JOIN detalhes_tarefa d ON t.id_tarefas = d.fk_tarefa "
-                + "WHERE t.id_tarefas = ? "
-                + "ORDER BY t.id_tarefas, d.id_detalhe";
+    StringBuilder sql = new StringBuilder();
+    sql.append("SELECT ")
+       .append("t.id_tarefas, ")
+       .append("t.titulo, ")
+       .append("t.descricao AS descricao_tarefa, ")
+       .append("t.status, ")
+       .append("t.prioridade, ")
+       .append("t.responsavel, ")
+       .append("t.data_criacao, ")
+       .append("t.data_conclusao AS data_conclusao_tarefa, ")
+       .append("d.id_detalhe, ")
+       .append("d.fk_tarefa, ")
+       .append("d.descricao AS descricao_detalhe, ")
+       .append("d.data_conclusao AS data_conclusao_detalhe ")
+       .append("FROM tarefas t ")
+       .append("LEFT JOIN detalhes_tarefa d ON t.id_tarefas = d.fk_tarefa ");
 
-        try (
-                PreparedStatement ps = dataBase.getConexao().prepareStatement(sql)) {
-            ps.setInt(1, id_tarefas);
+        if (id_tarefas != null) {
+            sql.append("WHERE t.id_tarefas = ? ");
+        }
+
+        sql.append("ORDER BY t.id_tarefas, d.id_detalhe");
+
+        try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql.toString())) {
+
+            if (id_tarefas != null) {
+                ps.setInt(1, id_tarefas);
+            }
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -214,8 +221,9 @@ public class TarefaDAO {
             throw e;
         }
 
-        return listaTarefas;
+    return listaTarefas;
     }
+
 
     public TarefaBean buscarPorId(int id) {
         TarefaBean tarefa = null;

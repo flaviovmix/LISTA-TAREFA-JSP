@@ -21,6 +21,8 @@
         <meta charset="UTF-8" />
         <title>To-Do List</title>
         <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     </head>
     <body>
 
@@ -36,14 +38,16 @@
             
             <%
                 TarefaDAO tarefaDAO = new TarefaDAO();
-                List<TarefaBean> tarefas = tarefaDAO.listarTarefas();
+//                List<TarefaBean> tarefas = tarefaDAO.listarTarefas();
+                List<TarefaBean> tarefas = tarefaDAO.listarTarefasComSubtarefas(null); // null para listar todas
+
 
 
                 if (tarefas == null || tarefas.isEmpty()) {
             %>
-                <p style="text-align: center; font-style: italic; margin-top: 20px;">
-                    Nenhuma tarefa cadastrada.
-                </p>
+                <div class="container-imagem">
+                    <img src="./img/personagem.png">
+                <div>
             <%
                 } else {                
                 
@@ -61,12 +65,13 @@
                     aux.append("    </div>");
 
                     aux.append("    <div class='task-meta'>");
-                    aux.append("      <span>🔗 0/0</span>");
-                    aux.append("      <span>🕒 ");
-                    aux.append(             tarefa.getData_criacao());
-                    aux.append("       </span>");
-                    aux.append("      <span>💬 0</span>");
+                    aux.append("      <span><i class='fas fa-layer-group'></i> " + tarefa.getSubtarefas().size() + " subtarefas</span>");
+                    aux.append("      <span><i class='fas fa-calendar-day'></i> " + tarefa.getData_criacao() + "</span>");
+                    aux.append("      <span><i class='fas fa-comments'></i> 0</span>");
+
+
                     aux.append("    </div>");
+
                     aux.append("    <span class='descricao'>");
                     aux.append(        tarefa.getDescricao());
                     aux.append("     </span>");
@@ -83,7 +88,20 @@
                     aux.append("        </div>");
                     aux.append("      </label>");
                     aux.append("    </div>");
-                    aux.append("<a href='#' class='deletar-link' onclick='openModalDeletar(" + tarefa.getId_tarefas() + "); return false;'> deletar </a>");
+
+                    aux.append("<a href='#' class='deletar-link' onclick=\"openModalDeletar(");
+                    aux.append(tarefa.getId_tarefas()); // número, vai sem aspas
+                    aux.append(", '");
+                    aux.append(tarefa.getTitulo().replace("'", "\\'")); // título com aspas escapadas
+                    aux.append("', '");
+                    aux.append(tarefa.getResponsavel().replace("'", "\\'"));
+                    aux.append("', '");
+                    aux.append(tarefa.getPrioridade().replace("'", "\\'"));
+                    aux.append("', '");
+                    aux.append(tarefa.getStatus().replace("'", "\\'"));
+                    aux.append("'); return false;\">deletar</a>");
+ 
+
                     
                     aux.append("  </div>");
 
@@ -138,22 +156,25 @@
                 <h2>Confirmar Exclusão</h2>
                 <table class="tabela-confirmacao">
                     <tr>
-                        <td>Título:</td>
+                        <td><i class="fas fa-pen"></i> Título:</td>
                         <td id="tituloDeletar"></td>
                     </tr>
                     <tr>
-                        <td>Responsável:</td>
-                        <td id="tituloResponsaval"></td>
+                        <td><i class="fas fa-user"></i> Responsável:</td>
+                        <td id="tituloResponsavel"></td>
                     </tr>
                     <tr>
-                        <td>Prioridade:</td>
+                        <td><i class="fas fa-bolt"></i> Prioridade:</td>
                         <td id="tituloPrioridade"></td>
                     </tr>
                     <tr>
-                        <td>Status:</td>
+                        <td><i class="fas fa-thumbtack"></i> Status:</td>
                         <td id="tituloStatus"></td>
                     </tr>
                 </table>
+
+
+
                 <form id="formDeletar" method="post" action="deletarTarefa.jsp">
                     <input type="hidden" name="id_tarefas" id="id_tarefa_deletar" value="0" />
                     <div class="modal-buttons">
@@ -163,22 +184,8 @@
                 </form>
             </div>
         </div>
-
-        
         
         <script>
-            var tarefasMap = {};
-            <% for (TarefaBean tarefa : tarefas) { %>
-                tarefasMap[<%= tarefa.getId_tarefas() %>] = {
-                    id: "<%= tarefa.getId_tarefas() %>",
-                    titulo: "<%= tarefa.getTitulo() %>",
-                    descricao: "<%= tarefa.getDescricao() %>",
-                    responsavel: "<%= tarefa.getResponsavel() %>",
-                    prioridade: "<%= tarefa.getPrioridade() %>",
-                    status: "<%= tarefa.getStatus() %>",
-                    data: "<%= tarefa.getData_criacao() %>"
-                };
-            <% } %>
 
             var veioDeClique = <%= (!dadoVazio.isEmpty()) ? "true" : "false" %>;
 

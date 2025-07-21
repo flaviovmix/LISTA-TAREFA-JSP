@@ -45,18 +45,16 @@ function openModalComEdicao(id, tipo) {
     
 }
 
-function openModalDeletar(id) {
-    var tarefa = tarefasMap[id];
-    if (!tarefa) return;
-
-    document.getElementById("id_tarefa_deletar").value = tarefa.id;
-    document.getElementById("tituloDeletar").innerHTML = "<strong>" + tarefa.titulo + "</strong>";
-    document.getElementById("tituloResponsaval").innerHTML = "<strong>" + tarefa.responsavel + "</strong>";
-    document.getElementById("tituloPrioridade").innerHTML = "<strong>" + tarefa.prioridade + "</strong>";
-    document.getElementById("tituloStatus").innerHTML = "<strong>" + tarefa.status + "</strong>";
-
+function openModalDeletar(id, titulo, responsavel, prioridade, status) {
+    document.getElementById("id_tarefa_deletar").value = id;
+    document.getElementById("tituloDeletar").innerHTML = `<strong>${titulo}</strong>`;
+    document.getElementById("tituloResponsavel").textContent = responsavel;
+    document.getElementById("tituloPrioridade").textContent = prioridade;
+    document.getElementById("tituloStatus").textContent = status;
+    
     document.getElementById("modalDeletar").style.display = "flex";
 }
+
 
 function ativarDetalhe() {
   var elemento = document.querySelector('.detail.detail-inativa');

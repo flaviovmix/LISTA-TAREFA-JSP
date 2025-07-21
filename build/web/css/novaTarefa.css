@@ -91,6 +91,14 @@ button {
   width: 200px;
 }
 
+.voltar {
+    position: absolute;
+    top: 40px;
+    background-color: #3498db;
+    color: #fff;
+    width: 100px; 
+}
+
 #lista-tarefas li {
   background: #2a2a2a;
   padding: 10px;

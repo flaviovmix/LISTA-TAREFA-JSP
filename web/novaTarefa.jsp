@@ -35,6 +35,7 @@
         <div class="container">
             <!-- MASTER -->
             <div class="master">
+                <button type="reset" class="voltar"  onclick="window.location.href = 'index.jsp'">Voltar</button>
                 <h2>Tarefa</h2>
 
                 <% if (tarefas != null && !tarefas.isEmpty()) {

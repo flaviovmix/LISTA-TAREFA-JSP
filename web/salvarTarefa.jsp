@@ -15,10 +15,10 @@
     TarefaDAO dao = new TarefaDAO();
     if (tarefa.getId_tarefas()==0){
         dao.adicionarTarefa(tarefa);
-        response.sendRedirect("novaTarefa.jsp?id_tarefas=" + tarefa.getId_tarefas());
+        response.sendRedirect("novaTarefa.jsp?id_tarefas=" + tarefa.getId_tarefas() + "&novoOuEditar=0");
     } else {
         dao.alterarTarefa(tarefa);
-        response.sendRedirect("novaTarefa.jsp?id_tarefas=" + tarefa.getId_tarefas());
+        response.sendRedirect("novaTarefa.jsp?id_tarefas=" + tarefa.getId_tarefas() + "&novoOuEditar=1");
     }
     
 

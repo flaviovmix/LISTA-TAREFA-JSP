@@ -3,12 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/src/ListaTarefas/src/java/Tarefas/TarefaBean.java</file>
+            <file>file:/C:/src/ListaTarefas/web/salvarTarefa.jsp</file>
             <file>file:/C:/src/ListaTarefas/web/novaTarefa.jsp</file>
             <file>file:/C:/src/ListaTarefas/web/css/novaTarefa.css</file>
-            <file>file:/C:/src/ListaTarefas/web/index.jsp</file>
-            <file>file:/C:/src/ListaTarefas/web/listar_tarefas.jsp</file>
-            <file>file:/C:/src/ListaTarefas/web/novaTarefa_1.jsp</file>
         </group>
     </open-files>
 </project-private>

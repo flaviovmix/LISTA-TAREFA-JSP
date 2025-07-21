@@ -8,6 +8,8 @@
     List<TarefaBean> tarefas = null;
 
     String idParam = request.getParameter("id_tarefas");
+    String novoOuEditar = request.getParameter("novoOuEditar");
+
 
     if (idParam != null && !idParam.isEmpty()) {
         try {
@@ -72,36 +74,31 @@
 
                 <hr>
 
-                <h2>Subtarefa</h2>
-                <form action="salvarSubtarefa.jsp" method="post">
-                    <input type="hidden" name="fk_tarefa" id="fk_tarefa" value="<%= id%>">
+                <div class="">
+                    <h2>Subtarefa</h2>
+                    <form action="salvarSubtarefa.jsp" method="post">
+                        <input type="hidden" name="fk_tarefa" id="fk_tarefa" value="<%= id%>">
 
-                    <div class="campo">
-                        <textarea name="descricao" id="descricaoDetail"
-                                  placeholder="Digite a descrição..." required></textarea>
-                    </div>
+                        <div class="campo">
+                            <textarea name="descricao" id="descricaoDetail"
+                                      placeholder="Digite a descrição..." required></textarea>
+                        </div>
 
-                    <div class="campo">
-                        <label for="dataDetail">Data prevista para conclusão</label>
-                        <input type="date" name="data_conclusao" id="dataDetail" >
-                    </div>
+                        <div class="campo">
+                            <label for="dataDetail">Data prevista para conclusão</label>
+                            <input type="date" name="data_conclusao" id="dataDetail" >
+                        </div>
 
-                    <button type="submit" class="salvar">Adicionar subtarefa</button>
-                </form>                
+                        <button type="submit" class="salvar">Adicionar subtarefa</button>
+                    </form>
+                </div>
             </div>
 
 
             <!-- DETAIL -->
-            <div class="detail detail-inativa">
+            <div class="detail">
 
-                <div class="task-section">
-
-
-
-
-                </div>
                 <h2>Lista de subtarefas</h2>
-
 
                 <ul id="lista-tarefas">
                     <% for (SubtarefaBean sub : tarefa.getSubtarefas()) {%>
@@ -116,7 +113,8 @@
                 </ul>
                 <% } %>
                 <% } else { %>
-
+                    
+                <!--FORMULARIO PARA NOVO REGISTRO-->
                 <form id="formTarefa" method="get" action="salvarTarefa.jsp">
                     <input type="hidden" name="id_tarefas" id="id_tarefas" value="0" />
                     <input type="text" name="titulo" id="titulo" placeholder="Título da tarefa" value="" required>
@@ -147,28 +145,29 @@
                 </form>
 
                 <hr>
+                <div class="detail-inativa">
+                    <h2>Subtarefa</h2>
+                    <form action="salvarSubtarefa.jsp" method="post">
+                        <input type="hidden" name="fk_tarefa" id="fk_tarefa" value="0">
 
-                <h2>Subtarefa</h2>
-                <form action="salvarSubtarefa.jsp" method="post">
-                    <input type="hidden" name="fk_tarefa" id="fk_tarefa" value="0">
+                        <div class="campo">
+                            <textarea name="descricao" id="descricaoDetail"
+                                      placeholder="Digite a descrição..." required></textarea>
+                        </div>
 
-                    <div class="campo">
-                        <textarea name="descricao" id="descricaoDetail"
-                                  placeholder="Digite a descrição..." required></textarea>
-                    </div>
+                        <div class="campo">
+                            <label for="dataDetail">Data prevista para conclusão</label>
+                            <input type="date" name="data_conclusao" id="dataDetail" >
+                        </div>
 
-                    <div class="campo">
-                        <label for="dataDetail">Data prevista para conclusão</label>
-                        <input type="date" name="data_conclusao" id="dataDetail" >
-                    </div>
-
-                    <button type="submit" class="salvar">Adicionar subtarefa</button>
-                </form>                
+                        <button type="submit" class="salvar">Adicionar subtarefa</button>
+                    </form>   
+                </div>
             </div>
 
 
             <!-- DETAIL -->
-            <div class="detail detail-inativa">
+            <div class="detail">
 
                 <div class="task-section">
 
@@ -184,13 +183,6 @@
         </div>
 
         <script src="./js/script.js"></script>
-
-        <script>
-             ativarDetalhe();
-        </script>
-
-
-
 
     </body>
 

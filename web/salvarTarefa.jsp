@@ -20,8 +20,4 @@
         dao.alterarTarefa(tarefa);
         response.sendRedirect("novaTarefa.jsp?id_tarefas=" + tarefa.getId_tarefas() + "&novoOuEditar=1");
     }
-    
-
-    // Suponha que você salvou a tarefa com sucesso
-    //response.sendRedirect("index.jsp?dadoVazio=1");
 %>

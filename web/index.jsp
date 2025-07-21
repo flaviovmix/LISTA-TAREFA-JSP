@@ -38,6 +38,15 @@
                 TarefaDAO tarefaDAO = new TarefaDAO();
                 List<TarefaBean> tarefas = tarefaDAO.listarTarefas();
 
+
+                if (tarefas == null || tarefas.isEmpty()) {
+            %>
+                <p style="text-align: center; font-style: italic; margin-top: 20px;">
+                    Nenhuma tarefa cadastrada.
+                </p>
+            <%
+                } else {                
+                
                 for (TarefaBean tarefa : tarefas) {
 
                     StringBuilder aux = new StringBuilder();
@@ -83,6 +92,7 @@
                     out.print(aux.toString());
 
                 }
+    }
             %>
 
         </div>

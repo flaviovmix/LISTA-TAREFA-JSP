@@ -137,13 +137,15 @@ ul {
 }
 
 .detail-inativa {
-  opacity: 0.4;
-  pointer-events: none;
-  user-select: none;
-  filter: grayscale(100%);
-  
+  display: none;
 }
 
 hr {
     margin: 30px 0 20px 0;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #ddd; /* ou qualquer tom mais claro visível no fundo escuro */
+  opacity: 1; /* garante visibilidade total no Firefox */
 }

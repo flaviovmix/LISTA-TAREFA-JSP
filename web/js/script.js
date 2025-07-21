@@ -62,3 +62,10 @@ function ativarDetalhe() {
     elemento.classList.remove('detail-inativa');
   }
 }
+
+function removerOpaco() {
+    const div = document.getElementById("campos-cadastro");
+    if (div) {
+        div.classList.remove("opaco");
+    }
+}

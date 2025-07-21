@@ -91,11 +91,17 @@ button {
   width: 200px;
 }
 
+.editar {
+    background-color: #3498db;
+    color: #fff;
+    width: 200px;
+}
+
 .voltar {
     position: absolute;
     top: 40px;
-    background-color: #3498db;
-    color: #fff;
+    background-color: #f9e79f;
+    color: #black;
     width: 100px; 
 }
 
@@ -136,8 +142,16 @@ ul {
   padding-left: 0;
 }
 
-.detail-inativa {
+.oculto {
   display: none;
+}
+
+.opaco {
+  opacity: 0.4;
+  pointer-events: none;
+  user-select: none;
+  filter: grayscale(100%);
+  
 }
 
 hr {

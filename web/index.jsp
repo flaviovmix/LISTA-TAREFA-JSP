@@ -28,7 +28,6 @@
             <div class="container">
                 <h1>To-Do List</h1>
                 <button class="btn-add" onclick="window.location.href='novaTarefa.jsp'">Nova Tarefa</button>
-                <button class="btn-add" onclick="window.location.href='listar_tarefas.jsp'">MASTER-DETAIL</button>
                 <!--<button class="btn-add" onclick="openModal()">Nova Tarefa</button>-->
             </div>
         </header>

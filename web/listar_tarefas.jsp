@@ -4,24 +4,22 @@
 <%@page import="Tarefas.TarefaBean"%>
 <%@page import="Tarefas.SubtarefaBean"%>
 
+<%
+    Integer id = Integer.parseInt(request.getParameter("id_tarefas"));
+%>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>Lista de Tarefas</title>
-    <style>
-/*        body { font-family: Arial; background: #f4f4f4; padding: 20px; }
-        .tarefa { background: #fff; padding: 15px; border-radius: 6px; box-shadow: 0 2px 5px #ccc; margin-bottom: 20px; }
-        h2, h3 { margin-bottom: 5px; }
-        ul { padding-left: 20px; }
-        .sem-sub { color: gray; font-style: italic; }*/
-    </style>
+    
 </head>
 <body>
 
 <%
     TarefaDAO dao = new TarefaDAO();
-    List<TarefaBean> tarefas = dao.listarTarefasComSubtarefas();
+    List<TarefaBean> tarefas = dao.listarTarefasComSubtarefas(id);
 %>
 <button class="btn-add" onclick="window.location.href='index.jsp'">HOME</button></BR>
 ---------------------------------------------

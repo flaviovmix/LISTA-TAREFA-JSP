@@ -13,7 +13,7 @@ public class TarefaServlet extends HttpServlet {
 
         try {
             TarefaDAO dao = new TarefaDAO();
-            List<TarefaBean> lista = dao.listarTarefasComSubtarefas();
+            List<TarefaBean> lista = dao.listarTarefasComSubtarefas(4);
 
             request.setAttribute("listaTarefas", lista);
             RequestDispatcher dispatcher = request.getRequestDispatcher("lista_tarefas.jsp");

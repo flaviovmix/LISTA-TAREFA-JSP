@@ -153,28 +153,29 @@ public class TarefaDAO {
     List<TarefaBean> listaTarefas = new ArrayList<>();
     Map<Integer, TarefaBean> mapaTarefas = new LinkedHashMap<>();
 
-    StringBuilder sql = new StringBuilder();
-    sql.append("SELECT ")
-       .append("t.id_tarefas, ")
-       .append("t.titulo, ")
-       .append("t.descricao AS descricao_tarefa, ")
-       .append("t.status, ")
-       .append("t.prioridade, ")
-       .append("t.responsavel, ")
-       .append("t.data_criacao, ")
-       .append("t.data_conclusao AS data_conclusao_tarefa, ")
-       .append("d.id_detalhe, ")
-       .append("d.fk_tarefa, ")
-       .append("d.descricao AS descricao_detalhe, ")
-       .append("d.data_conclusao AS data_conclusao_detalhe ")
-       .append("FROM tarefas t ")
-       .append("LEFT JOIN detalhes_tarefa d ON t.id_tarefas = d.fk_tarefa ");
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT ")
+           .append("t.id_tarefas, ")
+           .append("t.titulo, ")
+           .append("t.descricao AS descricao_tarefa, ")
+           .append("t.status, ")
+           .append("t.prioridade, ")
+           .append("t.responsavel, ")
+           .append("t.data_criacao, ")
+           .append("t.data_conclusao AS data_conclusao_tarefa, ")
+           .append("d.id_detalhe, ")
+           .append("d.fk_tarefa, ")
+           .append("d.descricao AS descricao_detalhe, ")
+           .append("d.data_conclusao AS data_conclusao_detalhe ")
+           .append("FROM tarefas t ")
+           .append("LEFT JOIN detalhes_tarefa d ON t.id_tarefas = d.fk_tarefa ");
 
         if (id_tarefas != null) {
             sql.append("WHERE t.id_tarefas = ? ");
         }
 
-        sql.append("ORDER BY t.id_tarefas, d.id_detalhe");
+        sql.append("ORDER BY d.id_detalhe DESC");
+
 
         try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql.toString())) {
 

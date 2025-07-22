@@ -63,9 +63,49 @@ function ativarDetalhe() {
   }
 }
 
-function removerOpaco() {
-    const div = document.getElementById("campos-cadastro");
-    if (div) {
-        div.classList.remove("opaco");
-    }
+function ativarEdicao() {
+    document.getElementById("campos-cadastro").classList.remove("opaco");
+    document.getElementById("btn-cancelar").classList.remove("oculto");
+    document.getElementById("btn-salvar").classList.remove("oculto");
+    document.getElementById("btn-editar").classList.add("oculto");     
+    document.getElementById("form-subtarefa").classList.add("opaco");
+    document.getElementById("area-detail").classList.add("opaco");
 }
+
+function desartivarEdicao() {
+    document.getElementById("campos-cadastro").classList.add("opaco");
+    document.getElementById("btn-cancelar").classList.add("oculto");
+    document.getElementById("btn-salvar").classList.add("oculto");
+    document.getElementById("btn-editar").classList.remove("oculto");     
+    document.getElementById("form-subtarefa").classList.remove("opaco");
+    document.getElementById("area-detail").classList.remove("opaco");
+    
+}
+
+function selecionarAddSubTarefa() {
+    const campos = document.getElementById("campos-cadastro");
+    const btnCancelar = document.getElementById("btn-cancelar");
+    const btnSalvar = document.getElementById("btn-salvar");
+    const btnEditar = document.getElementById("btn-editar");
+    const input = document.getElementById("descricaoDetail");
+
+    if (campos) campos.classList.remove("opaco");
+    if (btnCancelar) btnCancelar.classList.remove("oculto");
+    if (btnSalvar) btnSalvar.classList.remove("oculto");
+    if (btnEditar) btnEditar.classList.add("oculto");
+    if (input) input.focus();
+}
+
+window.onload = function () {
+    selecionarAddSubTarefa();
+};
+function selecionarAddSubTarefa() {
+    document.getElementById("descricaoDetail").focus();
+}
+
+document.getElementById("descricaoDetail").addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault(); // Impede quebra de linha
+        document.getElementById("form-subtarefa").submit(); // Envia o formulário
+    }
+});

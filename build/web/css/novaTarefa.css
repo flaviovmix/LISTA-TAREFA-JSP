@@ -105,6 +105,21 @@ button {
     width: 100px; 
 }
 
+.detail {
+    max-height: 720px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.detail::-webkit-scrollbar {
+    width: 6px;
+}
+
+.detail::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 10px;
+}
+
 #lista-tarefas li {
   background: #2a2a2a;
   padding: 10px;
@@ -163,3 +178,4 @@ textarea::placeholder {
   color: #ddd; /* ou qualquer tom mais claro visível no fundo escuro */
   opacity: 1; /* garante visibilidade total no Firefox */
 }
+

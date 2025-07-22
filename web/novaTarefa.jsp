@@ -53,10 +53,11 @@
 
                         <div class="linha">
                             <select name="prioridade" id="prioridade">
-                                <option value="baixa">Baixa</option>
-                                <option value="media">Média</option>
-                                <option value="alta">Alta</option>
+                                <option value="baixa" <%= "baixa".equals(tarefa.getPrioridade()) ? "selected" : "" %>>Baixa</option>
+                                <option value="media" <%= "media".equals(tarefa.getPrioridade()) ? "selected" : "" %>>Média</option>
+                                <option value="alta" <%= "alta".equals(tarefa.getPrioridade()) ? "selected" : "" %>>Alta</option>
                             </select>
+
 
                             <select name="status" id="status">
                                 <option value="pendente"><%= tarefa.getStatus()%></option>
@@ -70,9 +71,11 @@
                     <div class="botoes">
                     <% if (novoOuEditar != null && novoOuEditar.equals(0)) { %>
                         <button type="submit" class="salvar">Salvar</button>
-                        <button type="reset" class="fechar" onclick="window.location.href = 'index.jsp'">Cancelar</button>
+                        <button type="reset" class="fechar" onclick="desartivarEdicao()">Cancelar</button>
                     <% } else { %>
-                        <button type="reset" class="editar"  onclick="removerOpaco()">Editar</button>
+                        <button id="btn-salvar" type="submit" class="salvar oculto">Salvar</button>
+                        <button id="btn-cancelar" type="reset" class="fechar oculto" onclick="desartivarEdicao()">Cancelar</button>                    
+                        <button id="btn-editar" type="reset" class="editar"  onclick="ativarEdicao()">Editar</button>
                     <% }  %>
 
                     </div>
@@ -82,12 +85,12 @@
 
                 <div class="">
                     <h2>Subtarefa</h2>
-                    <form action="salvarSubtarefa.jsp" method="post">
+                    <form id="form-subtarefa" class="form" action="salvarSubtarefa.jsp" method="post">
                         <input type="hidden" name="fk_tarefa" id="fk_tarefa" value="<%= id%>">
 
                         <div class="campo">
                             <textarea name="descricao" id="descricaoDetail"
-                                      placeholder="Digite a descrição..." required></textarea>
+                            placeholder="Digite a descrição..." required></textarea>
                         </div>
 
                         <div class="campo">
@@ -102,7 +105,7 @@
 
 
             <!-- DETAIL -->
-            <div class="detail">
+            <div id="area-detail" class="detail">
 
                 <h2>Lista de subtarefas</h2>
 
@@ -154,16 +157,12 @@
 
 
             <!-- DETAIL -->
-            <div class="detail">
-
-                <div class="task-section">
-
-                </div>
+            <div class="detail opaco">
                 <h2>Lista de subtarefas</h2>
 
                 <ul id="lista-tarefas">
                 </ul>
-
+            </div>
         <% }%>
 
             </div>

@@ -1,9 +1,8 @@
-            
-<%@page import="Tarefas.TarefaDAO"%>
-<%@page import="Tarefas.TarefaBean"%>
-
+<%@page import="app.tarefas.TarefaDAO"%>
+<%@page import="app.tarefas.TarefaBean"%>
 <%
     TarefaBean tarefa = new TarefaBean();
+    TarefaDAO dao = new TarefaDAO();
 
     tarefa.setId_tarefas(Integer.parseInt(request.getParameter("id_tarefas")));
     tarefa.setTitulo(request.getParameter("titulo"));
@@ -12,7 +11,6 @@
     tarefa.setStatus(request.getParameter("status"));
     tarefa.setPrioridade(request.getParameter("prioridade"));
     
-    TarefaDAO dao = new TarefaDAO();
     if (tarefa.getId_tarefas()==0){
         dao.adicionarTarefa(tarefa);
         response.sendRedirect("novaTarefa.jsp?id_tarefas=" + tarefa.getId_tarefas() + "&novoOuEditar=0");

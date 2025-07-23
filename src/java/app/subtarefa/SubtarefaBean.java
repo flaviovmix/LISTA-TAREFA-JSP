@@ -1,4 +1,4 @@
-package Tarefas;
+package app.subtarefa;
 
 public class SubtarefaBean {
     private int id_detalhe;
@@ -9,7 +9,6 @@ public class SubtarefaBean {
     public int getId_detalhe() {
         return id_detalhe;
     }
-
     public void setId_detalhe(int id_detalhe) {
         this.id_detalhe = id_detalhe;
     }
@@ -17,7 +16,6 @@ public class SubtarefaBean {
     public int getFk_tarefa() {
         return fk_tarefa;
     }
-
     public void setFk_tarefa(int fk_tarefa) {
         this.fk_tarefa = fk_tarefa;
     }
@@ -25,7 +23,6 @@ public class SubtarefaBean {
     public String getDescricao() {
         return descricao;
     }
-
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
@@ -33,7 +30,6 @@ public class SubtarefaBean {
     public String getData_conclusao() {
         return data_conclusao;
     }
-
     public void setData_conclusao(String data_conclusao) {
         this.data_conclusao = data_conclusao;
     }

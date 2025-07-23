@@ -1,4 +1,4 @@
-package Tarefas;
+package app.subtarefa;
 
 import app.MinhaConexao;
 import java.sql.*;
@@ -13,7 +13,7 @@ public class SubtarefaDAO {
         dataBase.abrirConexao();
     }
 
-    public List<SubtarefaBean> buscarPorTarefa(int idTarefa) {
+    public List<SubtarefaBean> listarPorTarefa(int idTarefa) {
         List<SubtarefaBean> lista = new ArrayList<>();
 
         try {
@@ -38,5 +38,21 @@ public class SubtarefaDAO {
         }
 
         return lista;
+    }
+    
+    public void adicionarSubtarefa(SubtarefaBean subtarefa) throws SQLException {
+        
+        PreparedStatement ps;
+        
+        String sql = "INSERT INTO detalhes_tarefa (fk_tarefa, descricao) VALUES (?, ?)";
+        
+        ps = dataBase.getConexao().prepareStatement(sql);
+        
+        ps.setInt(1, subtarefa.getFk_tarefa());
+        ps.setString(2, subtarefa.getDescricao());
+        
+        ps.executeUpdate();
+        ps.close();
+        
     }
 }

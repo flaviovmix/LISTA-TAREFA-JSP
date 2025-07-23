@@ -1,5 +1,6 @@
-package Tarefas;
+package app.tarefas;
 
+import app.subtarefa.SubtarefaBean;
 import app.MinhaConexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

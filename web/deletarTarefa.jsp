@@ -1,5 +1,5 @@
-<%@page import="Tarefas.TarefaDAO"%>
-<%@page import="Tarefas.TarefaBean"%>
+<%@page import="app.tarefas.TarefaDAO"%>
+<%@page import="app.tarefas.TarefaBean"%>
 <%
     int codigo = Integer.parseInt(request.getParameter("id_tarefas"));
 

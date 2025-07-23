@@ -1,5 +1,6 @@
-package Tarefas;
+package app.tarefas;
 
+import app.subtarefa.SubtarefaBean;
 import java.sql.Date;
 import java.util.List;
 

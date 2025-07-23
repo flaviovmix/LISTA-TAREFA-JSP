@@ -1,7 +1,7 @@
-<%@page import="Tarefas.SubtarefaBean"%>
+<%@page import="app.subtarefa.SubtarefaBean"%>
 <%@page import="java.util.List"%>
-<%@page import="Tarefas.TarefaDAO"%>
-<%@page import="Tarefas.TarefaBean"%>
+<%@page import="app.tarefas.TarefaDAO"%>
+<%@page import="app.tarefas.TarefaBean"%>
 <%@page contentType="text/html" pageEncoding="windows-1252"%>
 <%
     Integer id = null;

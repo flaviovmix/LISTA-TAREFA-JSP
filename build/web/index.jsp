@@ -1,19 +1,12 @@
-<%@page import="Tarefas.TarefaBean"%>
+<%@page import="app.tarefas.TarefaBean"%>
 <%@page import="java.util.List"%>
-<%@page import="Tarefas.TarefaDAO"%>
+<%@page import="app.tarefas.TarefaDAO"%>
 <%@page import="app.MinhaConexao"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
-<%
-    String dadoVazio = request.getParameter("dadoVazio") != null && !request.getParameter("dadoVazio").isEmpty()
-        ? request.getParameter("dadoVazio")
-        : "";
-%>
-
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -38,7 +31,6 @@
             
             <%
                 TarefaDAO tarefaDAO = new TarefaDAO();
-//                List<TarefaBean> tarefas = tarefaDAO.listarTarefas();
                 List<TarefaBean> tarefas = tarefaDAO.listarTarefasComSubtarefas(null); // null para listar todas
 
 
@@ -172,9 +164,6 @@
                         <td id="tituloStatus"></td>
                     </tr>
                 </table>
-
-
-
                 <form id="formDeletar" method="post" action="deletarTarefa.jsp">
                     <input type="hidden" name="id_tarefas" id="id_tarefa_deletar" value="0" />
                     <div class="modal-buttons">
@@ -185,18 +174,6 @@
             </div>
         </div>
         
-        <script>
-
-            var veioDeClique = <%= (!dadoVazio.isEmpty()) ? "true" : "false" %>;
-
-            if (veioDeClique) {
-                var modal = document.getElementById("modal");
-                if (modal) {
-                    modal.style.display = "flex"; // igual ao openModal()
-                }
-            }
-            
-        </script> 
         <script src="./js/script.js"></script>  
     </body>
 </html>

@@ -1,8 +1,6 @@
 package app.tarefas;
 
-import app.subtarefa.SubtarefaBean;
 import java.sql.Date;
-import java.util.List;
 
 public class TarefaBean {
     
@@ -15,7 +13,7 @@ public class TarefaBean {
     private Date data_criacao;
     private Date data_conclusao;
     
-    private List<SubtarefaBean> subtarefas;
+    private Integer subtarefas_counts;
 
     public int getId_tarefas() {
         return id_tarefas;
@@ -81,15 +79,12 @@ public class TarefaBean {
     }
     public void setData_conclusao(Date data_conclusao) {
         this.data_conclusao = data_conclusao;
-    }
+    } 
     
-    public List<SubtarefaBean> getSubtarefas() {
-        return subtarefas;
+    public Integer getSubtarefas_counts() {
+        return subtarefas_counts;
     }
-
-    public void setSubtarefas(List<SubtarefaBean> subtarefas) {
-        this.subtarefas = subtarefas;
+    public void setSubtarefas_counts(Integer subtarefas_counts) {
+        this.subtarefas_counts = subtarefas_counts;
     }
-    
-    
 }

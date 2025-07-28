@@ -5,10 +5,10 @@
 
 <%
     SubtarefaBean subtarefa = new SubtarefaBean();
-    SubtarefaDAO dao = new SubtarefaDAO();
+    SubtarefaDAO subtarefaDAO = new SubtarefaDAO();
 
     subtarefa.setDescricao(request.getParameter("descricao"));
     subtarefa.setFk_tarefa (Integer.parseInt(request.getParameter("fk_tarefa")));
-    dao.adicionarSubtarefa(subtarefa);
-    response.sendRedirect("novaTarefa.jsp?novoOuEditar=1");
+    subtarefaDAO.adicionarSubtarefa(subtarefa);
+    response.sendRedirect("novaTarefa.jsp?id_tarefas=" + subtarefa.getFk_tarefa());
 %>

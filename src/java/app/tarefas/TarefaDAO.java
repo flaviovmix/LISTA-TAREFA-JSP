@@ -121,7 +121,7 @@ public class TarefaDAO {
         List<TarefaBean> tarefas = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM tarefas;";
+            String sql = "SELECT a.*, (select count(*) from detalhes_tarefa b where b.fk_tarefa=a.id_tarefas) as subtarefas_count FROM tarefas a";
 
             PreparedStatement ps = dataBase.getConexao().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -137,6 +137,7 @@ public class TarefaDAO {
                 tarefa.setResponsavel(rs.getString("responsavel"));
                 tarefa.setData_criacao(rs.getDate("data_criacao"));
                 tarefa.setData_conclusao(rs.getDate("data_conclusao"));
+                tarefa.setSubtarefas_counts(rs.getInt("subtarefas_count"));
 
                 tarefas.add(tarefa);
             }
@@ -149,83 +150,6 @@ public class TarefaDAO {
 
         return tarefas;
     }
-
-    public List<TarefaBean> listarTarefasComSubtarefas(Integer id_tarefas) throws SQLException {
-    List<TarefaBean> listaTarefas = new ArrayList<>();
-    Map<Integer, TarefaBean> mapaTarefas = new LinkedHashMap<>();
-
-        StringBuilder sql = new StringBuilder();
-        sql.append("SELECT ")
-           .append("t.id_tarefas, ")
-           .append("t.titulo, ")
-           .append("t.descricao AS descricao_tarefa, ")
-           .append("t.status, ")
-           .append("t.prioridade, ")
-           .append("t.responsavel, ")
-           .append("t.data_criacao, ")
-           .append("t.data_conclusao AS data_conclusao_tarefa, ")
-           .append("d.id_detalhe, ")
-           .append("d.fk_tarefa, ")
-           .append("d.descricao AS descricao_detalhe, ")
-           .append("d.data_conclusao AS data_conclusao_detalhe ")
-           .append("FROM tarefas t ")
-           .append("LEFT JOIN detalhes_tarefa d ON t.id_tarefas = d.fk_tarefa ");
-
-        if (id_tarefas != null) {
-            sql.append("WHERE t.id_tarefas = ? ");
-        }
-
-        sql.append("ORDER BY d.id_detalhe DESC");
-
-
-        try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql.toString())) {
-
-            if (id_tarefas != null) {
-                ps.setInt(1, id_tarefas);
-            }
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    int idTarefa = rs.getInt("id_tarefas");
-
-                    TarefaBean tarefa = mapaTarefas.get(idTarefa);
-                    if (tarefa == null) {
-                        tarefa = new TarefaBean();
-                        tarefa.setId_tarefas(idTarefa);
-                        tarefa.setTitulo(rs.getString("titulo"));
-                        tarefa.setDescricao(rs.getString("descricao_tarefa"));
-                        tarefa.setStatus(rs.getString("status"));
-                        tarefa.setPrioridade(rs.getString("prioridade"));
-                        tarefa.setResponsavel(rs.getString("responsavel"));
-                        tarefa.setData_criacao(rs.getDate("data_criacao"));
-                        tarefa.setData_conclusao(rs.getDate("data_conclusao_tarefa"));
-                        tarefa.setSubtarefas(new ArrayList<>());
-                        mapaTarefas.put(idTarefa, tarefa);
-                    }
-
-                    int idDetalhe = rs.getInt("id_detalhe");
-                    if (!rs.wasNull()) {
-                        SubtarefaBean subtarefa = new SubtarefaBean();
-                        subtarefa.setId_detalhe(idDetalhe);
-                        subtarefa.setFk_tarefa(idTarefa);
-                        subtarefa.setDescricao(rs.getString("descricao_detalhe"));
-                        subtarefa.setData_conclusao(rs.getString("data_conclusao_detalhe"));
-
-                        tarefa.getSubtarefas().add(subtarefa);
-                    }
-                }
-
-                listaTarefas.addAll(mapaTarefas.values());
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        }
-
-    return listaTarefas;
-    }
-
 
     public TarefaBean buscarPorId(int id) {
         TarefaBean tarefa = null;

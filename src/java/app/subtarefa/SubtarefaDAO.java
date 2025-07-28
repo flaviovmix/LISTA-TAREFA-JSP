@@ -55,4 +55,9 @@ public class SubtarefaDAO {
         ps.close();
         
     }
+    
+    public void listarSubTarefas(SubtarefaBean subtarefa) {
+        
+    }
+    
 }

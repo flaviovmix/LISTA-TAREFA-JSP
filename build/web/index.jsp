@@ -22,7 +22,7 @@
         <header>
             <div class="container">
                 <h1>To-Do List</h1>
-                <button class="btn-add" onclick="window.location.href='novaTarefa.jsp'">Nova Tarefa</button>
+                <button class="btn-add" onclick="window.location.href='novaTarefa.jsp?novoOuEditar=0'">Nova Tarefa</button>
                 <!--<button class="btn-add" onclick="openModal()">Nova Tarefa</button>-->
             </div>
         </header>
@@ -31,9 +31,7 @@
             
             <%
                 TarefaDAO tarefaDAO = new TarefaDAO();
-                List<TarefaBean> tarefas = tarefaDAO.listarTarefasComSubtarefas(null); // null para listar todas
-
-
+                List<TarefaBean> tarefas = tarefaDAO.listarTarefas();
 
                 if (tarefas == null || tarefas.isEmpty()) {
             %>
@@ -41,68 +39,66 @@
                     <img src="./img/personagem.png">
                 <div>
             <%
-                } else {                
+                } else {
                 
-                for (TarefaBean tarefa : tarefas) {
+                    for (TarefaBean tarefa : tarefas) {
 
-                    StringBuilder aux = new StringBuilder();
+                        StringBuilder aux = new StringBuilder();
 
-                    aux.append("<div class='task ");
-                    aux.append(tarefa.getPrioridade());
-                    aux.append("'> \n");
+                        aux.append("<div class='task ");
+                        aux.append(tarefa.getPrioridade());
+                        aux.append("'> \n");
 
-                    aux.append("  <div class='task-content'> \n");
-                    aux.append("    <div class='task-title'>");
-                    aux.append("        <a href='novaTarefa.jsp?id_tarefas="+ tarefa.getId_tarefas() +"' class='link-sem-estilo'> " + tarefa.getTitulo() + "</a>");
-                    aux.append("    </div>");
+                        aux.append("  <div class='task-content'> \n");
+                        aux.append("    <div class='task-title'>");
+                        aux.append("        <a href='novaTarefa.jsp?id_tarefas="+ tarefa.getId_tarefas() +"&?novoOuEditar=0' class='link-sem-estilo'> " + tarefa.getTitulo() + "</a>");
+                        aux.append("    </div>");
 
-                    aux.append("    <div class='task-meta'>");
-                    aux.append("      <span><i class='fas fa-layer-group'></i> " + tarefa.getSubtarefas().size() + " subtarefas</span>");
-                    aux.append("      <span><i class='fas fa-calendar-day'></i> " + tarefa.getData_criacao() + "</span>");
-                    aux.append("      <span><i class='fas fa-comments'></i> 0</span>");
+                        aux.append("    <div class='task-meta'>");
+                        aux.append("      <span><i class='fas fa-layer-group'></i> " + tarefa.getSubtarefas_counts() + " subtarefas</span>");
+                        aux.append("      <span><i class='fas fa-calendar-day'></i> " + tarefa.getData_criacao() + "</span>");
+                        aux.append("      <span><i class='fas fa-comments'></i> 0</span>");
 
 
-                    aux.append("    </div>");
+                        aux.append("    </div>");
 
-                    aux.append("    <span class='descricao'>");
-                    aux.append(        tarefa.getDescricao());
-                    aux.append("     </span>");
-                    aux.append("   </div>");
+                        aux.append("    <span class='descricao'>");
+                        aux.append(        tarefa.getDescricao());
+                        aux.append("     </span>");
+                        aux.append("   </div>");
 
-                    aux.append("  <div class='task-actions'>");
-                    aux.append("    <div>");
-                    aux.append("      <label class='checkbox-container'>");
-                    aux.append("        <div class='usuario_concluir'>");
-                    aux.append("          <div class='assigned'><strong>");
-                    aux.append(            tarefa.getResponsavel());
-                    aux.append("           </strong></div>");
-                    aux.append("          <input type='checkbox' name='concluir'/>");
-                    aux.append("        </div>");
-                    aux.append("      </label>");
-                    aux.append("    </div>");
+                        aux.append("  <div class='task-actions'>");
+                        aux.append("    <div>");
+                        aux.append("      <label class='checkbox-container'>");
+                        aux.append("        <div class='usuario_concluir'>");
+                        aux.append("          <div class='assigned'><strong>");
+                        aux.append(            tarefa.getResponsavel());
+                        aux.append("           </strong></div>");
+                        aux.append("          <input type='checkbox' name='concluir'/>");
+                        aux.append("        </div>");
+                        aux.append("      </label>");
+                        aux.append("    </div>");
 
-                    aux.append("<a href='#' class='deletar-link' onclick=\"openModalDeletar(");
-                    aux.append(tarefa.getId_tarefas()); // número, vai sem aspas
-                    aux.append(", '");
-                    aux.append(tarefa.getTitulo().replace("'", "\\'")); // título com aspas escapadas
-                    aux.append("', '");
-                    aux.append(tarefa.getResponsavel().replace("'", "\\'"));
-                    aux.append("', '");
-                    aux.append(tarefa.getPrioridade().replace("'", "\\'"));
-                    aux.append("', '");
-                    aux.append(tarefa.getStatus().replace("'", "\\'"));
-                    aux.append("'); return false;\">deletar</a>");
- 
+                        aux.append("<a href='#' class='deletar-link' onclick=\"openModalDeletar(");
+                        aux.append(tarefa.getId_tarefas()); // número, vai sem aspas
+                        aux.append(", '");
+                        aux.append(tarefa.getTitulo().replace("'", "\\'")); // título com aspas escapadas
+                        aux.append("', '");
+                        aux.append(tarefa.getResponsavel().replace("'", "\\'"));
+                        aux.append("', '");
+                        aux.append(tarefa.getPrioridade().replace("'", "\\'"));
+                        aux.append("', '");
+                        aux.append(tarefa.getStatus().replace("'", "\\'"));
+                        aux.append("'); return false;\">deletar</a>");
 
-                    
-                    aux.append("  </div>");
+                        aux.append("  </div>");
 
-                    aux.append("</div>");
+                        aux.append("</div>");
 
-                    out.print(aux.toString());
+                        out.print(aux.toString());
 
+                    }
                 }
-    }
             %>
 
         </div>

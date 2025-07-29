@@ -20,9 +20,7 @@
         tarefaDAO.select(tarefa);
     }
     
-    List<SubtarefaBean> ativas = subtarefaDAO.listarAtivasPorTarefa(tarefa.getId_tarefas());
-    List<SubtarefaBean> inativas = subtarefaDAO.listarInativasPorTarefa(tarefa.getId_tarefas());
-
+    List<SubtarefaBean> subtarefasList = subtarefaDAO.listarPorTarefa(tarefa.getId_tarefas());
 %>
 
 <!DOCTYPE html>
@@ -110,51 +108,54 @@
             </div>
 
             <!-- DETAIL -->
-        
             <div id="area-detail" class="detail">
-
-                <h2>Subtarefas Pendentes</h2>
-                <ul id="lista-tarefas">
-                    <% for (SubtarefaBean sub : ativas) { %>
-                    <li>
-                        <div>
-                        <form action="alterarAtivosInativos.jsp" method="post" style="display:inline;">
-                            <input type="hidden" name="id_detalhe" value="<%= sub.getId_detalhe() %>">
-                            <input type="hidden" name="id_tarefas" value="<%= sub.getFk_tarefa() %>">
-                            <input type="checkbox" name="ativo" onchange="this.form.submit()">
-                            <%= sub.getDescricao() %>
-                        </form>
-                        <br>
-                        <small>Data: <%= sub.getData_conclusao() != null ? sub.getData_conclusao() : "Sem data" %></small>
-                        </div>
-                        <a href="deletarSubtarefa.jsp?fk_tarefa=<%= sub.getId_detalhe() %>&id_tarefas=<%= tarefa.getId_tarefas() %>" class="icone-lixeira"><i class="fas fa-trash"></i></a>
-                    </li>
-                    <% } %>
-                </ul>
-
-                <hr>
-
-                <h2>Subtarefas Concluídas</h2>
-                <ul id="lista-tarefas">
-                    <% for (SubtarefaBean sub : inativas) { %>
-                    <li>
-                        <div>
-                        <form action="alterarAtivosInativos.jsp" method="post" style="display:inline;">
-                            <input type="hidden" name="id_detalhe" value="<%= sub.getId_detalhe() %>">
-                            <input type="hidden" name="id_tarefas" value="<%= sub.getFk_tarefa() %>">
-                            <input type="checkbox" name="ativo" onchange="this.form.submit()" checked>
-                            <span class="concluida"><%= sub.getDescricao() %></span>
-                        </form>
-                        <br>
-                        <small class="data-concluida">Data: <%= sub.getData_conclusao() != null ? sub.getData_conclusao() : "Sem data" %></small>
-                        </div>
-                        <a href="deletarSubtarefa.jsp?fk_tarefa=<%= sub.getId_detalhe() %>&id_tarefas=<%= tarefa.getId_tarefas() %>" class="icone-lixeira"><i class="fas fa-trash"></i></a>
-                    </li>
-                    <% } %>
-                </ul>
-
+ 
+                <h2>Lista de subtarefas</h2>
+                
+                    <ul id="lista-tarefas">
+                        <% for (SubtarefaBean sub : subtarefasList) {%>
+                        <li>
+                            <div>
+                            <label>
+                                <input type="checkbox">
+                                <%= sub.getDescricao()%>
+                            </label><br>
+                            <small>Data: 2025-07-18</small>
+                            </div>
+                            <a href="deletarSubtarefa.jsp?fk_tarefa=<%= sub.getId_detalhe() %>&id_tarefas=<%= tarefa.getId_tarefas() %>" class="icone-lixeira"><i class="fas fa-trash"></i></a>
+                        </li>
+                        <% } %>
+                    </ul>
+                    
+                    <hr>
+                    
+                    <ul id="lista-tarefas">
+                       
+                        <li>
+                            <div>
+                            <label>
+                                <input type="checkbox" checked>
+                                <span class="concluida">tarefa concluida 1</span>
+                            </label><br>
+                            <small class="data-concluida">Data: 2025-07-18</small>
+                            </div>
+                            <a href="#" class="icone-lixeira"><i class="fas fa-trash"></i></a>
+                        </li>   
+                       
+                        <li>
+                            <div>
+                            <label>
+                                <input type="checkbox" checked>
+                                <span class="concluida">tarefa concluida 1</span>
+                            </label><br>
+                            <small class="data-concluida">Data: 2025-07-18</small>
+                            </div>
+                            <a href="#" class="icone-lixeira"><i class="fas fa-trash"></i></a>
+                        </li>   
+                        
+                    </ul>                    
+                
             </div>
-
         </div>
 
         <script src="./js/novaTarefa.js"></script>

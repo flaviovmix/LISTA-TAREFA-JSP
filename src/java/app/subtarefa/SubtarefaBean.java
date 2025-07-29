@@ -5,6 +5,7 @@ public class SubtarefaBean {
     private int fk_tarefa;
     private String descricao;
     private String data_conclusao;
+    private boolean ativo;
 
     public int getId_detalhe() {
         return id_detalhe;
@@ -32,6 +33,13 @@ public class SubtarefaBean {
     }
     public void setData_conclusao(String data_conclusao) {
         this.data_conclusao = data_conclusao;
+    }
+    
+    public boolean isAtivo() {
+        return ativo;
+    }
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
     
     

@@ -51,7 +51,7 @@
 
                         aux.append("  <div class='task-content'> \n");
                         aux.append("    <div class='task-title'>");
-                        aux.append("        <a href='novaTarefa.jsp?id_tarefas="+ tarefa.getId_tarefas() +"&?novoOuEditar=0' class='link-sem-estilo'> " + tarefa.getTitulo() + "</a>");
+                        aux.append("        <a href='novaTarefa.jsp?id_tarefas="+ tarefa.getId_tarefas() +"&0novoOuEditar=1' class='link-sem-estilo'> " + tarefa.getTitulo() + "</a>");
                         aux.append("    </div>");
 
                         aux.append("    <div class='task-meta'>");
@@ -80,16 +80,17 @@
                         aux.append("    </div>");
 
                         aux.append("<a href='#' class='deletar-link' onclick=\"openModalDeletar(");
-                        aux.append(tarefa.getId_tarefas()); // número, vai sem aspas
+                        aux.append(tarefa.getId_tarefas()); 
                         aux.append(", '");
-                        aux.append(tarefa.getTitulo().replace("'", "\\'")); // título com aspas escapadas
+                        aux.append(tarefa.getTitulo().replace("'", "\\'")); 
                         aux.append("', '");
                         aux.append(tarefa.getResponsavel().replace("'", "\\'"));
                         aux.append("', '");
                         aux.append(tarefa.getPrioridade().replace("'", "\\'"));
                         aux.append("', '");
                         aux.append(tarefa.getStatus().replace("'", "\\'"));
-                        aux.append("'); return false;\">deletar</a>");
+                        aux.append("'); return false;\"><i class='fas fa-trash'></i></a>");
+
 
                         aux.append("  </div>");
 
@@ -170,6 +171,9 @@
             </div>
         </div>
         
-        <script src="./js/script.js"></script>  
+        <script src="./js/index.js"></script>  
     </body>
+    
+    <% tarefaDAO.fecharConexao(); %>
+    
 </html>

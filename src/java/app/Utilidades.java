@@ -1,5 +1,7 @@
 package app;
 
+import java.sql.Date;
+
 public class Utilidades {
     public static String nullTrim(Integer valor){
         if(valor == null){
@@ -16,4 +18,12 @@ public class Utilidades {
             return valor.trim();
         }
     }
+    
+    public static String nullTrim(Date valor){
+        if(valor == null){
+            return "";
+        } else {
+            return valor.toString();
+        }
+    }    
 }

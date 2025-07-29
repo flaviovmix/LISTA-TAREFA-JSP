@@ -106,7 +106,7 @@ button {
 }
 
 .detail {
-    max-height: 720px;
+    max-height: 100vh;
     overflow-y: auto;
     padding-right: 8px;
 }
@@ -179,3 +179,26 @@ textarea::placeholder {
   opacity: 1; /* garante visibilidade total no Firefox */
 }
 
+.concluida {
+    text-decoration: line-through;
+    color: #555;
+}
+
+.data-concluida {
+    color: #555;
+}
+
+#lista-tarefas li {
+    display: flex;   
+    justify-content: space-between;
+    align-items: center;
+}
+
+.icone-lixeira {
+    color: #ddd;
+    text-decoration: none;
+}
+
+.icone-lixeira:hover {
+    color: red;              /* opcional: mudar cor ao passar o mouse */
+}

@@ -177,5 +177,9 @@ public class TarefaDAO {
         }
         return tarefa;
     }
+    
+    public void fecharConexao() {
+        dataBase.fecharConexao();
+    }
 
 }

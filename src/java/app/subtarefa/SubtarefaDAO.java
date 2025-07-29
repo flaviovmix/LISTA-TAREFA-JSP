@@ -56,8 +56,8 @@ public class SubtarefaDAO {
         
     }
     
-    public void listarSubTarefas(SubtarefaBean subtarefa) {
-        
+    public void fecharConexao() {
+        dataBase.fecharConexao();
     }
     
 }

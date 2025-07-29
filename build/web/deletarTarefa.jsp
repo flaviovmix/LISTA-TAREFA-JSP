@@ -6,6 +6,8 @@
     TarefaBean tarefa = new TarefaBean();            
     TarefaDAO dao = new TarefaDAO();
     dao.excluirTarefa(codigo);
-
+    dao.fecharConexao();
+    
     response.sendRedirect("index.jsp");
+    dao.fecharConexao();
 %>

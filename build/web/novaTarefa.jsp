@@ -1,3 +1,4 @@
+<%@page import="app.Utilidades"%>
 <%@page import="app.subtarefa.SubtarefaDAO"%>
 <%@page import="app.subtarefa.SubtarefaBean"%>
 <%@page import="java.util.List"%>
@@ -29,6 +30,7 @@
         <meta charset="UTF-8">
         <title>Master-Detail de Tarefas</title>
         <link rel="stylesheet" href="./css/novaTarefa.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     </head>
 
     <body>
@@ -39,12 +41,18 @@
                 <h2>Tarefa</h2>
 
                 <form id="formTarefa" method="get" action="salvarTarefa.jsp">
-                    <div id="campos-cadastro" class="opaco">
-                        <input type="hidden" name="id_tarefas" id="id_tarefas" value="<%= tarefa.getId_tarefas() %>" />
-                        <input type="text" name="titulo" id="titulo" placeholder="Título da tarefa" value="<%= tarefa.getTitulo()%>" required>
-                        <input type="text" name="responsavel" id="responsavel" placeholder="Responsável da tarefa" value="<%= tarefa.getResponsavel()%>" required>
 
-                        <textarea  name="descricao" id="descricao" placeholder="Descrição da tarefa"><%= tarefa.getDescricao()%></textarea>
+                    <div id="formTarefa" 
+                        class="  
+                            <% if (novoOuEditar != null && novoOuEditar.equals(1)) { %>
+                                opaco
+                            <% } %>     
+                        ">
+                        <input type="hidden" name="id_tarefas" id="id_tarefas" value="<%= Utilidades.nullTrim(tarefa.getId_tarefas()) %>" />
+                        <input type="text" name="titulo" id="titulo" placeholder="Título da tarefa" value="<%= Utilidades.nullTrim(tarefa.getTitulo()) %>" required>
+                        <input type="text" name="responsavel" id="responsavel" placeholder="Responsável da tarefa" value="<%= Utilidades.nullTrim(tarefa.getResponsavel()) %>" required>
+
+                        <textarea  name="descricao" id="descricao" placeholder="Descrição da tarefa"><%= Utilidades.nullTrim(tarefa.getDescricao()) %></textarea>
 
                         <div class="linha">
                             <select name="prioridade" id="prioridade">
@@ -55,30 +63,30 @@
 
 
                             <select name="status" id="status">
-                                <option value="pendente"><%= tarefa.getStatus()%></option>
+                                <option value="pendente"><%= Utilidades.nullTrim(tarefa.getStatus()) %></option>
                                 <option value="feito">Feito</option>
                             </select>
                         </div>
 
                         <label for="data">Data prevista para conclusão</label>
-                        <input type="date" name="data" id="data" value="2025-07-18">
-                    </div>
-                    <div class="botoes">
-                        <% if (novoOuEditar != null && novoOuEditar.equals(0)) { %>
-                            <button type="submit" class="salvar">Salvar</button>
-                            <button type="reset" class="fechar" onclick="desartivarEdicao()">Cancelar</button>
-                        <% } else { %>
-                            <button id="btn-salvar" type="submit" class="salvar oculto">Salvar</button>
-                            <button id="btn-cancelar" type="reset" class="fechar oculto" onclick="desartivarEdicao()">Cancelar</button>                    
-                            <button id="btn-editar" type="reset" class="editar"  onclick="ativarEdicao()">Editar</button>
-                        <% }  %>
+                        <input type="date" name="data" id="data" value="<%= Utilidades.nullTrim(tarefa.getData_conclusao()) %>">
+                        </div>
+                        <div class="botoes">
+                            <% if (novoOuEditar != null && novoOuEditar.equals(0)) { %>
+                                <button type="submit" class="salvar">Salvar</button>
+                                <button type="button" class="fechar" onclick="link('index.jsp')">Cancelar</button>
+                            <% } else { %>                
+                                <button id="btn-editar" type="reset" class="editar"  onclick="link('novaTarefa.jsp?id_tarefas=<%= tarefa.getId_tarefas() %>&?novoOuEditar=0')">Editar</button>
+                            <% }  %>
 
+                        
                     </div>
                 </form>
 
                 <hr>
+                
+                <% if (tarefa.getId_tarefas()!=0) { %>
 
-                <div class="">
                     <h2>Subtarefa</h2>
                     <form id="form-subtarefa" class="form" action="salvarSubtarefa.jsp" method="post">
                         <input type="hidden" name="fk_tarefa" id="fk_tarefa" value="<%= tarefa.getId_tarefas() %>">
@@ -95,30 +103,63 @@
 
                         <button type="submit" class="salvar">Adicionar subtarefa</button>
                     </form>
-                </div>
+
+                <% } %>
             </div>
 
             <!-- DETAIL -->
             <div id="area-detail" class="detail">
-
+ 
                 <h2>Lista de subtarefas</h2>
-
-                <ul id="lista-tarefas">
-                    <% for (SubtarefaBean sub : subtarefasList) {%>
-                    <li>
-                        <label>
-                            <input type="checkbox">
-                            <%= sub.getDescricao()%>
-                        </label><br>
-                        <small>Data: 2025-07-18</small>
-                    </li>   
-                    <% } %>
-                </ul>
+                
+                    <ul id="lista-tarefas">
+                        <% for (SubtarefaBean sub : subtarefasList) {%>
+                        <li>
+                            <div>
+                            <label>
+                                <input type="checkbox">
+                                <%= sub.getDescricao()%>
+                            </label><br>
+                            <small>Data: 2025-07-18</small>
+                            </div>
+                           <a href="#" class="icone-lixeira"><i class="fas fa-trash"></i></a>
+                        </li>
+                        <% } %>
+                    </ul>
+                    
+                    <hr>
+                    
+                    <ul id="lista-tarefas">
+                       
+                        <li>
+                            <div>
+                            <label>
+                                <input type="checkbox" checked>
+                                <span class="concluida">tarefa concluida 1</span>
+                            </label><br>
+                            <small class="data-concluida">Data: 2025-07-18</small>
+                            </div>
+                            <a href="#" class="icone-lixeira"><i class="fas fa-trash"></i></a>
+                        </li>   
+                       
+                        <li>
+                            <div>
+                            <label>
+                                <input type="checkbox" checked>
+                                <span class="concluida">tarefa concluida 1</span>
+                            </label><br>
+                            <small class="data-concluida">Data: 2025-07-18</small>
+                            </div>
+                            <a href="#" class="icone-lixeira"><i class="fas fa-trash"></i></a>
+                        </li>   
+                        
+                    </ul>                    
+                
             </div>
         </div>
 
-        <script src="./js/script.js"></script>
+        <script src="./js/novaTarefa.js"></script>
 
     </body>
-
+    <% tarefaDAO.fecharConexao(); %>
 </html>

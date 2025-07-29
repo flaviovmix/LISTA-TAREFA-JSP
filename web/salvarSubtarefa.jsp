@@ -5,10 +5,16 @@
 
 <%
     SubtarefaBean subtarefa = new SubtarefaBean();
-    SubtarefaDAO subtarefaDAO = new SubtarefaDAO();
+    SubtarefaDAO dao = new SubtarefaDAO();
 
     subtarefa.setDescricao(request.getParameter("descricao"));
-    subtarefa.setFk_tarefa (Integer.parseInt(request.getParameter("fk_tarefa")));
-    subtarefaDAO.adicionarSubtarefa(subtarefa);
-    response.sendRedirect("novaTarefa.jsp?id_tarefas=" + subtarefa.getFk_tarefa());
+    subtarefa.setData_conclusao(request.getParameter("data_conclusao"));
+    subtarefa.setFk_tarefa(Integer.parseInt(request.getParameter("fk_tarefa")));
+
+    if (subtarefa.getId_detalhe() == 0) {
+        dao.adicionarSubtarefa(subtarefa);
+        response.sendRedirect("novaTarefa.jsp?id_tarefas=" + subtarefa.getFk_tarefa()+"&novoOuEditar=1");
+    } 
+
+    dao.fecharConexao();
 %>

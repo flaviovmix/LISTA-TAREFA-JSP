@@ -1,7 +1,3 @@
-function link(url) {
-    self.location.href=url;
-}
-
 function selecionarAddSubTarefa() {
     document.getElementById("descricaoDetail").focus();
 }
@@ -15,4 +11,15 @@ if (descricaoDetail) {
             document.getElementById("form-subtarefa").submit(); // Envia o formulário
         }
     });
+}
+
+function openModalDeletar(id_detalhe, id_tarefa, descricao) {
+    document.getElementById("id-detalhe").value = id_detalhe;
+    document.getElementById("id-tarefa").value = id_tarefa;
+    document.getElementById("texto-descricao").textContent = descricao;
+    document.getElementById("modalDeletar").style.display = "flex";
+}
+
+function closeModalDeletar() {
+    document.getElementById("modalDeletar").style.display = "none";
 }

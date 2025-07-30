@@ -32,7 +32,9 @@
         <meta charset="UTF-8">
         <title>Master-Detail de Tarefas</title>
         <link rel="stylesheet" href="./css/novaTarefa.css">
+        <link rel="stylesheet" href="./css/modal.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        
     </head>
 
     <body>
@@ -76,21 +78,26 @@
                         <div class="botoes">
                             <% if (novoOuEditar != null && novoOuEditar.equals(0)) { %>
                                 <button type="submit" class="salvar">Salvar</button>
-                                <button type="button" class="fechar" onclick="link('index.jsp')">Cancelar</button>
-                            <% } else { %>                
-                                <button id="btn-editar" type="reset" class="editar"  onclick="link('novaTarefa.jsp?id_tarefas=<%= tarefa.getId_tarefas() %>&?novoOuEditar=0')">Editar</button>
+                                <button type="button" class="fechar" onclick="link('novaTarefa.jsp?id_tarefas=75&novoOuEditar=1')">Cancelar</button>
+                            <% } %>     
+                            <% if (novoOuEditar != null && novoOuEditar.equals(1)) { %>
+                                <button id="btn-editar" type="reset" class="editar"  onclick="link('novaTarefa.jsp?id_tarefas=<%= tarefa.getId_tarefas() %>&novoOuEditar=0')">Editar</button>
                             <% }  %>
-
-                        
+                            <% if (novoOuEditar != null && novoOuEditar.equals(2)) { %>
+                               <button type="submit" class="salvar">Salvar</button>
+                               <button type="button" class="fechar" onclick="link('index.jsp')">Cancelar</button>
+                            <% }  %>                            
                     </div>
                 </form>
 
                 <hr>
                 
-                <% if (tarefa.getId_tarefas()!=0) { %>
+                
+               
 
                     <h2>Subtarefa</h2>
                     <form id="form-subtarefa" class="form" action="salvarSubtarefa.jsp" method="post">
+                        <div class=" <% if (novoOuEditar==0) { %> opaco <% } %>">
                         <input type="hidden" name="fk_tarefa" id="fk_tarefa" value="<%= tarefa.getId_tarefas() %>">
 
                         <div class="campo">
@@ -104,14 +111,15 @@
                         </div>
 
                         <button type="submit" class="salvar">Adicionar subtarefa</button>
+                    </div>
                     </form>
+                
 
-                <% } %>
+                
             </div>
 
             <!-- DETAIL -->
-        
-            <div id="area-detail" class="detail">
+            <div id="area-detail" class="detail <% if (novoOuEditar==0) { %> opaco <% } %>">
 
                 <h2>Subtarefas Pendentes</h2>
                 <ul id="lista-tarefas">
@@ -119,6 +127,7 @@
                     <li>
                         <div>
                         <form action="alterarAtivosInativos.jsp" method="post" style="display:inline;">
+                            <input type="hidden" name="estado_atual" value="true">
                             <input type="hidden" name="id_detalhe" value="<%= sub.getId_detalhe() %>">
                             <input type="hidden" name="id_tarefas" value="<%= sub.getFk_tarefa() %>">
                             <input type="checkbox" name="ativo" onchange="this.form.submit()">
@@ -127,7 +136,10 @@
                         <br>
                         <small>Data: <%= sub.getData_conclusao() != null ? sub.getData_conclusao() : "Sem data" %></small>
                         </div>
-                        <a href="deletarSubtarefa.jsp?fk_tarefa=<%= sub.getId_detalhe() %>&id_tarefas=<%= tarefa.getId_tarefas() %>" class="icone-lixeira"><i class="fas fa-trash"></i></a>
+                        <a class="icone-lixeira" href="#"
+                           onclick="openModalDeletar(<%= sub.getId_detalhe() %>, <%= sub.getFk_tarefa() %>, '<%= sub.getDescricao()%>'); return false;">
+                           <i class="fas fa-trash"></i>
+                        </a>
                     </li>
                     <% } %>
                 </ul>
@@ -140,6 +152,7 @@
                     <li>
                         <div>
                         <form action="alterarAtivosInativos.jsp" method="post" style="display:inline;">
+                            <input type="hidden" name="estado_atual" value="false">
                             <input type="hidden" name="id_detalhe" value="<%= sub.getId_detalhe() %>">
                             <input type="hidden" name="id_tarefas" value="<%= sub.getFk_tarefa() %>">
                             <input type="checkbox" name="ativo" onchange="this.form.submit()" checked>
@@ -148,7 +161,10 @@
                         <br>
                         <small class="data-concluida">Data: <%= sub.getData_conclusao() != null ? sub.getData_conclusao() : "Sem data" %></small>
                         </div>
-                        <a href="deletarSubtarefa.jsp?fk_tarefa=<%= sub.getId_detalhe() %>&id_tarefas=<%= tarefa.getId_tarefas() %>" class="icone-lixeira"><i class="fas fa-trash"></i></a>
+                        <a class="icone-lixeira" href="#"
+                           onclick="openModalDeletar(<%= sub.getId_detalhe() %>, <%= sub.getFk_tarefa() %>, '<%= sub.getDescricao()%>'); return false;">
+                           <i class="fas fa-trash"></i>
+                        </a>
                     </li>
                     <% } %>
                 </ul>
@@ -156,8 +172,27 @@
             </div>
 
         </div>
+       
+        <!-- Modal de Deletar -->
+        <div class="modal-overlay" id="modalDeletar" style="display:none;">
+            <div class="modal">
+                <h2>Confirmar Exclusão</h2>
+                <div class="confirmacao">
+                    <p id="texto-descricao" class="area-info"></p>
+                    <form id="formDeletar" method="post" action="deletarSubtarefa.jsp">
+                        <input type="hidden" name="id-detalhe" id="id-detalhe" value="0" />
+                        <input type="hidden" name="id-tarefa" id="id-tarefa" value="0" />
+                        <div class="modal-buttons">
+                            <button type="submit" class="btn-deletar-confirmar" onclick="confirmarDelete()">Sim, deletar</button>
+                            <button type="button" class="btn-cancelar" onclick="closeModalDeletar()">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
         <script src="./js/novaTarefa.js"></script>
+        <script src="./js/Utilidades.js"></script>
 
     </body>
     <% tarefaDAO.fecharConexao(); %>

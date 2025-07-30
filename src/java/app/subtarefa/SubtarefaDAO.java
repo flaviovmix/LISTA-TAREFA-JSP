@@ -21,7 +21,7 @@ public class SubtarefaDAO {
         return listarPorTarefaEAtivo(idTarefa, false);
     }
 
-    public List<SubtarefaBean> listarPorTarefaEAtivo(int idTarefa, boolean ativoOuInativo) {
+    private List<SubtarefaBean> listarPorTarefaEAtivo(int idTarefa, boolean ativoOuInativo) {
         List<SubtarefaBean> lista = new ArrayList<>();
 
         try {
@@ -68,14 +68,14 @@ public class SubtarefaDAO {
     
     public void alterarAtivoInativo(int id_detalhe, boolean ativo) {
         try {
-            String sql = "UPDATE detalhe_tarefa SET ativo = ? WHERE id_detalhe = ?";
+            String sql = "UPDATE detalhes_tarefa SET ativo = ? WHERE id_detalhe = ?";
             PreparedStatement ps = dataBase.getConexao().prepareStatement(sql);
 
             ps.setBoolean(1, ativo);
             ps.setInt(2, id_detalhe);
             ps.executeUpdate();
 
-            ps.close(); // Boa prática
+            ps.close(); 
         } catch (SQLException e) {
             e.printStackTrace();
         }

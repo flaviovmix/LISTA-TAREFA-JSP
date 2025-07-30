@@ -7,8 +7,8 @@
     SubtarefaBean subtarefa = new SubtarefaBean();
     SubtarefaDAO dao = new SubtarefaDAO();
 
-    subtarefa.setFk_tarefa(Integer.parseInt(request.getParameter("fk_tarefa")));
-    String id_tarefas = (request.getParameter("id_tarefas"));
+    subtarefa.setFk_tarefa(Integer.parseInt(request.getParameter("id-detalhe")));
+    String id_tarefas = (request.getParameter("id-tarefa"));
 
 
     dao.deletarSubtarefa(subtarefa);

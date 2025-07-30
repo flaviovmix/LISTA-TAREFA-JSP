@@ -13,7 +13,8 @@
     <head>
         <meta charset="UTF-8" />
         <title>To-Do List</title>
-        <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="./css/index.css">
+        <link rel="stylesheet" href="./css/modal.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     </head>
@@ -22,7 +23,7 @@
         <header>
             <div class="container">
                 <h1>To-Do List</h1>
-                <button class="btn-add" onclick="window.location.href='novaTarefa.jsp?novoOuEditar=0'">Nova Tarefa</button>
+                <button class="btn-add" onclick="window.location.href='novaTarefa.jsp?novoOuEditar=2'">Nova Tarefa</button>
                 <!--<button class="btn-add" onclick="openModal()">Nova Tarefa</button>-->
             </div>
         </header>
@@ -51,14 +52,13 @@
 
                         aux.append("  <div class='task-content'> \n");
                         aux.append("    <div class='task-title'>");
-                        aux.append("        <a href='novaTarefa.jsp?id_tarefas="+ tarefa.getId_tarefas() +"&0novoOuEditar=1' class='link-sem-estilo'> " + tarefa.getTitulo() + "</a>");
+                        aux.append("        <a href='novaTarefa.jsp?id_tarefas="+ tarefa.getId_tarefas() +"&novoOuEditar=1' class='link-sem-estilo'> " + tarefa.getTitulo() + "</a>");
                         aux.append("    </div>");
 
                         aux.append("    <div class='task-meta'>");
                         aux.append("      <span><i class='fas fa-layer-group'></i> " + tarefa.getSubtarefas_counts() + " subtarefas</span>");
                         aux.append("      <span><i class='fas fa-calendar-day'></i> " + tarefa.getData_criacao() + "</span>");
                         aux.append("      <span><i class='fas fa-comments'></i> 0</span>");
-
 
                         aux.append("    </div>");
 
@@ -105,40 +105,7 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal-overlay" id="modal">
-            <div class="modal">
-                <h2 id="titulo-tarefa"></h2>
-                <form id="formTarefa" method="get" action="salvarTarefa.jsp">
-                    <input type="hidden" name="id_tarefas" id="id_tarefas" value="0" />
-                    <input type="text" name="titulo" id="titulo" placeholder="Título da tarefa" required />
-                    <input type="text" name="responsavel" id="responsavel" placeholder="Responsavel da tarefa" required />
-
-                    <textarea name="descricao" id="descricao" placeholder="Descrição da tarefa" rows="5" required></textarea>
-
-                    <div class="selects"> 
-                        <select name="prioridade" id="prioridade" required>
-                            <option value="baixa">Baixa</option>
-                            <option value="media">Média</option>
-                            <option value="alta">Alta</option>
-                        </select>
-
-                        <select name="status" id="status" required>
-                            <option value="pendente">Pendente</option>
-                            <option value="concluida">Concluída</option>
-                        </select>
-                    </div>
-
-                    <input type="date" name="data" id="data" required />
-
-                    <div class="modal-buttons">
-                        <button type="submit" class="save-btn">Salvar</button>
-                        <button id="btn-fechar" type="button" class="cancel-btn" onclick="closeModal()"></button>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-        
+       
         <!-- Modal de Deletar -->
         <div class="modal-overlay" id="modalDeletar" style="display:none;">
             <div class="modal">
@@ -172,6 +139,7 @@
         </div>
         
         <script src="./js/index.js"></script>  
+        <script src="./js/Utilidades.js"></script>
     </body>
     
     <% tarefaDAO.fecharConexao(); %>

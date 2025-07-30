@@ -6,15 +6,14 @@
     int id_tarefas = Integer.parseInt(request.getParameter("id_tarefas"));
 
     boolean estadoAtual = Boolean.parseBoolean(request.getParameter("estado_atual"));
-    // Inverter o estado atual
+
     boolean novoEstado = !estadoAtual;
 
     SubtarefaDAO dao = new SubtarefaDAO();
     dao.alterarAtivoInativo(id_detalhe, novoEstado);
-
+    out.println("ID Detalhe recebido: " + id_detalhe);
+    out.println("<br>Ativo: " + novoEstado);
     dao.fecharConexao();
 
     response.sendRedirect("novaTarefa.jsp?id_tarefas=" + id_tarefas +"&novoOuEditar=1");
-%>
-
 %>

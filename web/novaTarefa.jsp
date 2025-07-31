@@ -4,7 +4,8 @@
 <%@page import="java.util.List"%>
 <%@page import="app.tarefas.TarefaDAO"%>
 <%@page import="app.tarefas.TarefaBean"%>
-<%@page contentType="text/html" pageEncoding="windows-1252"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <%
     TarefaBean tarefa = new TarefaBean();
     TarefaDAO tarefaDAO = new TarefaDAO();
@@ -31,17 +32,19 @@
     <head>
         <meta charset="UTF-8">
         <title>Master-Detail de Tarefas</title>
-        <link rel="stylesheet" href="./css/novaTarefa.css">
-        <link rel="stylesheet" href="./css/modal.css">
+        <link rel="stylesheet" href="./css/novaTarefa_claro.css">
+        <link rel="stylesheet" href="./css/modal_claro.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
         
     </head>
 
     <body>
         <div class="container">
+            
             <!-- MASTER -->
             <div class="master">
                 <button type="reset" class="voltar"  onclick="window.location.href = 'index.jsp'">Voltar</button>
+                
                 <h2>Tarefa</h2>
 
                 <form id="formTarefa" method="get" action="salvarTarefa.jsp">
@@ -53,15 +56,15 @@
                             <% } %>     
                         ">
                         <input type="hidden" name="id_tarefas" id="id_tarefas" value="<%= Utilidades.nullTrim(tarefa.getId_tarefas()) %>" />
-                        <input type="text" name="titulo" id="titulo" placeholder="TÌtulo da tarefa" value="<%= Utilidades.nullTrim(tarefa.getTitulo()) %>" required>
-                        <input type="text" name="responsavel" id="responsavel" placeholder="Respons·vel da tarefa" value="<%= Utilidades.nullTrim(tarefa.getResponsavel()) %>" required>
+                        <input type="text" name="titulo" id="titulo" placeholder="T√≠tulo da tarefa" value="<%= Utilidades.nullTrim(tarefa.getTitulo()) %>" required>
+                        <input type="text" name="responsavel" id="responsavel" placeholder="Respons√°vel da tarefa" value="<%= Utilidades.nullTrim(tarefa.getResponsavel()) %>" required>
 
-                        <textarea  name="descricao" id="descricao" placeholder="DescriÁ„o da tarefa"><%= Utilidades.nullTrim(tarefa.getDescricao()) %></textarea>
+                        <textarea  name="descricao" id="descricao" placeholder="Descri√ß√£o da tarefa"><%= Utilidades.nullTrim(tarefa.getDescricao()) %></textarea>
 
                         <div class="linha">
                             <select name="prioridade" id="prioridade">
                                 <option value="baixa" <%= "baixa".equals(tarefa.getPrioridade()) ? "selected" : "" %>>Baixa</option>
-                                <option value="media" <%= "media".equals(tarefa.getPrioridade()) ? "selected" : "" %>>MÈdia</option>
+                                <option value="media" <%= "media".equals(tarefa.getPrioridade()) ? "selected" : "" %>>M√©dia</option>
                                 <option value="alta" <%= "alta".equals(tarefa.getPrioridade()) ? "selected" : "" %>>Alta</option>
                             </select>
 
@@ -72,41 +75,44 @@
                             </select>
                         </div>
 
-                        <label for="data">Data prevista para conclus„o</label>
+                        <label for="data">Data prevista para conclus√£o</label>
                         <input type="date" name="data" id="data" value="<%= Utilidades.nullTrim(tarefa.getData_conclusao()) %>">
-                        </div>
-                        <div class="botoes">
-                            <% if (novoOuEditar != null && novoOuEditar.equals(0)) { %>
-                                <button type="submit" class="salvar">Salvar</button>
-                                <button type="button" class="fechar" onclick="link('novaTarefa.jsp?id_tarefas=75&novoOuEditar=1')">Cancelar</button>
-                            <% } %>     
-                            <% if (novoOuEditar != null && novoOuEditar.equals(1)) { %>
-                                <button id="btn-editar" type="reset" class="editar"  onclick="link('novaTarefa.jsp?id_tarefas=<%= tarefa.getId_tarefas() %>&novoOuEditar=0')">Editar</button>
-                            <% }  %>
-                            <% if (novoOuEditar != null && novoOuEditar.equals(2)) { %>
-                               <button type="submit" class="salvar">Salvar</button>
-                               <button type="button" class="fechar" onclick="link('index.jsp')">Cancelar</button>
-                            <% }  %>                            
                     </div>
+                    
+                    <div class="botoes">
+                        
+                        <% if (novoOuEditar != null && novoOuEditar.equals(0)) { %>
+                            <button type="submit" class="salvar">Salvar</button>
+                            <button type="button" class="fechar" onclick="link('novaTarefa.jsp?id_tarefas=<%= tarefa.getId_tarefas() %>&novoOuEditar=1')">Cancelar</button>
+                        <% } %>     
+                        
+                        <% if (novoOuEditar != null && novoOuEditar.equals(1)) { %>
+                            <button id="btn-editar" type="reset" class="editar"  onclick="link('novaTarefa.jsp?id_tarefas=<%= tarefa.getId_tarefas() %>&novoOuEditar=0')">Editar</button>
+                        <% }  %>
+                        
+                        <% if (novoOuEditar != null && novoOuEditar.equals(2)) { %>
+                           <button type="submit" class="salvar">Salvar</button>
+                           <button type="button" class="fechar" onclick="link('index.jsp')">Cancelar</button>
+                        <% }  %>          
+                        
+                    </div>
+                    
                 </form>
 
                 <hr>
                 
-                
-               
-
                     <h2>Subtarefa</h2>
                     <form id="form-subtarefa" class="form" action="salvarSubtarefa.jsp" method="post">
-                        <div class=" <% if (novoOuEditar==0) { %> opaco <% } %>">
+                        <div class=" <% if (novoOuEditar==0 || novoOuEditar==2) { %> opaco <% } %>">
                         <input type="hidden" name="fk_tarefa" id="fk_tarefa" value="<%= tarefa.getId_tarefas() %>">
 
                         <div class="campo">
                             <textarea name="descricao" id="descricaoDetail"
-                            placeholder="Digite a descriÁ„o..." required></textarea>
+                            placeholder="Digite a descri√ß√£o..." required></textarea>
                         </div>
 
                         <div class="campo">
-                            <label for="dataDetail">Data prevista para conclus„o</label>
+                            <label for="dataDetail">Data prevista para conclus√£o</label>
                             <input type="date" name="data_conclusao" id="dataDetail" >
                         </div>
 
@@ -114,12 +120,10 @@
                     </div>
                     </form>
                 
-
-                
             </div>
 
             <!-- DETAIL -->
-            <div id="area-detail" class="detail <% if (novoOuEditar==0) { %> opaco <% } %>">
+            <div id="area-detail" class="detail <% if (novoOuEditar==0 || novoOuEditar==2) { %> opaco <% } %>">
 
                 <h2>Subtarefas Pendentes</h2>
                 <ul id="lista-tarefas">
@@ -146,7 +150,7 @@
 
                 <hr>
 
-                <h2>Subtarefas ConcluÌdas</h2>
+                <h2>Subtarefas Conclu√≠das</h2>
                 <ul id="lista-tarefas">
                     <% for (SubtarefaBean sub : inativas) { %>
                     <li>
@@ -173,10 +177,10 @@
 
         </div>
        
-        <!-- Modal de Deletar -->
+        <!-- Modal de Deletar oculto -->
         <div class="modal-overlay" id="modalDeletar" style="display:none;">
             <div class="modal">
-                <h2>Confirmar Exclus„o</h2>
+                <h2>Confirmar Exclus√£o</h2>
                 <div class="confirmacao">
                     <p id="texto-descricao" class="area-info"></p>
                     <form id="formDeletar" method="post" action="deletarSubtarefa.jsp">
@@ -194,6 +198,14 @@
         <script src="./js/novaTarefa.js"></script>
         <script src="./js/Utilidades.js"></script>
 
+        <% if (novoOuEditar==0 || novoOuEditar==2) { %>
+            <script>selecionarAddTarefa()</script>
+        <% } %>    
+        
+        <% if (novoOuEditar==1) { %>
+            <script>selecionarAddSubTarefa()</script>
+        <% } %>
+            
     </body>
     <% tarefaDAO.fecharConexao(); %>
 </html>

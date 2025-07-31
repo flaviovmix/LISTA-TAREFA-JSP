@@ -2,6 +2,10 @@ function selecionarAddSubTarefa() {
     document.getElementById("descricaoDetail").focus();
 }
 
+function selecionarAddTarefa() {
+    document.getElementById("titulo").focus();
+}
+
 const descricaoDetail = document.getElementById("descricaoDetail");
 
 if (descricaoDetail) {

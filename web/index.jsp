@@ -6,15 +6,16 @@
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
     <head>
         <meta charset="UTF-8" />
         <title>To-Do List</title>
-        <link rel="stylesheet" href="./css/index.css">
-        <link rel="stylesheet" href="./css/modal.css">
+        <link rel="stylesheet" href="./css/index_claro.css">
+        <link rel="stylesheet" href="./css/modal_claro.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     </head>

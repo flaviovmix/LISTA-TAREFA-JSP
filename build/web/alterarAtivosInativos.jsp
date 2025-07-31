@@ -11,8 +11,7 @@
 
     SubtarefaDAO dao = new SubtarefaDAO();
     dao.alterarAtivoInativo(id_detalhe, novoEstado);
-    out.println("ID Detalhe recebido: " + id_detalhe);
-    out.println("<br>Ativo: " + novoEstado);
+
     dao.fecharConexao();
 
     response.sendRedirect("novaTarefa.jsp?id_tarefas=" + id_tarefas +"&novoOuEditar=1");

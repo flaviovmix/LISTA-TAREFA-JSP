@@ -1,3 +1,5 @@
+<%@page import="app.configuracao.ConfiguracaoBean"%>
+<%@page import="app.configuracao.ConfiguracaoDAO"%>
 <%@page import="java.util.Locale"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="app.Utilidades" %>
@@ -11,30 +13,51 @@
 <%@page import="java.sql.Connection"%>
 
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
+<%
+    ConfiguracaoDAO configDAO = new ConfiguracaoDAO();
+    ConfiguracaoBean configBean = new ConfiguracaoBean();
+    configDAO.selecionarTema(configBean); 
+    int temaAtual = configBean.getTema();
+%>
 <!DOCTYPE html>
 <html lang="pt-BR">
     <head>
         <meta charset="UTF-8" />
         <title>To-Do List</title>
-        <link rel="stylesheet" href="./css/index_claro.css">
-        <link rel="stylesheet" href="./css/modal_claro.css">
+        
+        <% if (temaAtual == 1) { %>
+            <link rel="stylesheet" href="./css/index_claro.css">
+            <link rel="stylesheet" href="./css/modal_claro.css">
+        <% } %>
+        
+        <% if (temaAtual == 2) { %>
+            <link rel="stylesheet" href="./css/index_escuro.css">
+            <link rel="stylesheet" href="./css/modal_escuro.css">
+        <% } %>        
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     </head>
     <body>
 
-        <header>
-            <div class="container">
-                <h1>To-Do List</h1>
-                <button class="btn-add" onclick="window.location.href='novaTarefa.jsp?novoOuEditar=2'">Nova Tarefa</button>
-                <!--<button class="btn-add" onclick="openModal()">Nova Tarefa</button>-->
-            </div>
-        </header>
+<header>
+    <div class="container">
+        <button class="btn-add" onclick="window.location.href='novaTarefa.jsp?novoOuEditar=2'">Nova Tarefa</button>
+        <a href="#" class="config-icon" onclick="openModalConfig(); return false;">
+            <i class="fas fa-cog"></i>
+        </a>
+    </div>
+</header>
+
 
         <div class="task-list">
             
         <%
+            
+            Integer configuracao = 0;
+            if (request.getParameterMap().containsKey("configuracao")) {
+                configuracao = Integer.parseInt(request.getParameter("configuracao"));
+            }
+
             TarefaDAO tarefaDAO = new TarefaDAO();
             List<TarefaBean> tarefas = tarefaDAO.listarTarefas();
 
@@ -150,8 +173,78 @@
             </div>
         </div>
         
+        <div class="modal-overlay" id="modalConfig" style="display:none;">
+            <div class="modal">
+                <h2>Configurações</h2>
+
+                    <table class="tabela-configuracao">
+                        <tr>
+                            <td><i class="fas fa-adjust"></i> <Strong>Tema:</Strong></td>
+                            <td id="tituloDeletar"></td>
+                        </tr>
+                        <tr>
+                            <td>
+
+                                <form id="formTema" action="alterarTema.jsp" method="post">
+                                    <input type="hidden" name="id_configuracao" value="1">
+
+                                    <div class="bolinhas-wrapper">
+                                        <div class="bolinhas-selector">
+                                            <input type="radio" id="bolinha1" name="tema" value="1" 
+                                                   onchange="document.getElementById('formTema').submit()" 
+                                                   <%= (temaAtual == 1 ? "checked" : "") %>>
+                                            <label for="bolinha1">Claro</label>
+                                        </div>
+
+                                        <div class="bolinhas-selector">
+                                            <input type="radio" id="bolinha2" name="tema" value="2" 
+                                                   onchange="document.getElementById('formTema').submit()" 
+                                                   <%= (temaAtual == 2 ? "checked" : "") %>>
+                                            <label for="bolinha2">Escuro</label>
+                                        </div>
+
+                                        <div class="bolinhas-selector">
+                                            <input type="radio" id="bolinha3" name="tema" value="3" 
+                                                   onchange="document.getElementById('formTema').submit()" 
+                                                   <%= (temaAtual == 3 ? "checked" : "") %>>
+                                            <label for="bolinha3">Base no Sistema</label>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </td>
+                        </tr>
+
+                    </table>
+
+                    <table class="tabela-configuracao">
+                        <tr>
+                            <td><i class="fas fa-adjust"></i> <Strong>Nada:</Strong></td>
+                            <td id="tituloDeletar"></td>
+                        </tr>
+                        <tr>
+                                <td><i class="fas fa-thumbtack"></i>vazio</td>
+                                <td id="tituloStatus"></td>
+                        </tr>
+
+
+                    </table>        
+
+
+
+                <div class="modal-buttons">
+                    <button type="button" class="btn-cancelar" onclick="closeModalConfig()">Fechar</button>
+                </div>
+            </div>
+        </div>
+      
+        
         <script src="./js/index.js"></script>  
         <script src="./js/Utilidades.js"></script>
+        
+         <% if (configuracao != null && configuracao.equals(1)) { %>
+            <script>openModalConfig();</script>
+         <% } %>
     </body>
     
     <% tarefaDAO.fecharConexao(); %>

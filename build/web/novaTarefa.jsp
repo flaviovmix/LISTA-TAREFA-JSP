@@ -1,3 +1,5 @@
+<%@page import="app.configuracao.ConfiguracaoBean"%>
+<%@page import="app.configuracao.ConfiguracaoDAO"%>
 <%@page import="app.Utilidades"%>
 <%@page import="app.subtarefa.SubtarefaDAO"%>
 <%@page import="app.subtarefa.SubtarefaBean"%>
@@ -7,6 +9,13 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%
+
+    ConfiguracaoDAO configDAO = new ConfiguracaoDAO();
+    ConfiguracaoBean configBean = new ConfiguracaoBean();
+    configDAO.selecionarTema(configBean); 
+    int temaAtual = configBean.getTema();
+
+    
     TarefaBean tarefa = new TarefaBean();
     TarefaDAO tarefaDAO = new TarefaDAO();
     SubtarefaDAO subtarefaDAO = new SubtarefaDAO();
@@ -32,8 +41,15 @@
     <head>
         <meta charset="UTF-8">
         <title>Master-Detail de Tarefas</title>
-        <link rel="stylesheet" href="./css/novaTarefa_claro.css">
-        <link rel="stylesheet" href="./css/modal_claro.css">
+        <% if (temaAtual == 1) { %>
+            <link rel="stylesheet" href="./css/novaTarefa_claro.css">
+            <link rel="stylesheet" href="./css/modal_claro.css">
+         <% } %>
+     
+         <% if (temaAtual == 2) { %>
+            <link rel="stylesheet" href="./css/novaTarefa_escuro.css">
+            <link rel="stylesheet" href="./css/modal_escuro.css">    
+         <% } %>   
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
         
     </head>

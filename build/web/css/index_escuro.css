@@ -301,3 +301,63 @@ header h1 {
       width: 100%;
       object-fit: cover;
 }
+
+.config-icon {
+    margin-left: auto; /* empurra pro fim */
+    font-size: 20px;
+    color: #bbb; /* ícone mais claro */
+    text-decoration: none;
+    padding: 8px;
+    transition: color 0.2s;
+}
+
+.config-icon:hover {
+    color: #fff; /* mais visível no hover */
+}
+
+.bolinhas-wrapper {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.bolinhas-selector {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tabela-configuracao {
+    margin-top: 10px;
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #2b2b2b; /* fundo escuro */
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: "Segoe UI", sans-serif;
+    color: #ddd; /* texto claro */
+    font-size: 14px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.4);
+}
+
+.tabela-configuracao tr:not(:last-child) {
+    border-bottom: 1px solid #444; /* divisória mais discreta */
+}
+
+.tabela-configuracao td {
+    padding: 12px 16px;
+    vertical-align: middle;
+}
+
+.tabela-configuracao td:first-child {
+    color: #aaa; /* título menos chamativo */
+    width: 100%;
+    white-space: nowrap;
+}
+
+.tabela-configuracao i {
+    margin-right: 8px;
+    color: #999;
+}

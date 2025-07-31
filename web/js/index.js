@@ -11,3 +11,12 @@ function openModalDeletar(id, titulo, responsavel, prioridade, status) {
     
     document.getElementById("modalDeletar").style.display = "flex";
 }
+
+function openModalConfig() {
+    document.getElementById("modalConfig").style.display = "flex";
+}
+
+function closeModalConfig() {
+    document.getElementById("modalConfig").style.display = "none";
+    self.location.href="index.jsp";
+}

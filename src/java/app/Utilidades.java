@@ -25,5 +25,17 @@ public class Utilidades {
         } else {
             return valor.toString();
         }
-    }    
+    }  
+    
+    public static String arrumarCaractereHtmlJs(String texto) {
+        if (texto == null) return "";
+
+        return texto.trim()
+            .replace("&", "&amp;")       // & ? &amp;
+            .replace("<", "&lt;")        // < ? &lt;
+            .replace(">", "&gt;")        // > ? &gt;
+            .replace("\"", "&quot;")     // " ? &quot;
+            .replace("'", "\\'");        // ' ? \'
+    }
+    
 }

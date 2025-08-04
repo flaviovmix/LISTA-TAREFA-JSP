@@ -1,15 +1,12 @@
 package app.tarefas;
 
-import app.subtarefa.SubtarefaBean;
 import app.MinhaConexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TarefaDAO {
 
@@ -20,7 +17,7 @@ public class TarefaDAO {
         dataBase.abrirConexao();
     }
 
-    public void select(TarefaBean tarefa) throws SQLException {
+    public void select(TarefaBean tarefa) {
 
         try {
             String sql = "SELECT * FROM tarefas where id_tarefas = " + tarefa.getId_tarefas() + ";";
@@ -37,73 +34,74 @@ public class TarefaDAO {
                 tarefa.setData_criacao(rs.getDate("data_criacao"));
                 tarefa.setData_conclusao(rs.getDate("data_conclusao"));
             }
-            rs.close();
-            ps.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void adicionarTarefa(TarefaBean tarefa) throws SQLException {
-
-        PreparedStatement ps;
-
+    public void adicionarTarefa(TarefaBean tarefa) {
         String sql = "INSERT INTO tarefas "
                 + "(titulo, descricao, status, prioridade, responsavel) VALUES "
-                + "(     ?,         ?,      ?,          '" + tarefa.getPrioridade() + "',           ?)";
+                + "(     ?,         ?,      ?,          ?,           ?)";
 
-        ps = dataBase.getConexao().prepareStatement(sql);
+        try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql)) {
+            ps.setString(1, tarefa.getTitulo());
+            ps.setString(2, tarefa.getDescricao());
+            ps.setString(3, tarefa.getStatus());
+            ps.setString(4, tarefa.getPrioridade());
+            ps.setString(5, tarefa.getResponsavel());
 
-        ps.setString(1, tarefa.getTitulo());
-        ps.setString(2, tarefa.getDescricao());
-        ps.setString(3, tarefa.getStatus());
-        ps.setString(4, tarefa.getResponsavel());
+            ps.executeUpdate();
 
-        ps.executeUpdate();
-        ps.close();
-
-        maxId(tarefa);
-
+            maxId(tarefa);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void maxId(TarefaBean tarefa) throws SQLException {
 
-        try {
-            String sql = "SELECT max(id_tarefas) as id_tarefas FROM tarefas;";
-
-            PreparedStatement ps = dataBase.getConexao().prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-
+    public void maxId(TarefaBean tarefa) {
+        
+        String sql = "SELECT max(id_tarefas) as id_tarefas FROM tarefas;";
+        
+        try (
+                PreparedStatement ps = dataBase.getConexao().prepareStatement(sql);
+                ResultSet rs = ps.executeQuery();                
+            ) {
+            
             if (rs.next()) {
                 tarefa.setId_tarefas(rs.getInt("id_tarefas"));
             }
-            rs.close();
-            ps.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void alterarTarefa(TarefaBean tarefa) throws SQLException {
+        public void alterarTarefa(TarefaBean tarefa) {
+            String sql = "UPDATE tarefas SET "
+                    + "titulo = ?, "
+                    + "descricao = ?, "
+                    + "status = ?, "
+                    + "prioridade = ?, "
+                    + "responsavel = ? "
+                    + "WHERE id_tarefas = ?";
 
-        PreparedStatement ps;
+            try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql)) {
+                ps.setString(1, tarefa.getTitulo());
+                ps.setString(2, tarefa.getDescricao());
+                ps.setString(3, tarefa.getStatus());
+                ps.setString(4, tarefa.getPrioridade());
+                ps.setString(5, tarefa.getResponsavel());
+                ps.setInt(6, tarefa.getId_tarefas());
 
-        String sql = "UPDATE tarefas set "
-                + " titulo = '" + tarefa.getTitulo() + "', "
-                + "descricao = '" + tarefa.getDescricao() + "', "
-                + "status = '" + tarefa.getStatus() + "', "
-                + "prioridade = '" + tarefa.getPrioridade() + "', "
-                + "responsavel = '" + tarefa.getResponsavel() + "' "
-                + " where id_tarefas = " + tarefa.getId_tarefas() + " ";
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
 
-        ps = dataBase.getConexao().prepareStatement(sql);
-        ps.executeUpdate();
-
-        ps.close();
-
-    }
 
     public void excluirTarefa(Integer id_tarefas) throws SQLException {
         PreparedStatement ps;
@@ -116,7 +114,7 @@ public class TarefaDAO {
 
     }
 
-    public List<TarefaBean> listarTarefas() throws SQLException {
+    public List<TarefaBean> listarTarefas() {
 
         List<TarefaBean> tarefas = new ArrayList<>();
 

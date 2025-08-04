@@ -27,11 +27,11 @@
     
     if (request.getParameterMap().containsKey("id_tarefas")) {
         tarefa.setId_tarefas(Integer.parseInt(request.getParameter("id_tarefas")));
-        tarefaDAO.select(tarefa);
+        tarefaDAO.selectUnico(tarefa);
     }
     
-    List<SubtarefaBean> ativas = subtarefaDAO.listarAtivasPorTarefa(tarefa.getId_tarefas());
-    List<SubtarefaBean> inativas = subtarefaDAO.listarInativasPorTarefa(tarefa.getId_tarefas());
+    List<SubtarefaBean> ativas = subtarefaDAO.listaTarefasAtivas(tarefa.getId_tarefas());
+    List<SubtarefaBean> inativas = subtarefaDAO.listaTarefasInativas(tarefa.getId_tarefas());
 
 %>
 
@@ -151,7 +151,7 @@
                             <input type="hidden" name="id_detalhe" value="<%= sub.getId_detalhe() %>">
                             <input type="hidden" name="id_tarefas" value="<%= sub.getFk_tarefa() %>">
                             <input type="checkbox" name="ativo" onchange="this.form.submit()">
-                            <%= sub.getDescricao() %>
+                            <span class="descricao-sub-tarefa"> <%= sub.getDescricao() %> </span>
                         </form>
                         <br>
                         <small>Data: <%= sub.getData_conclusao() != null ? sub.getData_conclusao() : "Sem data" %></small>
@@ -176,7 +176,7 @@
                             <input type="hidden" name="id_detalhe" value="<%= sub.getId_detalhe() %>">
                             <input type="hidden" name="id_tarefas" value="<%= sub.getFk_tarefa() %>">
                             <input type="checkbox" name="ativo" onchange="this.form.submit()" checked>
-                            <span class="concluida"><%= sub.getDescricao() %></span>
+                            <span class="descricao-sub-tarefa concluida"><%= sub.getDescricao() %></span>
                         </form>
                         <br>
                         <small class="data-concluida">Data: <%= sub.getData_conclusao() != null ? sub.getData_conclusao() : "Sem data" %></small>

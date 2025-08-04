@@ -17,22 +17,24 @@ public class TarefaDAO {
         dataBase.abrirConexao();
     }
 
-    public void select(TarefaBean tarefa) {
+    public void selectUnico(TarefaBean tarefa) {
+        String sql = "SELECT * FROM tarefas WHERE id_tarefas = ?";
 
-        try {
-            String sql = "SELECT * FROM tarefas where id_tarefas = " + tarefa.getId_tarefas() + ";";
+        try (
+            PreparedStatement ps = dataBase.getConexao().prepareStatement(sql)
+        ) {
+            ps.setInt(1, tarefa.getId_tarefas()); // Evita SQL Injection
 
-            PreparedStatement ps = dataBase.getConexao().prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                tarefa.setTitulo(rs.getString("titulo"));
-                tarefa.setDescricao(rs.getString("descricao"));
-                tarefa.setStatus(rs.getString("status"));
-                tarefa.setPrioridade(rs.getString("prioridade"));
-                tarefa.setResponsavel(rs.getString("responsavel"));
-                tarefa.setData_criacao(rs.getDate("data_criacao"));
-                tarefa.setData_conclusao(rs.getDate("data_conclusao"));
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    tarefa.setTitulo(rs.getString("titulo"));
+                    tarefa.setDescricao(rs.getString("descricao"));
+                    tarefa.setStatus(rs.getString("status"));
+                    tarefa.setPrioridade(rs.getString("prioridade"));
+                    tarefa.setResponsavel(rs.getString("responsavel"));
+                    tarefa.setData_criacao(rs.getDate("data_criacao"));
+                    tarefa.setData_conclusao(rs.getDate("data_conclusao"));
+                }
             }
 
         } catch (SQLException e) {
@@ -60,7 +62,6 @@ public class TarefaDAO {
         }
     }
 
-
     public void maxId(TarefaBean tarefa) {
         
         String sql = "SELECT max(id_tarefas) as id_tarefas FROM tarefas;";
@@ -79,51 +80,55 @@ public class TarefaDAO {
         }
     }
 
-        public void alterarTarefa(TarefaBean tarefa) {
-            String sql = "UPDATE tarefas SET "
-                    + "titulo = ?, "
-                    + "descricao = ?, "
-                    + "status = ?, "
-                    + "prioridade = ?, "
-                    + "responsavel = ? "
-                    + "WHERE id_tarefas = ?";
+    public void alterarTarefa(TarefaBean tarefa) {
+        String sql = "UPDATE tarefas SET "
+                + "titulo = ?, "
+                + "descricao = ?, "
+                + "status = ?, "
+                + "prioridade = ?, "
+                + "responsavel = ? "
+                + "WHERE id_tarefas = ?";
 
-            try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql)) {
-                ps.setString(1, tarefa.getTitulo());
-                ps.setString(2, tarefa.getDescricao());
-                ps.setString(3, tarefa.getStatus());
-                ps.setString(4, tarefa.getPrioridade());
-                ps.setString(5, tarefa.getResponsavel());
-                ps.setInt(6, tarefa.getId_tarefas());
+        try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql)) {
+            ps.setString(1, tarefa.getTitulo());
+            ps.setString(2, tarefa.getDescricao());
+            ps.setString(3, tarefa.getStatus());
+            ps.setString(4, tarefa.getPrioridade());
+            ps.setString(5, tarefa.getResponsavel());
+            ps.setInt(6, tarefa.getId_tarefas());
 
-                ps.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+    }
 
+    public void excluirTarefa(Integer id_tarefas) {
 
-    public void excluirTarefa(Integer id_tarefas) throws SQLException {
-        PreparedStatement ps;
-        String sql;
-        sql = ("DELETE FROM tarefas WHERE id_tarefas=?");
-
-        ps = dataBase.getConexao().prepareStatement(sql);
-        ps.setInt(1, id_tarefas);
-        ps.executeUpdate();
-
+        String sql = ("DELETE FROM tarefas WHERE id_tarefas=?");
+        
+        try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql);) {
+            
+            ps.setInt(1, id_tarefas);
+            
+            ps.executeUpdate();
+            
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<TarefaBean> listarTarefas() {
 
         List<TarefaBean> tarefas = new ArrayList<>();
-
-        try {
-            String sql = "SELECT a.*, (select count(*) from detalhes_tarefa b where b.fk_tarefa=a.id_tarefas) as subtarefas_count FROM tarefas a";
-
-            PreparedStatement ps = dataBase.getConexao().prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-
+        String sql = "SELECT a.*, (select count(*) from detalhes_tarefa b where b.fk_tarefa=a.id_tarefas) as subtarefas_count FROM tarefas a";
+        
+        try 
+            (
+                PreparedStatement ps = dataBase.getConexao().prepareStatement(sql);
+                ResultSet rs = ps.executeQuery();
+            ) {
+            
             while (rs.next()) {
                 TarefaBean tarefa = new TarefaBean();
 
@@ -139,8 +144,6 @@ public class TarefaDAO {
 
                 tarefas.add(tarefa);
             }
-            rs.close();
-            ps.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -150,12 +153,17 @@ public class TarefaDAO {
     }
 
     public TarefaBean buscarPorId(int id) {
+        
+        String sql = "SELECT * FROM tarefas WHERE id_tarefas = ?";
+        
         TarefaBean tarefa = null;
-        try {
-            Connection con = dataBase.getConexao();
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM tarefas WHERE id_tarefas = ?");
+        try (
+                PreparedStatement ps = dataBase.getConexao().prepareStatement(sql);
+                ResultSet rs = ps.executeQuery();
+            ) {
+            
             ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
+            
             if (rs.next()) {
                 tarefa = new TarefaBean();
                 tarefa.setId_tarefas(rs.getInt("id_tarefas"));
@@ -167,9 +175,7 @@ public class TarefaDAO {
                 //tarefa.setData_criacao(rs.getDate("data_criacao"));
                 //tarefa.setData_conclusao(rs.getDate("data_conclusao"));
             }
-            rs.close();
-            ps.close();
-            con.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

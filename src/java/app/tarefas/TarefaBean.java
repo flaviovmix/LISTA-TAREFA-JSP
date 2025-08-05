@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class TarefaBean {
     
-    private int id_tarefas;
+    private int id_tarefa;
     private String titulo;
     private String descricao;
     private String status;
@@ -15,11 +15,11 @@ public class TarefaBean {
     
     private Integer subtarefas_counts;
 
-    public int getId_tarefas() {
-        return id_tarefas;
+    public int getId_tarefa() {
+        return id_tarefa;
     }
-    public void setId_tarefas(int id_tarefas) {
-        this.id_tarefas = id_tarefas;
+    public void setId_tarefa(int id_tarefa) {
+        this.id_tarefa = id_tarefa;
     }
 
     public String getTitulo() {

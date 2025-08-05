@@ -1,7 +1,6 @@
 package app.tarefas;
 
 import app.MinhaConexao;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,12 +17,12 @@ public class TarefaDAO {
     }
 
     public void selectUnico(TarefaBean tarefa) {
-        String sql = "SELECT * FROM tarefas WHERE id_tarefas = ?";
+        String sql = "SELECT * FROM tarefas WHERE id_tarefa = ?";
 
         try (
             PreparedStatement ps = dataBase.getConexao().prepareStatement(sql)
         ) {
-            ps.setInt(1, tarefa.getId_tarefas()); // Evita SQL Injection
+            ps.setInt(1, tarefa.getId_tarefa()); // Evita SQL Injection
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -64,7 +63,7 @@ public class TarefaDAO {
 
     public void maxId(TarefaBean tarefa) {
         
-        String sql = "SELECT max(id_tarefas) as id_tarefas FROM tarefas;";
+        String sql = "SELECT max(id_tarefa) as id_tarefa FROM tarefas;";
         
         try (
                 PreparedStatement ps = dataBase.getConexao().prepareStatement(sql);
@@ -72,7 +71,7 @@ public class TarefaDAO {
             ) {
             
             if (rs.next()) {
-                tarefa.setId_tarefas(rs.getInt("id_tarefas"));
+                tarefa.setId_tarefa(rs.getInt("id_tarefa"));
             }
 
         } catch (SQLException e) {
@@ -87,7 +86,7 @@ public class TarefaDAO {
                 + "status = ?, "
                 + "prioridade = ?, "
                 + "responsavel = ? "
-                + "WHERE id_tarefas = ?";
+                + "WHERE id_tarefa = ?";
 
         try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql)) {
             ps.setString(1, tarefa.getTitulo());
@@ -95,7 +94,7 @@ public class TarefaDAO {
             ps.setString(3, tarefa.getStatus());
             ps.setString(4, tarefa.getPrioridade());
             ps.setString(5, tarefa.getResponsavel());
-            ps.setInt(6, tarefa.getId_tarefas());
+            ps.setInt(6, tarefa.getId_tarefa());
 
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -103,13 +102,13 @@ public class TarefaDAO {
         }
     }
 
-    public void excluirTarefa(Integer id_tarefas) {
+    public void excluirTarefa(Integer id_tarefa) {
 
-        String sql = ("DELETE FROM tarefas WHERE id_tarefas=?");
+        String sql = ("DELETE FROM tarefas WHERE id_tarefa = ?");
         
         try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql);) {
             
-            ps.setInt(1, id_tarefas);
+            ps.setInt(1, id_tarefa);
             
             ps.executeUpdate();
             
@@ -121,7 +120,7 @@ public class TarefaDAO {
     public List<TarefaBean> listarTarefas() {
 
         List<TarefaBean> tarefas = new ArrayList<>();
-        String sql = "SELECT a.*, (select count(*) from detalhes_tarefa b where b.fk_tarefa=a.id_tarefas) as subtarefas_count FROM tarefas a";
+        String sql = "SELECT a.*, (select count(*) from detalhes_tarefa b where b.fk_tarefa=a.id_tarefa) as subtarefas_count FROM tarefas a";
         
         try 
             (
@@ -132,7 +131,7 @@ public class TarefaDAO {
             while (rs.next()) {
                 TarefaBean tarefa = new TarefaBean();
 
-                tarefa.setId_tarefas(rs.getInt("id_tarefas"));
+                tarefa.setId_tarefa(rs.getInt("id_tarefa"));
                 tarefa.setTitulo(rs.getString("titulo"));
                 tarefa.setDescricao(rs.getString("descricao"));
                 tarefa.setStatus(rs.getString("status"));
@@ -154,7 +153,7 @@ public class TarefaDAO {
 
     public TarefaBean buscarPorId(int id) {
         
-        String sql = "SELECT * FROM tarefas WHERE id_tarefas = ?";
+        String sql = "SELECT * FROM tarefas WHERE id_tarefa = ?";
         
         TarefaBean tarefa = null;
         try (
@@ -166,7 +165,7 @@ public class TarefaDAO {
             
             if (rs.next()) {
                 tarefa = new TarefaBean();
-                tarefa.setId_tarefas(rs.getInt("id_tarefas"));
+                tarefa.setId_tarefa(rs.getInt("id_tarefa"));
                 tarefa.setTitulo(rs.getString("titulo"));
                 tarefa.setDescricao(rs.getString("descricao"));
                 tarefa.setStatus(rs.getString("status"));
@@ -180,6 +179,65 @@ public class TarefaDAO {
             e.printStackTrace();
         }
         return tarefa;
+    }
+    
+    public List<TarefaBean> listaTarefasAtivas(int idTarefa) {
+        return listarTarefasAtivoEInativas(idTarefa, true);
+    }
+    public List<TarefaBean> listaTarefasInativas(int idTarefa) {
+        return listarTarefasAtivoEInativas(idTarefa, false);
+    }
+    private List<TarefaBean> listarTarefasAtivoEInativas(int idTarefa, boolean ativoOuInativo) {
+        List<TarefaBean> lista = new ArrayList<>();
+        
+        String sql = "SELECT * FROM tarefas WHERE id_tarefa = ? AND ativo = ?";
+        
+        try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql);) {
+            
+            ps.setInt(1, idTarefa);
+            ps.setBoolean(2, ativoOuInativo);
+            
+            try (ResultSet rs = ps.executeQuery();) {
+
+                while (rs.next()) {
+                    TarefaBean tarefa = new TarefaBean();
+
+                    tarefa.setData_conclusao(rs.getDate("data_conclusao"));
+                    tarefa.setData_criacao(rs.getDate("data_criacao"));
+                    tarefa.setDescricao(rs.getString("descricao"));
+                    tarefa.setId_tarefa(rs.getInt("id_tarefa"));
+                    tarefa.setPrioridade(rs.getString("prioridade"));
+                    tarefa.setResponsavel(rs.getString("responsavel"));
+                    tarefa.setStatus(rs.getString("status"));
+                    //tarefa.setSubtarefas_counts(rs.getDate(""));
+                    tarefa.setTitulo(rs.getString("titulo"));
+                    
+                    lista.add(tarefa);
+                }
+                
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+    
+    public void alterarAtivoInativo(int id_tarefa, boolean ativo) {
+        try {
+            String sql = "UPDATE tarefas SET ativo = ? WHERE id_tarefa = ?";
+            
+            PreparedStatement ps = dataBase.getConexao().prepareStatement(sql);
+
+            ps.setBoolean(1, ativo);
+            ps.setInt(2, id_tarefa);
+            ps.executeUpdate();
+
+            ps.close(); 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     
     public void fecharConexao() {

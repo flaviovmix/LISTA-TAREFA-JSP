@@ -1,7 +1,7 @@
 <%@page import="app.tarefas.TarefaDAO"%>
 <%@page import="app.tarefas.TarefaBean"%>
 <%
-    int codigo = Integer.parseInt(request.getParameter("id_tarefas"));
+    int codigo = Integer.parseInt(request.getParameter("id_tarefa"));
 
     TarefaBean tarefa = new TarefaBean();            
     TarefaDAO dao = new TarefaDAO();

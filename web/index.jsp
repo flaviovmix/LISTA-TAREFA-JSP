@@ -77,7 +77,7 @@
                     <div class='task-content'>
 
                         <div class='task-title'>
-                            <a href='novaTarefa.jsp?id_tarefas=<%= tarefa.getId_tarefas() %>&novoOuEditar=1' 
+                            <a href='novaTarefa.jsp?id_tarefa=<%= tarefa.getId_tarefa() %>&novoOuEditar=1' 
                                class='link-sem-estilo'>
                                 <%= Utilidades.arrumarCaractereHtmlJs(tarefa.getTitulo()) %>
                             </a>
@@ -107,7 +107,7 @@
                         <!-- Botão de deletar -->
                         <a href='#' class='deletar-link' 
                            onclick="openModalDeletar(
-                               <%= tarefa.getId_tarefas() %>, 
+                               <%= tarefa.getId_tarefa() %>, 
                                '<%= Utilidades.arrumarCaractereHtmlJs(tarefa.getTitulo()) %>', 
                                '<%= Utilidades.arrumarCaractereHtmlJs(tarefa.getResponsavel()) %>', 
                                '<%= Utilidades.arrumarCaractereHtmlJs(tarefa.getPrioridade()) %>', 
@@ -147,7 +147,7 @@
                     </tr>
                 </table>
                 <form id="formDeletar" method="post" action="deletarTarefa.jsp">
-                    <input type="hidden" name="id_tarefas" id="id_tarefa_deletar" value="0" />
+                    <input type="hidden" name="id_tarefa" id="id_tarefa_deletar" value="0" />
                     <div class="modal-buttons">
                         <button type="submit" class="btn-deletar-confirmar">Sim, deletar</button>
                         <button type="button" class="btn-cancelar" onclick="closeModalDeletar()">Cancelar</button>

@@ -43,20 +43,20 @@ public class SubtarefaDAO {
         }        
     }    
   
-    public List<SubtarefaBean> listaTarefasAtivas(int idTarefa) {
-        return listarTarefasAtivoEInativas(idTarefa, true);
+    public List<SubtarefaBean> listaTarefasAtivas(int fk_tarefa) {
+        return listarTarefasAtivoEInativas(fk_tarefa, true);
     }
-    public List<SubtarefaBean> listaTarefasInativas(int idTarefa) {
-        return listarTarefasAtivoEInativas(idTarefa, false);
+    public List<SubtarefaBean> listaTarefasInativas(int fk_tarefa) {
+        return listarTarefasAtivoEInativas(fk_tarefa, false);
     }
-    private List<SubtarefaBean> listarTarefasAtivoEInativas(int idTarefa, boolean ativoOuInativo) {
+    private List<SubtarefaBean> listarTarefasAtivoEInativas(int fk_tarefa, boolean ativoOuInativo) {
         List<SubtarefaBean> lista = new ArrayList<>();
         
         String sql = "SELECT * FROM detalhes_tarefa WHERE fk_tarefa = ? AND ativo = ?";
         
         try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql);) {
             
-            ps.setInt(1, idTarefa);
+            ps.setInt(1, fk_tarefa);
             ps.setBoolean(2, ativoOuInativo);
             
             try (ResultSet rs = ps.executeQuery();) {

@@ -3,7 +3,7 @@
 
 <%
     int id_detalhe = Integer.parseInt(request.getParameter("id_detalhe"));
-    int id_tarefas = Integer.parseInt(request.getParameter("id_tarefas"));
+    int id_tarefa = Integer.parseInt(request.getParameter("id_tarefa"));
 
     boolean estadoAtual = Boolean.parseBoolean(request.getParameter("estado_atual"));
 
@@ -14,5 +14,5 @@
 
     dao.fecharConexao();
 
-    response.sendRedirect("novaTarefa.jsp?id_tarefas=" + id_tarefas +"&novoOuEditar=1");
+    response.sendRedirect("novaTarefa.jsp?id_tarefa=" + id_tarefa +"&novoOuEditar=1");
 %>

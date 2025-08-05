@@ -25,13 +25,13 @@
         novoOuEditar = Integer.parseInt(request.getParameter("novoOuEditar"));
     }
     
-    if (request.getParameterMap().containsKey("id_tarefas")) {
-        tarefa.setId_tarefas(Integer.parseInt(request.getParameter("id_tarefas")));
+    if (request.getParameterMap().containsKey("id_tarefa")) {
+        tarefa.setId_tarefa(Integer.parseInt(request.getParameter("id_tarefa")));
         tarefaDAO.selectUnico(tarefa);
     }
     
-    List<SubtarefaBean> ativas = subtarefaDAO.listaTarefasAtivas(tarefa.getId_tarefas());
-    List<SubtarefaBean> inativas = subtarefaDAO.listaTarefasInativas(tarefa.getId_tarefas());
+    List<SubtarefaBean> ativas = subtarefaDAO.listaTarefasAtivas(tarefa.getId_tarefa());
+    List<SubtarefaBean> inativas = subtarefaDAO.listaTarefasInativas(tarefa.getId_tarefa());
 
 %>
 
@@ -71,7 +71,7 @@
                                 opaco
                             <% } %>     
                         ">
-                        <input type="hidden" name="id_tarefas" id="id_tarefas" value="<%= Utilidades.nullTrim(tarefa.getId_tarefas()) %>" />
+                        <input type="hidden" name="id_tarefa" id="id_tarefa" value="<%= Utilidades.nullTrim(tarefa.getId_tarefa()) %>" />
                         <input type="text" name="titulo" id="titulo" placeholder="Título da tarefa" value="<%= Utilidades.nullTrim(tarefa.getTitulo()) %>" required>
                         <input type="text" name="responsavel" id="responsavel" placeholder="Responsável da tarefa" value="<%= Utilidades.nullTrim(tarefa.getResponsavel()) %>" required>
 
@@ -99,11 +99,11 @@
                         
                         <% if (novoOuEditar != null && novoOuEditar.equals(0)) { %>
                             <button type="submit" class="salvar">Salvar</button>
-                            <button type="button" class="fechar" onclick="link('novaTarefa.jsp?id_tarefas=<%= tarefa.getId_tarefas() %>&novoOuEditar=1')">Cancelar</button>
+                            <button type="button" class="fechar" onclick="link('novaTarefa.jsp?id_tarefa=<%= tarefa.getId_tarefa() %>&novoOuEditar=1')">Cancelar</button>
                         <% } %>     
                         
                         <% if (novoOuEditar != null && novoOuEditar.equals(1)) { %>
-                            <button id="btn-editar" type="reset" class="editar"  onclick="link('novaTarefa.jsp?id_tarefas=<%= tarefa.getId_tarefas() %>&novoOuEditar=0')">Editar</button>
+                            <button id="btn-editar" type="reset" class="editar"  onclick="link('novaTarefa.jsp?id_tarefa=<%= tarefa.getId_tarefa() %>&novoOuEditar=0')">Editar</button>
                         <% }  %>
                         
                         <% if (novoOuEditar != null && novoOuEditar.equals(2)) { %>
@@ -120,7 +120,7 @@
                     <h2>Subtarefa</h2>
                     <form id="form-subtarefa" class="form" action="salvarSubtarefa.jsp" method="post">
                         <div class=" <% if (novoOuEditar==0 || novoOuEditar==2) { %> opaco <% } %>">
-                        <input type="hidden" name="fk_tarefa" id="fk_tarefa" value="<%= tarefa.getId_tarefas() %>">
+                        <input type="hidden" name="fk_tarefa" id="fk_tarefa" value="<%= tarefa.getId_tarefa() %>">
 
                         <div class="campo">
                             <textarea name="descricao" id="descricaoDetail"
@@ -149,7 +149,7 @@
                         <form action="alterarAtivosInativos.jsp" method="post" style="display:inline;">
                             <input type="hidden" name="estado_atual" value="true">
                             <input type="hidden" name="id_detalhe" value="<%= sub.getId_detalhe() %>">
-                            <input type="hidden" name="id_tarefas" value="<%= sub.getFk_tarefa() %>">
+                            <input type="hidden" name="id_tarefa" value="<%= sub.getFk_tarefa() %>">
                             <input type="checkbox" name="ativo" onchange="this.form.submit()">
                             <span class="descricao-sub-tarefa"> <%= sub.getDescricao() %> </span>
                         </form>
@@ -174,7 +174,7 @@
                         <form action="alterarAtivosInativos.jsp" method="post" style="display:inline;">
                             <input type="hidden" name="estado_atual" value="false">
                             <input type="hidden" name="id_detalhe" value="<%= sub.getId_detalhe() %>">
-                            <input type="hidden" name="id_tarefas" value="<%= sub.getFk_tarefa() %>">
+                            <input type="hidden" name="id_tarefa" value="<%= sub.getFk_tarefa() %>">
                             <input type="checkbox" name="ativo" onchange="this.form.submit()" checked>
                             <span class="descricao-sub-tarefa concluida"><%= sub.getDescricao() %></span>
                         </form>

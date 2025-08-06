@@ -1,0 +1,40 @@
+body {
+    background-color: #f9f9f9;
+    color: #222;
+}
+
+header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.task,
+.tabela-confirmacao,
+.tabela-configuracao {
+    background-color: #ffffff;
+    color: #222;
+}
+
+.task-meta,
+.assigned,
+.tabela-configuracao td:first-child,
+.tabela-confirmacao td:first-child {
+    color: #555;
+}
+
+.tabela-confirmacao tr:not(:last-child),
+.tabela-configuracao tr:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+}
+
+.config-icon {
+    color: #777;
+}
+
+.config-icon:hover {
+    color: #222;
+}
+
+.link-sem-estilo:hover {
+    color: #222;
+}

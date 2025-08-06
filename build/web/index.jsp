@@ -1,3 +1,4 @@
+<%@page import="app.util.RenderizadorTarefas"%>
 <%@page import="app.configuracao.ConfiguracaoBean"%>
 <%@page import="app.configuracao.ConfiguracaoDAO"%>
 <%@page import="java.util.Locale"%>
@@ -26,13 +27,13 @@
         <title>To-Do List</title>
         
         <% if (temaAtual == 1) { %>
-            <link rel="stylesheet" href="./css/index_claro.css">
-            <link rel="stylesheet" href="./css/modal_claro.css">
+            <link rel="stylesheet" href="./css/index-claro.css">
+            <link rel="stylesheet" href="./css/modal_escuro.css">
         <% } %>
         
         <% if (temaAtual == 2) { %>
-            <link rel="stylesheet" href="./css/index_escuro.css">
-            <link rel="stylesheet" href="./css/modal_escuro.css">
+            <link rel="stylesheet" href="./css/index-escuro.css">
+            <link rel="stylesheet" href="./css/modal-escuro.css">
         <% } %>        
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -49,9 +50,6 @@
             </div>
         </header>
 
-
-        
-
     <%
         Integer configuracao = 0;
         if (request.getParameterMap().containsKey("configuracao")) {
@@ -64,154 +62,16 @@
         List<TarefaBean> tarefasInativas = tarefaDAO.listaTarefasInativas();
     %>
 
-    <%    if ((tarefasAtivas == null || tarefasAtivas.isEmpty()) && (tarefasInativas == null || tarefasInativas.isEmpty())) { %> 
+    <%  
+        if ((tarefasAtivas == null || tarefasAtivas.isEmpty()) && (tarefasInativas == null || tarefasInativas.isEmpty())) { %> 
             <div class="container-imagem">
                 <img src="./img/personagem.png">
             </div>
-        <%} else { %>
-        
-<div class="task-list">
-    <%    if (tarefasAtivas == null || tarefasAtivas.isEmpty()) { %>
-    
-            <div class="container-imagem">
-                <p style="text-align: center">todas as tarefas foram concluídas.</p>
-            </div>
-    <%
-        } else {
-
-            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd MMM - yyyy", new Locale("pt", "BR"));
-
-            for (TarefaBean tarefaAtiva : tarefasAtivas) {
+        <%} else {
+            RenderizadorTarefas.renderizar(tarefasAtivas, true, out);
+            RenderizadorTarefas.renderizar(tarefasInativas, false, out);
+        } 
     %>
-                <div class='task <%= Utilidades.arrumarCaractereHtmlJs(tarefaAtiva.getPrioridade()) %>'>
-                    <div class='task-content'>
-
-                        <div class='task-title'>
-                            <a href='novaTarefa.jsp?id_tarefa=<%= tarefaAtiva.getId_tarefa() %>&novoOuEditar=1' 
-                               class='link-sem-estilo'>
-                                <%= Utilidades.arrumarCaractereHtmlJs(tarefaAtiva.getTitulo()) %>
-                            </a>
-                        </div>
-
-                        <div class='task-meta'>
-                            <span><i class='fas fa-layer-group'></i> <%= tarefaAtiva.getSubtarefas_count() %> subtarefas</span>
-                            <span><i class='fas fa-calendar-day'></i> <%= Utilidades.arrumarCaractereHtmlJs(sdf.format(tarefaAtiva.getData_criacao())) %></span>
-                            <span><i class='fas fa-comments'></i> 0</span>
-                        </div>
-
-                        <span class='descricao'><%= Utilidades.arrumarCaractereHtmlJs(tarefaAtiva.getDescricao()) %></span>
-                    </div>
-
-                    <div class='task-actions'>
-                        <div>
-                            <label class='checkbox-container'>
-                                <div class='usuario_concluir'>
-                                    <div class='assigned'>
-                                        <strong><%= Utilidades.arrumarCaractereHtmlJs(tarefaAtiva.getResponsavel()) %></strong>
-                                    </div>
-                                    
-                                    <form action="alterarTarefaAtivosInativos.jsp" method="get" style="display:inline;">
-                                        <input type="hidden" name="estado_atual" value="true">
-                                        <input type="hidden" name="id_tarefa" value="<%= tarefaAtiva.getId_tarefa()%>">
-                                        <input type="checkbox" name="ativo" onchange="this.form.submit()">
-                                    </form>
-                                   
-                                </div>
-                            </label>
-                        </div>
-
-                        <!-- Botão de deletar -->
-                        <a href='#' class='deletar-link' 
-                           onclick="openModalDeletar(
-                               <%= tarefaAtiva.getId_tarefa() %>, 
-                               '<%= Utilidades.arrumarCaractereHtmlJs(tarefaAtiva.getTitulo()) %>', 
-                               '<%= Utilidades.arrumarCaractereHtmlJs(tarefaAtiva.getResponsavel()) %>', 
-                               '<%= Utilidades.arrumarCaractereHtmlJs(tarefaAtiva.getPrioridade()) %>', 
-                               '<%= Utilidades.arrumarCaractereHtmlJs(tarefaAtiva.getStatus()) %>'
-                           ); return false;">
-                            <i class='fas fa-trash'></i>
-                        </a>
-                    </div>
-                </div>
-    <%
-            } // fim for
-        } // fim else
-    %>
-
-    </div>
-    
-<div class="task-list">
-        <h2>Tarefas concluídas</h2>
-        <%    if (tarefasInativas == null || tarefasInativas.isEmpty()) { %>
-
-                <div class="container-imagem">
-                    <p style="text-align: center">nenhuma tarefa concluída.</p>
-                </div>
-        <%
-            } else {
-
-                SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd MMM - yyyy", new Locale("pt", "BR"));
-
-                for (TarefaBean tarefaInativa : tarefasInativas) {
-        %>
-                    <div class='task <%= Utilidades.arrumarCaractereHtmlJs(tarefaInativa.getPrioridade()) %>'>
-                        <div class='task-content'>
-
-                            <div class='task-title'>
-                                <a href='novaTarefa.jsp?id_tarefa=<%= tarefaInativa.getId_tarefa() %>&novoOuEditar=1' 
-                                   class='link-sem-estilo'>
-                                    <%= Utilidades.arrumarCaractereHtmlJs(tarefaInativa.getTitulo()) %>
-                                </a>
-                            </div>
-
-                            <div class='task-meta'>
-                                <span><i class='fas fa-layer-group'></i> <%= tarefaInativa.getSubtarefas_count() %> subtarefas</span>
-                                <span><i class='fas fa-calendar-day'></i> <%= Utilidades.arrumarCaractereHtmlJs(sdf.format(tarefaInativa.getData_criacao())) %></span>
-                                <span><i class='fas fa-comments'></i> 0</span>
-                            </div>
-
-                            <span class='descricao'><%= Utilidades.arrumarCaractereHtmlJs(tarefaInativa.getDescricao()) %></span>
-                        </div>
-
-                        <div class='task-actions'>
-                            <div>
-                                <label class='checkbox-container'>
-                                    <div class='usuario_concluir'>
-                                        <div class='assigned'>
-                                            <strong><%= Utilidades.arrumarCaractereHtmlJs(tarefaInativa.getResponsavel()) %></strong>
-                                        </div>
-                                        
-                                        <form action="alterarTarefaAtivosInativos.jsp" method="get" style="display:inline;">
-                                            <input type="hidden" name="estado_atual" value="false">
-                                            <input type="hidden" name="id_tarefa" value="<%= tarefaInativa.getId_tarefa()%>">
-                                            <input type="checkbox" name="ativo" onchange="this.form.submit()" checked="true">
-                                        </form>
-                                    </div>
-                                </label>
-                            </div>
-
-                            <!-- Botão de deletar -->
-                            <a href='#' class='deletar-link' 
-                               onclick="openModalDeletar(
-                                   <%= tarefaInativa.getId_tarefa() %>, 
-                                   '<%= Utilidades.arrumarCaractereHtmlJs(tarefaInativa.getTitulo()) %>', 
-                                   '<%= Utilidades.arrumarCaractereHtmlJs(tarefaInativa.getResponsavel()) %>', 
-                                   '<%= Utilidades.arrumarCaractereHtmlJs(tarefaInativa.getPrioridade()) %>', 
-                                   '<%= Utilidades.arrumarCaractereHtmlJs(tarefaInativa.getStatus()) %>'
-                               ); return false;">
-                                <i class='fas fa-trash'></i>
-                            </a>
-                        </div>
-                    </div>
-        <%
-                } // fim for
-            } // fim else
-        %>
-
-        </div>
-        
-        
-    <% } %>
         <!-- Modal de Deletar -->
         <div class="modal-overlay" id="modalDeletar" style="display:none;">
             <div class="modal">
@@ -294,14 +154,10 @@
                             <td id="tituloDeletar"></td>
                         </tr>
                         <tr>
-                                <td><i class="fas fa-thumbtack"></i>vazio</td>
-                                <td id="tituloStatus"></td>
+                            <td><i class="fas fa-thumbtack"></i>vazio</td>
+                            <td id="tituloStatus"></td>
                         </tr>
-
-
-                    </table>        
-
-
+                    </table>
 
                 <div class="modal-buttons">
                     <button type="button" class="btn-cancelar" onclick="closeModalConfig()">Fechar</button>
@@ -315,6 +171,7 @@
          <% if (configuracao != null && configuracao.equals(1)) { %>
             <script>openModalConfig();</script>
          <% } %>
+     
     </body>
     
     <% tarefaDAO.fecharConexao(); %>

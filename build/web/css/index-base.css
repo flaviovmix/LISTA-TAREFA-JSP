@@ -1,30 +1,7 @@
 body {
-    background-color: #1e1e1e;
-    color: #fff;
     font-family: sans-serif;
     margin: 0;
     padding-top: 70px;
-}
-
-.task-meta i {
-    margin-right: 6px;
-    color: #888;
-}
-.task-meta span {
-    margin-right: 15px;
-    display: inline-block;
-}
-
-
-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: #2b2b2b;
-    padding: 15px 30px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    z-index: 10;
 }
 
 header .container {
@@ -63,7 +40,6 @@ header h1 {
 }
 
 .task {
-    background-color: #2b2b2b;
     border-left: 5px solid #333;
     margin-bottom: 10px;
     padding: 12px 16px;
@@ -76,11 +52,9 @@ header h1 {
 .task.alta {
     border-left-color: #ff0000;
 }
-
 .task.media {
     border-left-color: orange;
 }
-
 .task.baixa {
     border-left-color: #00A2E8;
 }
@@ -97,12 +71,12 @@ header h1 {
 
 .task-meta {
     font-size: 12px;
-    color: #ccc;
     margin-top: 4px;
 }
 
 .task-meta span {
     margin-right: 10px;
+    display: inline-block;
 }
 
 .task-actions {
@@ -112,43 +86,21 @@ header h1 {
     gap: 4px;
 }
 
+.locked::after {
+    content: "?";
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+.repeat::after {
+    content: "?";
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
 .assigned {
     font-size: 12px;
-    color: #aaa;
     margin-bottom: 4px;
 }
-
-.locked::after {
-    content: "ðŸ”’";
-    font-size: 13px;
-    color: #999;
-    margin-bottom: 4px;
-}
-
-.repeat::after {
-    content: "ðŸ”„";
-    font-size: 13px;
-    color: #999;
-    margin-bottom: 4px;
-}
-
-.btn {
-    background-color: #3a3a3a;
-    border: none;
-    color: #eee;
-    padding: 4px 8px;
-    font-size: 11px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.btn:hover {
-    background-color: #555;
-}
-
-.btn.edit { color: #f1c40f; }
-.btn.concluir { color: #e74c3c; }
 
 .checkbox-container {
     display: flex;
@@ -156,7 +108,6 @@ header h1 {
     align-items: flex-end;
     cursor: pointer;
     user-select: none;
-    font-family: sans-serif;
     font-size: 16px;
 }
 
@@ -167,20 +118,13 @@ header h1 {
     margin-bottom: -5px;
 }
 
-.descricao {
-    font-size: 13px;
-    padding: 10px 0;
-    color: #ccc;
-    
-}
-
 .checkbox-container input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
     width: 20px;
     height: 20px;
-    border: 2px solid #28a745; /* verde */
-    border-radius: 50%; /* redondo */
+    border: 2px solid #28a745;
+    border-radius: 50%;
     margin-right: 10px;
     margin-bottom: 8px;
     cursor: pointer;
@@ -203,25 +147,54 @@ header h1 {
     border-radius: 50%;
 }
 
-.save-btn {
-    width: 100px;
-    background-color: #2ecc71;
-    color: white;
+.descricao {
+    font-size: 13px;
+    padding: 10px 0;
 }
 
+.btn {
+    background-color: #3a3a3a;
+    border: none;
+    color: #eee;
+    padding: 4px 8px;
+    font-size: 11px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.btn:hover {
+    background-color: #555;
+}
+.btn.edit { color: #f1c40f; }
+.btn.concluir { color: #e74c3c; }
+
+.save-btn,
 .cancel-btn {
     width: 100px;
-    background-color: #e74c3c;
     color: white;
 }
 
+.save-btn {
+    background-color: #2ecc71;
+}
 .save-btn:hover {
     background-color: #27ae60;
 }
-
+.cancel-btn {
+    background-color: #e74c3c;
+}
 .cancel-btn:hover {
     background-color: #c0392b;
-}    
+}
+
+.link-sem-estilo {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+.link-sem-estilo:hover {
+    text-decoration: underline;
+}
 
 .editar-link {
     text-decoration: none;
@@ -229,20 +202,11 @@ header h1 {
 .editar-link:hover {
     color: #0056b3;
 }
-.link-sem-estilo {
-    color: inherit;            /* herda a cor do texto pai */
-    text-decoration: none;     /* remove sublinhado */
-    cursor: pointer;           /* mantém cursor de link */
-}
-.link-sem-estilo:hover {
-    text-decoration: underline;     /* evita sublinhado no hover */
-    color: #DDD;            /* mantém a cor no hover */
-}
 
 .deletar-link {
     display: inline-block;
     padding: 6px 12px;
-    background-color: #e74c3c; /* vermelho */
+    background-color: #e74c3c;
     color: white;
     border: none;
     border-radius: 4px;
@@ -252,42 +216,37 @@ header h1 {
     font-size: 14px;
     transition: background-color 0.3s;
 }
-
 .deletar-link:hover {
-    background-color: #c0392b; /* vermelho mais escuro */
+    background-color: #c0392b;
 }
 
-.tabela-confirmacao {
+.tabela-confirmacao,
+.tabela-configuracao {
     width: 100%;
     border-collapse: collapse;
-    background-color: #1e1e1e;
     border-radius: 8px;
     overflow: hidden;
     font-family: "Segoe UI", sans-serif;
-    color: #ccc;
     font-size: 14px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.4);
 }
 
-.tabela-confirmacao tr:not(:last-child) {
-    border-bottom: 1px solid #2a2a2a;
-}
-
-.tabela-confirmacao td {
+.tabela-confirmacao td,
+.tabela-configuracao td {
     padding: 12px 16px;
     vertical-align: middle;
 }
 
-.tabela-confirmacao td:first-child {
-    color: #999;
+.tabela-confirmacao td:first-child,
+.tabela-configuracao td:first-child {
     width: 35%;
     white-space: nowrap;
 }
 
-.tabela-confirmacao i {
+.tabela-confirmacao i,
+.tabela-configuracao i {
     margin-right: 8px;
-    color: #888;
 }
-
 
 .container-imagem {
     overflow: hidden;
@@ -295,24 +254,10 @@ header h1 {
     width: 300px;
     margin: 100px auto;
 }
-
 .container-imagem img {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
-}
-
-.config-icon {
-    margin-left: auto; /* empurra pro fim */
-    font-size: 20px;
-    color: #bbb; /* ícone mais claro */
-    text-decoration: none;
-    padding: 8px;
-    transition: color 0.2s;
-}
-
-.config-icon:hover {
-    color: #fff; /* mais visível no hover */
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
 
 .bolinhas-wrapper {
@@ -329,35 +274,15 @@ header h1 {
     gap: 6px;
 }
 
-.tabela-configuracao {
-    margin-top: 10px;
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #2b2b2b; /* fundo escuro */
-    border-radius: 8px;
-    overflow: hidden;
-    font-family: "Segoe UI", sans-serif;
-    color: #ddd; /* texto claro */
-    font-size: 14px;
-    box-shadow: 0 0 8px rgba(0,0,0,0.4);
+.titulo-centro {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 15px;
 }
 
-.tabela-configuracao tr:not(:last-child) {
-    border-bottom: 1px solid #444; /* divisória mais discreta */
-}
-
-.tabela-configuracao td {
-    padding: 12px 16px;
-    vertical-align: middle;
-}
-
-.tabela-configuracao td:first-child {
-    color: #aaa; /* título menos chamativo */
-    width: 100%;
-    white-space: nowrap;
-}
-
-.tabela-configuracao i {
-    margin-right: 8px;
-    color: #999;
+.opaco {
+    opacity: 0.4;
+    pointer-events: none;
+    user-select: none;
+    filter: grayscale(100%);
 }

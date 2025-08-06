@@ -139,7 +139,7 @@ public class TarefaDAO {
                 tarefa.setResponsavel(rs.getString("responsavel"));
                 tarefa.setData_criacao(rs.getDate("data_criacao"));
                 tarefa.setData_conclusao(rs.getDate("data_conclusao"));
-                tarefa.setSubtarefas_counts(rs.getInt("subtarefas_count"));
+                tarefa.setSubtarefas_count(rs.getInt("subtarefas_count"));
 
                 tarefas.add(tarefa);
             }
@@ -181,48 +181,51 @@ public class TarefaDAO {
         return tarefa;
     }
     
-    public List<TarefaBean> listaTarefasAtivas(int idTarefa) {
-        return listarTarefasAtivoEInativas(idTarefa, true);
+    public List<TarefaBean> listaTarefasAtivas() {
+        return listarTarefasAtivoEInativas(true);
     }
-    public List<TarefaBean> listaTarefasInativas(int idTarefa) {
-        return listarTarefasAtivoEInativas(idTarefa, false);
-    }
-    private List<TarefaBean> listarTarefasAtivoEInativas(int idTarefa, boolean ativoOuInativo) {
-        List<TarefaBean> lista = new ArrayList<>();
-        
-        String sql = "SELECT * FROM tarefas WHERE id_tarefa = ? AND ativo = ?";
-        
-        try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql);) {
-            
-            ps.setInt(1, idTarefa);
-            ps.setBoolean(2, ativoOuInativo);
-            
-            try (ResultSet rs = ps.executeQuery();) {
 
+    public List<TarefaBean> listaTarefasInativas() {
+        return listarTarefasAtivoEInativas(false);
+    }
+
+    private List<TarefaBean> listarTarefasAtivoEInativas(boolean ativoOuInativo) {
+        List<TarefaBean> lista = new ArrayList<>();
+
+        StringBuilder sql = new StringBuilder();
+        
+        sql.append("SELECT a.*, ");
+        sql.append("    (SELECT COUNT(*) ");
+        sql.append("    FROM detalhes_tarefa b ");
+        sql.append("    WHERE b.fk_tarefa = a.id_tarefa) AS subtarefas_count ");
+        sql.append("    FROM tarefas a ");
+        sql.append("WHERE ativo = ?");
+
+        try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql.toString())) {
+            ps.setBoolean(1, ativoOuInativo);
+
+            try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     TarefaBean tarefa = new TarefaBean();
-
-                    tarefa.setData_conclusao(rs.getDate("data_conclusao"));
-                    tarefa.setData_criacao(rs.getDate("data_criacao"));
-                    tarefa.setDescricao(rs.getString("descricao"));
-                    tarefa.setId_tarefa(rs.getInt("id_tarefa"));
-                    tarefa.setPrioridade(rs.getString("prioridade"));
-                    tarefa.setResponsavel(rs.getString("responsavel"));
-                    tarefa.setStatus(rs.getString("status"));
-                    //tarefa.setSubtarefas_counts(rs.getDate(""));
-                    tarefa.setTitulo(rs.getString("titulo"));
-                    
-                    lista.add(tarefa);
+                tarefa.setId_tarefa(rs.getInt("id_tarefa"));
+                tarefa.setTitulo(rs.getString("titulo"));
+                tarefa.setDescricao(rs.getString("descricao"));
+                tarefa.setStatus(rs.getString("status"));
+                tarefa.setPrioridade(rs.getString("prioridade"));
+                tarefa.setResponsavel(rs.getString("responsavel"));
+                tarefa.setData_criacao(rs.getDate("data_criacao"));
+                tarefa.setData_conclusao(rs.getDate("data_conclusao"));
+                tarefa.setSubtarefas_count(rs.getInt("subtarefas_count"));
+                lista.add(tarefa);
                 }
-                
             }
-            
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return lista;
     }
+
     
     public void alterarAtivoInativo(int id_tarefa, boolean ativo) {
         try {
@@ -239,6 +242,7 @@ public class TarefaDAO {
             e.printStackTrace();
         }
     }
+    
     
     public void fecharConexao() {
         dataBase.fecharConexao();

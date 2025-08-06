@@ -141,7 +141,7 @@
             <!-- DETAIL -->
             <div id="area-detail" class="detail <% if (novoOuEditar==0 || novoOuEditar==2) { %> opaco <% } %>">
 
-                <h2>Subtarefas Pendentes</h2>
+                <h2>Subtarefas Inativas</h2>
                 <ul id="lista-tarefas">
                     <% for (SubtarefaBean sub : ativas) { %>
                     <li>

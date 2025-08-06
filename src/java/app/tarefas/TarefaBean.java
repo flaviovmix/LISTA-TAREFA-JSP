@@ -13,7 +13,7 @@ public class TarefaBean {
     private Date data_criacao;
     private Date data_conclusao;
     
-    private Integer subtarefas_counts;
+    private Integer subtarefas_count;
 
     public int getId_tarefa() {
         return id_tarefa;
@@ -81,10 +81,10 @@ public class TarefaBean {
         this.data_conclusao = data_conclusao;
     } 
     
-    public Integer getSubtarefas_counts() {
-        return subtarefas_counts;
+    public Integer getSubtarefas_count() {
+        return subtarefas_count;
     }
-    public void setSubtarefas_counts(Integer subtarefas_counts) {
-        this.subtarefas_counts = subtarefas_counts;
+    public void setSubtarefas_count(Integer subtarefas_count) {
+        this.subtarefas_count = subtarefas_count;
     }
 }

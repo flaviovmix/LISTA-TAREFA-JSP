@@ -1,13 +1,13 @@
 package app.configuracao;
 
-import app.MinhaConexao;
+import app.ConexaoPostGres;
 import java.sql.*;
 
 public class ConfiguracaoDAO {
-    private MinhaConexao dataBase;
+    private ConexaoPostGres dataBase;
 
     public ConfiguracaoDAO() {
-        dataBase = new MinhaConexao("lista_tarefas");
+        dataBase = new ConexaoPostGres("lista_tarefas");
         dataBase.abrirConexao();
     }
         

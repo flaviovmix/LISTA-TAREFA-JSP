@@ -1,15 +1,15 @@
 package app.subtarefa;
 
-import app.MinhaConexao;
+import app.ConexaoPostGres;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SubtarefaDAO {
-    private MinhaConexao dataBase;
+    private ConexaoPostGres dataBase;
 
     public SubtarefaDAO() {
-        dataBase = new MinhaConexao("lista_tarefas");
+        dataBase = new ConexaoPostGres("lista_tarefas");
         dataBase.abrirConexao();
     }
     

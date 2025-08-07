@@ -45,7 +45,7 @@ public class RenderizadorTarefas {
 
                 aux.append("    <div class='task-meta ").append(AtivoInativo).append("'>");
                 aux.append("      <span><i class='fas fa-layer-group'></i> ")
-                   .append(         tarefa.getSubtarefas_count()).append(" subtarefas</span>");
+                   .append(         tarefa.getQuantidade_de_subtarefas()).append(" subtarefas</span>");
                 aux.append("      <span><i class='fas fa-calendar-day'></i> ")
                    .append(         Utilidades.arrumarCaractereHtmlJs(sdf.format(tarefa.getData_criacao())))
                    .append("      </span>");

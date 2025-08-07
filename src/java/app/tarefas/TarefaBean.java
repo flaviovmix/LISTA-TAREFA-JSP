@@ -13,7 +13,9 @@ public class TarefaBean {
     private Date data_criacao;
     private Date data_conclusao;
     
-    private Integer subtarefas_count;
+    // Atributo que armazena a quantidade de subtarefas associadas a esta tarefa.
+    // Pode ser nulo, por isso foi usado o tipo wrapper (Revestimento) Integer (em vez de int).
+    private Integer quantidade_de_subtarefas;
 
     public int getId_tarefa() {
         return id_tarefa;
@@ -81,10 +83,13 @@ public class TarefaBean {
         this.data_conclusao = data_conclusao;
     } 
     
-    public Integer getSubtarefas_count() {
-        return subtarefas_count;
+    // Retorna a quantidade de subtarefas associadas a esta tarefa.
+    public Integer getQuantidade_de_subtarefas() {
+        return quantidade_de_subtarefas;
     }
-    public void setSubtarefas_count(Integer subtarefas_count) {
-        this.subtarefas_count = subtarefas_count;
+
+    // Define a quantidade de subtarefas associadas a esta tarefa.
+    public void setQuantidade_de_subtarefas(Integer valor) {
+        this.quantidade_de_subtarefas = valor;
     }
 }

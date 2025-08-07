@@ -7,7 +7,7 @@
 <%@page import="app.tarefas.TarefaBean"%>
 <%@page import="java.util.List"%>
 <%@page import="app.tarefas.TarefaDAO"%>
-<%@page import="app.MinhaConexao"%>
+<%@page import="app.ConexaoPostGres"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.PreparedStatement"%>

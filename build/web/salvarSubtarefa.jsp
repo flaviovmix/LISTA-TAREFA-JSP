@@ -1,6 +1,6 @@
 <%@page import="app.subtarefa.SubtarefaDAO"%>
 <%@page import="app.subtarefa.SubtarefaBean"%>
-<%@page import="app.MinhaConexao"%>
+<%@page import="app.ConexaoPostGres"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%

@@ -1,6 +1,6 @@
 body {
-    background-color: #1e1e1e;
-    color: #fff;
+    background-color: #111; /* fundo escuro */
+    color: #f5f5f5; /* texto claro */
     font-family: sans-serif;
     margin: 0;
     padding-top: 70px;
@@ -8,22 +8,21 @@ body {
 
 .task-meta i {
     margin-right: 6px;
-    color: #888;
+    color: #aaa;
 }
 .task-meta span {
     margin-right: 15px;
     display: inline-block;
 }
 
-
 header {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    background-color: #2b2b2b;
+    background-color: #1e1e1e; /* cabeçalho escuro */
     padding: 15px 30px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.05);
     z-index: 10;
 }
 
@@ -39,6 +38,7 @@ header h1 {
     margin: 0;
     font-size: 22px;
     font-weight: bold;
+    color: #fff;
 }
 
 .btn-add {
@@ -63,8 +63,8 @@ header h1 {
 }
 
 .task {
-    background-color: #2b2b2b;
-    border-left: 5px solid #333;
+    background-color: #1c1c1c; /* fundo escuro */
+    border-left: 5px solid #555;
     margin-bottom: 10px;
     padding: 12px 16px;
     border-radius: 5px;
@@ -74,7 +74,7 @@ header h1 {
 }
 
 .task.alta {
-    border-left-color: #ff0000;
+    border-left-color: #ff4d4d;
 }
 
 .task.media {
@@ -93,11 +93,12 @@ header h1 {
 .task-title {
     font-weight: bold;
     font-size: 15px;
+    color: #fff;
 }
 
 .task-meta {
     font-size: 12px;
-    color: #ccc;
+    color: #bbb;
     margin-top: 4px;
 }
 
@@ -119,23 +120,23 @@ header h1 {
 }
 
 .locked::after {
-    content: "ðŸ”’";
+    content: "?";
     font-size: 13px;
     color: #999;
     margin-bottom: 4px;
 }
 
 .repeat::after {
-    content: "ðŸ”„";
+    content: "?";
     font-size: 13px;
     color: #999;
     margin-bottom: 4px;
 }
 
 .btn {
-    background-color: #3a3a3a;
+    background-color: #333;
     border: none;
-    color: #eee;
+    color: #f5f5f5;
     padding: 4px 8px;
     font-size: 11px;
     border-radius: 4px;
@@ -160,6 +161,21 @@ header h1 {
     font-size: 16px;
 }
 
+.checkbox-container input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border: 2px solid #28a745;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s;
+    background-color: transparent;
+}
+
 .checkbox-container .usuario_concluir {
     display: flex;
     align-items: center;
@@ -171,21 +187,6 @@ header h1 {
     font-size: 13px;
     padding: 10px 0;
     color: #ccc;
-    
-}
-
-.checkbox-container input[type="checkbox"] {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid #28a745; /* verde */
-    border-radius: 50%; /* redondo */
-    margin-right: 10px;
-    margin-bottom: 8px;
-    cursor: pointer;
-    position: relative;
-    transition: background-color 0.2s;
 }
 
 .checkbox-container input[type="checkbox"]:checked {
@@ -197,8 +198,8 @@ header h1 {
     position: absolute;
     top: 4px;
     left: 4px;
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     background: white;
     border-radius: 50%;
 }
@@ -221,28 +222,29 @@ header h1 {
 
 .cancel-btn:hover {
     background-color: #c0392b;
-}    
+}
 
 .editar-link {
     text-decoration: none;
+    color: #f5f5f5;
 }
 .editar-link:hover {
-    color: #0056b3;
+    color: #3498db;
 }
 .link-sem-estilo {
-    color: inherit;            /* herda a cor do texto pai */
-    text-decoration: none;     /* remove sublinhado */
-    cursor: pointer;           /* mantém cursor de link */
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
 }
 .link-sem-estilo:hover {
-    text-decoration: underline;     /* evita sublinhado no hover */
-    color: #DDD;            /* mantém a cor no hover */
+    text-decoration: underline;
+    color: #ccc;
 }
 
 .deletar-link {
     display: inline-block;
     padding: 6px 12px;
-    background-color: #e74c3c; /* vermelho */
+    background-color: #e74c3c;
     color: white;
     border: none;
     border-radius: 4px;
@@ -254,7 +256,7 @@ header h1 {
 }
 
 .deletar-link:hover {
-    background-color: #c0392b; /* vermelho mais escuro */
+    background-color: #c0392b;
 }
 
 .tabela-confirmacao {
@@ -264,12 +266,12 @@ header h1 {
     border-radius: 8px;
     overflow: hidden;
     font-family: "Segoe UI", sans-serif;
-    color: #ccc;
+    color: #eee;
     font-size: 14px;
 }
 
 .tabela-confirmacao tr:not(:last-child) {
-    border-bottom: 1px solid #2a2a2a;
+    border-bottom: 1px solid #444;
 }
 
 .tabela-confirmacao td {
@@ -278,16 +280,15 @@ header h1 {
 }
 
 .tabela-confirmacao td:first-child {
-    color: #999;
+    color: #bbb;
     width: 35%;
     white-space: nowrap;
 }
 
 .tabela-confirmacao i {
     margin-right: 8px;
-    color: #888;
+    color: #aaa;
 }
-
 
 .container-imagem {
     overflow: hidden;
@@ -297,22 +298,22 @@ header h1 {
 }
 
 .container-imagem img {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
 
 .config-icon {
-    margin-left: auto; /* empurra pro fim */
+    margin-left: auto;
     font-size: 20px;
-    color: #bbb; /* ícone mais claro */
+    color: #aaa;
     text-decoration: none;
     padding: 8px;
     transition: color 0.2s;
 }
 
 .config-icon:hover {
-    color: #fff; /* mais visível no hover */
+    color: #fff;
 }
 
 .bolinhas-wrapper {
@@ -333,17 +334,17 @@ header h1 {
     margin-top: 10px;
     width: 100%;
     border-collapse: collapse;
-    background-color: #2b2b2b; /* fundo escuro */
+    background-color: #1e1e1e;
     border-radius: 8px;
     overflow: hidden;
     font-family: "Segoe UI", sans-serif;
-    color: #ddd; /* texto claro */
+    color: #eee;
     font-size: 14px;
-    box-shadow: 0 0 8px rgba(0,0,0,0.4);
+    box-shadow: 0 0 8px rgba(255,255,255,0.05);
 }
 
 .tabela-configuracao tr:not(:last-child) {
-    border-bottom: 1px solid #444; /* divisória mais discreta */
+    border-bottom: 1px solid #444;
 }
 
 .tabela-configuracao td {
@@ -352,26 +353,26 @@ header h1 {
 }
 
 .tabela-configuracao td:first-child {
-    color: #aaa; /* título menos chamativo */
+    color: #ccc;
     width: 100%;
     white-space: nowrap;
 }
 
 .tabela-configuracao i {
     margin-right: 8px;
-    color: #999;
+    color: #aaa;
 }
 
 .titulo-centro {
     text-align: center;
     margin-top: 30px;
     margin-bottom: 15px;
+    color: #fff;
 }
 
-
 .opaco {
-  opacity: 0.4;
-  pointer-events: none;
-  user-select: none;
-  filter: grayscale(100%);
+    opacity: 0.4;
+    pointer-events: none;
+    user-select: none;
+    filter: grayscale(100%);
 }

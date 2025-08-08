@@ -16,7 +16,7 @@
     } else {
         dao.alterarTarefa(tarefa);
     }
-    response.sendRedirect("novaTarefa.jsp?id_tarefa=" + tarefa.getId_tarefa() + "&novoOuEditar=1");
+    response.sendRedirect("tarefaMasterDetail.jsp?id_tarefa=" + tarefa.getId_tarefa() + "&novoOuEditar=1");
     
     dao.fecharConexao();
 %>

@@ -42,16 +42,16 @@
         <meta charset="UTF-8">
         <title>Master-Detail de Tarefas</title>
         <% if (temaAtual == 1) { %>
-            <link rel="stylesheet" href="./css/novaTarefa_claro.css">
-            <link rel="stylesheet" href="./css/modal_claro.css">
+            <link rel="stylesheet" href="./css/tarefaMasterDetail-claro.css">
+            <link rel="stylesheet" href="./css/modal-claro.css">
          <% } %>
      
          <% if (temaAtual == 2) { %>
-            <link rel="stylesheet" href="./css/novaTarefa_escuro.css">
-            <link rel="stylesheet" href="./css/modal_escuro.css">    
+            <link rel="stylesheet" href="./css/tarefaMasterDetail-escuro.css">
+            <link rel="stylesheet" href="./css/modal-escuro.css">    
          <% } %>   
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-        
+
     </head>
 
     <body>
@@ -99,11 +99,11 @@
                         
                         <% if (novoOuEditar != null && novoOuEditar.equals(0)) { %>
                             <button type="submit" class="salvar">Salvar</button>
-                            <button type="button" class="fechar" onclick="link('novaTarefa.jsp?id_tarefa=<%= tarefa.getId_tarefa() %>&novoOuEditar=1')">Cancelar</button>
+                            <button type="button" class="fechar" onclick="link('tarefaMasterDetail.jsp?id_tarefa=<%= tarefa.getId_tarefa() %>&novoOuEditar=1')">Cancelar</button>
                         <% } %>     
                         
                         <% if (novoOuEditar != null && novoOuEditar.equals(1)) { %>
-                            <button id="btn-editar" type="reset" class="editar"  onclick="link('novaTarefa.jsp?id_tarefa=<%= tarefa.getId_tarefa() %>&novoOuEditar=0')">Editar</button>
+                            <button id="btn-editar" type="reset" class="editar"  onclick="link('tarefaMasterDetail.jsp?id_tarefa=<%= tarefa.getId_tarefa() %>&novoOuEditar=0')">Editar</button>
                         <% }  %>
                         
                         <% if (novoOuEditar != null && novoOuEditar.equals(2)) { %>
@@ -211,7 +211,7 @@
             </div>
         </div>
 
-        <script src="./js/novaTarefa.js"></script>
+        <script src="./js/tarefaMasterDetail.js"></script>
         <script src="./js/Utilidades.js"></script>
 
         <% if (novoOuEditar==0 || novoOuEditar==2) { %>

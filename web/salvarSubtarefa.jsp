@@ -13,7 +13,7 @@
 
     if (subtarefa.getId_detalhe() == 0) {
         dao.adicionarSubtarefa(subtarefa);
-        response.sendRedirect("novaTarefa.jsp?id_tarefa=" + subtarefa.getFk_tarefa()+"&novoOuEditar=1");
+        response.sendRedirect("tarefaMasterDetail.jsp?id_tarefa=" + subtarefa.getFk_tarefa()+"&novoOuEditar=1");
     } 
 
     dao.fecharConexao();

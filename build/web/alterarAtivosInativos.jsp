@@ -14,5 +14,5 @@
 
     dao.fecharConexao();
 
-    response.sendRedirect("novaTarefa.jsp?id_tarefa=" + id_tarefa +"&novoOuEditar=1");
+    response.sendRedirect("tarefaMasterDetail.jsp?id_tarefa=" + id_tarefa +"&novoOuEditar=1");
 %>

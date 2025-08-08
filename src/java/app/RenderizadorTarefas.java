@@ -37,7 +37,7 @@ public class RenderizadorTarefas {
                 aux.append("  <div class='task-content'>");
 
                 aux.append("    <div class='task-title ").append(AtivoInativo).append("'>");
-                aux.append("      <a href='novaTarefa.jsp?id_tarefa=").append(tarefa.getId_tarefa())
+                aux.append("      <a href='tarefaMasterDetail.jsp?id_tarefa=").append(tarefa.getId_tarefa())
                    .append("&novoOuEditar=1' class='link-sem-estilo'>")
                    .append(Utilidades.arrumarCaractereHtmlJs(tarefa.getTitulo()))
                    .append("</a>");

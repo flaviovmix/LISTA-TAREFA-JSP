@@ -9,11 +9,15 @@ import java.util.List;
 
 public class TarefaDAO {
 
-    private ConexaoPostGres dataBase;
+    private ConexaoPostGres conexaoBanco;
 
+    // Construtor da classe TarefaDAO.
+    // Ao criar um objeto TarefaDAO, é instanciada uma conexão com o banco de dados PostgreSQL,
+    // usando o nome "lista_tarefas" como identificador (por exemplo, nome do banco).
+    // Em seguida, o método abrirConexao() é chamado para estabelecer a conexão imediatamente.
     public TarefaDAO() {
-        dataBase = new ConexaoPostGres("lista_tarefas");
-        dataBase.abrirConexao();
+        conexaoBanco = new ConexaoPostGres("lista_tarefas");
+        conexaoBanco.abrirConexao();
     }
     
     // Método público que retorna uma lista de tarefas ativas.
@@ -29,10 +33,6 @@ public class TarefaDAO {
     public List<TarefaBean> listaTarefasInativas() {
         return listarTarefasAtivoEInativas(false);
     }
-
-    
-    
-    
     
     // Método privado que retorna uma lista de tarefas do tipo List<TarefaBean>.
     // Recebe um argumento do tipo boolean chamado ativoOuInativo, que determina
@@ -72,12 +72,43 @@ public class TarefaDAO {
         sql.append("FROM tarefas WHERE ativo = ?;");
 
 
-        try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql.toString())) {
+        // Bloco try-with-resources que garante o fechamento automático do PreparedStatement ao final da execução,
+        // mesmo que ocorra uma exceção.  
+        // PreparedStatement é uma interface da API JDBC usada para enviar comandos SQL ao banco de dados
+        // de forma pré-compilada, permitindo definir parâmetros e ajudando a evitar ataques de SQL Injection.
+        // O método conexaoBanco.getConexao() retorna a conexão ativa com o banco de dados.
+        // O método prepareStatement(sql.toString()) cria um PreparedStatement a partir da instrução SQL 
+        // construída no StringBuilder (convertida para String com .toString()).
+        try (PreparedStatement ps = conexaoBanco.getConexao().prepareStatement(sql.toString())) {
+
+
+            // Define o valor do primeiro parâmetro (?) da instrução SQL como um booleano.
             ps.setBoolean(1, ativoOuInativo);
 
+            
+            // Bloco try-with-resources que executa a consulta SQL preparada anteriormente (ps.executeQuery())
+            // e armazena o resultado no objeto ResultSet "rs".
+            // ResultSet é uma interface que representa a tabela de resultados retornada pelo banco de dados,
+            // permitindo percorrer linha por linha e acessar os valores de cada coluna.
+            // O try-with-resources garante que o ResultSet seja fechado automaticamente após o uso,
+            // evitando vazamento de recursos.
             try (ResultSet rs = ps.executeQuery()) {
+                
+                
+                // Loop que avança o cursor do ResultSet para a próxima linha de resultado.
+                // O método next() retorna true se houver mais uma linha para ler, e false quando acabar.
+                // Dentro do bloco while, cada chamada a rs.getXXX() acessa o valor das colunas da linha atual.
                 while (rs.next()) {
+                    
+                    // Cria uma nova instância da classe TarefaBean.
+                    // "tarefa" será um objeto que representará uma linha da tabela "tarefas",
+                    // permitindo armazenar os dados obtidos do ResultSet em atributos Java.
                     TarefaBean tarefa = new TarefaBean();
+                    
+                    // Define no objeto "tarefa" o valor do campo vindo do banco de dados.
+                    // rs.getInt obtém o valor do campo atual do ResultSet.
+                    // O método setId_tarefa(...) armazena esse valor no atributo correspondente dentro do TarefaBean.
+                    // Isso para todos os campos
                     tarefa.setId_tarefa(rs.getInt("id_tarefa"));
                     tarefa.setTitulo(rs.getString("titulo"));
                     tarefa.setDescricao(rs.getString("descricao"));
@@ -87,22 +118,27 @@ public class TarefaDAO {
                     tarefa.setData_criacao(rs.getDate("data_criacao"));
                     tarefa.setData_conclusao(rs.getDate("data_conclusao"));
                     tarefa.setQuantidade_de_subtarefas(rs.getInt("quantidade_de_subtarefas"));
+                    
+                    // Em cada iteração do loop, adiciona o objeto "tarefa" (preenchido com os dados da linha atual do ResultSet)
+                    // à lista que conterá todas as tarefas retornadas pela consulta.
                     lista.add(tarefa);
+
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException erro) {
+            erro.printStackTrace();
         }
 
+        // Retorna a lista contendo todas as tarefas obtidas na consulta ao banco de dados.
         return lista;
+
     }
 
     public void selectUnico(TarefaBean tarefa) {
         String sql = "SELECT * FROM tarefas WHERE id_tarefa = ?";
 
-        try (
-            PreparedStatement ps = dataBase.getConexao().prepareStatement(sql)
-        ) {
+        try (PreparedStatement ps = conexaoBanco.getConexao().prepareStatement(sql)) {
+            
             ps.setInt(1, tarefa.getId_tarefa()); // Evita SQL Injection
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -123,42 +159,27 @@ public class TarefaDAO {
     }
 
     public void adicionarTarefa(TarefaBean tarefa) {
-        String sql = "INSERT INTO tarefas "
-                + "(titulo, descricao, status, prioridade, responsavel) VALUES "
-                + "(     ?,         ?,      ?,          ?,           ?)";
+    String sql = "INSERT INTO tarefas (titulo, descricao, status, prioridade, responsavel) " +
+                 "VALUES (?, ?, ?, ?, ?) RETURNING id_tarefa;";
 
-        try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement ps = conexaoBanco.getConexao().prepareStatement(sql);
+             ) {
             ps.setString(1, tarefa.getTitulo());
             ps.setString(2, tarefa.getDescricao());
             ps.setString(3, tarefa.getStatus());
             ps.setString(4, tarefa.getPrioridade());
             ps.setString(5, tarefa.getResponsavel());
 
-            ps.executeUpdate();
-
-            maxId(tarefa);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void maxId(TarefaBean tarefa) {
-        
-        String sql = "SELECT max(id_tarefa) as id_tarefa FROM tarefas;";
-        
-        try (
-                PreparedStatement ps = dataBase.getConexao().prepareStatement(sql);
-                ResultSet rs = ps.executeQuery();                
-            ) {
-            
-            if (rs.next()) {
-                tarefa.setId_tarefa(rs.getInt("id_tarefa"));
+            try (ResultSet rs = ps.executeQuery()) { // <- usa executeQuery por causa do RETURNING
+                if (rs.next()) {
+                    tarefa.setId_tarefa(rs.getInt("id_tarefa"));
+                }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     public void alterarTarefa(TarefaBean tarefa) {
         String sql = "UPDATE tarefas SET "
@@ -169,7 +190,7 @@ public class TarefaDAO {
                 + "responsavel = ? "
                 + "WHERE id_tarefa = ?";
 
-        try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement ps = conexaoBanco .getConexao().prepareStatement(sql)) {
             ps.setString(1, tarefa.getTitulo());
             ps.setString(2, tarefa.getDescricao());
             ps.setString(3, tarefa.getStatus());
@@ -187,7 +208,7 @@ public class TarefaDAO {
 
         String sql = ("DELETE FROM tarefas WHERE id_tarefa = ?");
         
-        try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql);) {
+        try (PreparedStatement ps = conexaoBanco .getConexao().prepareStatement(sql);) {
             
             ps.setInt(1, id_tarefa);
             
@@ -204,7 +225,7 @@ public class TarefaDAO {
         
         TarefaBean tarefa = null;
         try (
-                PreparedStatement ps = dataBase.getConexao().prepareStatement(sql);
+                PreparedStatement ps = conexaoBanco .getConexao().prepareStatement(sql);
                 ResultSet rs = ps.executeQuery();
             ) {
             
@@ -233,7 +254,7 @@ public class TarefaDAO {
         try {
             String sql = "UPDATE tarefas SET ativo = ? WHERE id_tarefa = ?";
             
-            PreparedStatement ps = dataBase.getConexao().prepareStatement(sql);
+            PreparedStatement ps = conexaoBanco .getConexao().prepareStatement(sql);
 
             ps.setBoolean(1, ativo);
             ps.setInt(2, id_tarefa);
@@ -247,7 +268,7 @@ public class TarefaDAO {
     
     
     public void fecharConexao() {
-        dataBase.fecharConexao();
+        conexaoBanco .fecharConexao();
     }
 
 }

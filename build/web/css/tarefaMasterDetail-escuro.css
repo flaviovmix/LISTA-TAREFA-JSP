@@ -105,6 +105,24 @@ button {
     width: 100px; 
 }
 
+.btn-add {
+    position: absolute;
+    top: 40px;
+    background-color: #2ecc71;
+    margin-left: 110px;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    font-size: 13px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-add:hover {
+    background-color: #27ae60;
+}
+
 .detail {
     max-height: 100vh;
     overflow-y: auto;

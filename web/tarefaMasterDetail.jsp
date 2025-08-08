@@ -59,7 +59,11 @@
             
             <!-- MASTER -->
             <div class="master">
-                <button type="reset" class="voltar"  onclick="window.location.href = 'index.jsp'">Voltar</button>
+                
+                <% if (novoOuEditar != null && novoOuEditar.equals(1)) { %>
+                    <button type="reset" class="voltar"  onclick="window.location.href = 'index.jsp'">Voltar</button>
+                    <button class="btn-add" onclick="window.location.href='tarefaMasterDetail.jsp?novoOuEditar=2'">Nova Tarefa</button>
+                <% } %>   
                 
                 <h2>Tarefa</h2>
 

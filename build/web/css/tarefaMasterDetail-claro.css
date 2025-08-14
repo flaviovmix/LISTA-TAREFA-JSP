@@ -149,6 +149,7 @@ input[type="checkbox"]:checked {
     position: relative;
     transition: background-color 0.2s;
     box-shadow: inset 0 0 0 4px white; /* cria o centro branco */
+}    
 
 ul {
   list-style: none;

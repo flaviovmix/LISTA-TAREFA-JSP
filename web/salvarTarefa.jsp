@@ -1,3 +1,6 @@
+<%@page import="app.Utilidades"%>
+<%@ page import="static app.Utilidades.stringToDate" %>
+<%@page import="java.sql.Date"%>
 <%@page import="app.tarefas.TarefaDAO"%>
 <%@page import="app.tarefas.TarefaBean"%>
 <%
@@ -10,6 +13,9 @@
     tarefa.setDescricao(request.getParameter("descricao"));
     tarefa.setStatus(request.getParameter("status"));
     tarefa.setPrioridade(request.getParameter("prioridade"));
+    tarefa.setData_conclusao(stringToDate(request.getParameter("data_conclusao"), "yyyy-MM-dd"));
+
+
     
     if (tarefa.getId_tarefa()==0){
         dao.adicionarTarefa(tarefa);

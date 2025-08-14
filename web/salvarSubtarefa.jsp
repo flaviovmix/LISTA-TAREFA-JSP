@@ -1,3 +1,4 @@
+<%@ page import="static app.Utilidades.stringToDate" %>
 <%@page import="app.subtarefa.SubtarefaDAO"%>
 <%@page import="app.subtarefa.SubtarefaBean"%>
 <%@page import="app.ConexaoPostGres"%>
@@ -8,7 +9,7 @@
     SubtarefaDAO dao = new SubtarefaDAO();
 
     subtarefa.setDescricao(request.getParameter("descricao"));
-    subtarefa.setData_conclusao(request.getParameter("data_conclusao"));
+    subtarefa.setData_conclusao(stringToDate(request.getParameter("data_conclusao"), "yyyy-MM-dd"));
     subtarefa.setFk_tarefa(Integer.parseInt(request.getParameter("fk_tarefa")));
 
     if (subtarefa.getId_detalhe() == 0) {

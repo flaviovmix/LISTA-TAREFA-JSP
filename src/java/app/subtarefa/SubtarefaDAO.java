@@ -66,7 +66,7 @@ public class SubtarefaDAO {
                     subtarefa.setId_detalhe(rs.getInt("id_detalhe"));
                     subtarefa.setFk_tarefa(rs.getInt("fk_tarefa"));
                     subtarefa.setDescricao(rs.getString("descricao"));
-                    subtarefa.setData_conclusao(rs.getString("data_conclusao"));
+                    subtarefa.setData_conclusao(rs.getDate("data_conclusao"));
                     subtarefa.setAtivo(rs.getBoolean("ativo"));
                     lista.add(subtarefa);
                 }

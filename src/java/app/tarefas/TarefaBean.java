@@ -81,8 +81,8 @@ public class TarefaBean {
     }
     public void setData_conclusao(Date data_conclusao) {
         this.data_conclusao = data_conclusao;
-    } 
-    
+    }
+   
     // Retorna a quantidade de subtarefas associadas a esta tarefa.
     public Integer getQuantidade_de_subtarefas() {
         return quantidade_de_subtarefas;

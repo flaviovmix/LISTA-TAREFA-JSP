@@ -88,15 +88,15 @@
                                 <option value="alta" <%= "alta".equals(tarefa.getPrioridade()) ? "selected" : "" %>>Alta</option>
                             </select>
 
-
                             <select name="status" id="status">
-                                <option value="pendente"><%= Utilidades.nullTrim(tarefa.getStatus()) %></option>
-                                <option value="feito">Feito</option>
+                                <option value="pendente" <%= "pendente".equals(tarefa.getStatus()) ? "selected" : "" %>>Pendente</option>
+                                <option value="feito" <%= "feito".equals(tarefa.getStatus()) ? "selected" : "" %>>Feito</option>
                             </select>
+
                         </div>
 
                         <label for="data">Data prevista para conclusão</label>
-                        <input type="date" name="data" id="data" value="<%= Utilidades.nullTrim(tarefa.getData_conclusao()) %>">
+                        <input type="date" name="data_conclusao" id="data_conclusao" value="<%= Utilidades.nullTrim(tarefa.getData_conclusao()) %>">
                     </div>
                     
                     <div class="botoes">
@@ -121,7 +121,7 @@
 
                 <hr>
                 
-                    <h2>Subtarefa</h2>
+                    <h2>Detalhes da Tarefa</h2>
                     <form id="form-subtarefa" class="form" action="salvarSubtarefa.jsp" method="post">
                         <div class=" <% if (novoOuEditar==0 || novoOuEditar==2) { %> opaco <% } %>">
                         <input type="hidden" name="fk_tarefa" id="fk_tarefa" value="<%= tarefa.getId_tarefa() %>">
@@ -129,11 +129,6 @@
                         <div class="campo">
                             <textarea name="descricao" id="descricaoDetail"
                             placeholder="Digite a descrição..." required></textarea>
-                        </div>
-
-                        <div class="campo">
-                            <label for="dataDetail">Data prevista para conclusão</label>
-                            <input type="date" name="data_conclusao" id="dataDetail" >
                         </div>
 
                         <button type="submit" class="salvar">Adicionar subtarefa</button>
@@ -145,45 +140,14 @@
             <!-- DETAIL -->
             <div id="area-detail" class="detail <% if (novoOuEditar==0 || novoOuEditar==2) { %> opaco <% } %>">
 
-                <h2>Subtarefas Inativas</h2>
+                <h3>Lista de detalhes</h3>
                 <ul id="lista-tarefas">
                     <% for (SubtarefaBean sub : ativas) { %>
                     <li>
                         <div>
-                        <form action="alterarAtivosInativos.jsp" method="post" style="display:inline;">
-                            <input type="hidden" name="estado_atual" value="true">
-                            <input type="hidden" name="id_detalhe" value="<%= sub.getId_detalhe() %>">
-                            <input type="hidden" name="id_tarefa" value="<%= sub.getFk_tarefa() %>">
-                            <input type="checkbox" name="ativo" onchange="this.form.submit()">
-                            <span class="descricao-sub-tarefa"> <%= sub.getDescricao() %> </span>
-                        </form>
-                        <br>
-                        <small>Data: <%= sub.getData_conclusao() != null ? sub.getData_conclusao() : "Sem data" %></small>
-                        </div>
-                        <a class="icone-lixeira" href="#"
-                           onclick="openModalDeletar(<%= sub.getId_detalhe() %>, <%= sub.getFk_tarefa() %>, '<%= sub.getDescricao()%>'); return false;">
-                           <i class="fas fa-trash"></i>
-                        </a>
-                    </li>
-                    <% } %>
-                </ul>
-
-                <hr>
-
-                <h2>Subtarefas Concluídas</h2>
-                <ul id="lista-tarefas">
-                    <% for (SubtarefaBean sub : inativas) { %>
-                    <li>
-                        <div>
-                        <form action="alterarAtivosInativos.jsp" method="post" style="display:inline;">
-                            <input type="hidden" name="estado_atual" value="false">
-                            <input type="hidden" name="id_detalhe" value="<%= sub.getId_detalhe() %>">
-                            <input type="hidden" name="id_tarefa" value="<%= sub.getFk_tarefa() %>">
-                            <input type="checkbox" name="ativo" onchange="this.form.submit()" checked>
-                            <span class="descricao-sub-tarefa concluida"><%= sub.getDescricao() %></span>
-                        </form>
-                        <br>
-                        <small class="data-concluida">Data: <%= sub.getData_conclusao() != null ? sub.getData_conclusao() : "Sem data" %></small>
+                        <small> <%= Utilidades.dateToString(sub.getData_conclusao(), "dd MMM - yyyy") %> </small><br>
+                        <!--<small> <%= tarefa.getData_criacao() %> </small><br>-->
+                        <small><%= sub.getDescricao() %></small>
                         </div>
                         <a class="icone-lixeira" href="#"
                            onclick="openModalDeletar(<%= sub.getId_detalhe() %>, <%= sub.getFk_tarefa() %>, '<%= sub.getDescricao()%>'); return false;">

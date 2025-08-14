@@ -1,10 +1,12 @@
 package app.subtarefa;
 
+import java.sql.Date;
+
 public class SubtarefaBean {
     private int id_detalhe;
     private int fk_tarefa;
     private String descricao;
-    private String data_conclusao;
+    private Date data_conclusao;
     private boolean ativo;
 
     public int getId_detalhe() {
@@ -28,12 +30,14 @@ public class SubtarefaBean {
         this.descricao = descricao;
     }
 
-    public String getData_conclusao() {
+    public Date getData_conclusao() {
         return data_conclusao;
     }
-    public void setData_conclusao(String data_conclusao) {
+    public void setData_conclusao(Date data_conclusao) {
         this.data_conclusao = data_conclusao;
     }
+
+    
     
     public boolean isAtivo() {
         return ativo;

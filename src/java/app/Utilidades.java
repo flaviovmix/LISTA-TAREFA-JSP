@@ -1,6 +1,8 @@
 package app;
 
-import java.sql.Date;
+import java.util.Date;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 
 public class Utilidades {
     public static String nullTrim(Integer valor){
@@ -37,5 +39,31 @@ public class Utilidades {
             .replace("\"", "&quot;")     // " ? &quot;
             .replace("'", "\\'");        // ' ? \'
     }
+
+    public static String dateToString(Date data, String pattern) {
+        String result = "";
+        if (data != null) {
+            SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+            result = formatter.format(data);
+        }
+        return result;
+    }
+    
+    public static java.sql.Date stringToDate(String data, String pattern) {
+        data = nullTrim(data);
+        if (data.isEmpty()) {
+            return null;
+        } else {
+            try {
+                SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+                formatter.setLenient(false);
+                java.util.Date utilDate = formatter.parse(data);
+                return new java.sql.Date(utilDate.getTime()); // converte para java.sql.Date
+            } catch (Exception e) {
+                return null;
+            }
+        }
+    }
+
     
 }

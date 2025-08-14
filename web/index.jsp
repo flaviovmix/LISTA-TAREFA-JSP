@@ -26,8 +26,16 @@
     if (request.getParameterMap().containsKey("configuracao")) {
         configuracao = Integer.parseInt(request.getParameter("configuracao"));
     }
+    
+    Integer ativa = 0;
+    if (request.getParameterMap().containsKey("ativa")) {
+        ativa = Integer.parseInt(request.getParameter("ativa"));
+    }
 
-    TarefaBean tarafa = new TarefaBean();
+    // Não foi necessário dar um new TarefaBean() aqui porque os objetos são criados 
+    // dentro dos métodos listaTarefasAtivas() e listaTarefasInativas() do TarefaDAO.
+    // Esses métodos instanciam TarefaBean internamente, preenchem seus dados e retornam 
+    // uma lista já pronta com todos os objetos.
     TarefaDAO tarefaDAO = new TarefaDAO();
     List<TarefaBean> tarefasAtivas = tarefaDAO.listaTarefasAtivas();
     List<TarefaBean> tarefasInativas = tarefaDAO.listaTarefasInativas();
@@ -37,18 +45,16 @@
     <head>
         <meta charset="UTF-8" />
         <title>To-Do List</title>
-        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link rel="stylesheet" href="./css/guias.css">
         <% if (temaAtual == 1) { %>
             <link rel="stylesheet" href="./css/index-claro.css">
             <link rel="stylesheet" href="./css/modal-claro.css">
-        <% } %>
-        
-        <% if (temaAtual == 2) { %>
+        <% } else { %>
             <link rel="stylesheet" href="./css/index-escuro.css">
             <link rel="stylesheet" href="./css/modal-escuro.css">
         <% } %>        
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+        
     </head>
     
     <body>
@@ -62,16 +68,44 @@
             </div>
         </header>
 
+        
         <%  
             if ((tarefasAtivas == null || tarefasAtivas.isEmpty()) && (tarefasInativas == null || tarefasInativas.isEmpty())) { %> 
                 <div class="container-imagem">
                     <img src="./img/personagem.png">
                 </div>
-            <%} else {
-                RenderizadorTarefas.renderizar(tarefasAtivas, true, out);
-                RenderizadorTarefas.renderizar(tarefasInativas, false, out);
-            } 
-        %>
+            <%} else { %>
+                <div class='task-list '>
+                    <div class="tabs">
+                       <!-- Radios controlam as abas -->
+                       <input type="radio" name="tabs" id="tab-ativas" 
+                            <% if (ativa != null && ativa.equals(0)) { %>
+                                  checked       
+                            <% } %>                              
+                       >
+                       <label for="tab-ativas">Ativas</label>
+
+                       <input type="radio" name="tabs" id="tab-inativas"
+                            <% if (ativa != null && ativa.equals(1)) { %>
+                                  checked       
+                            <% } %>
+                       >
+                       <label for="tab-inativas">Concluídas</label>
+
+                       <div class="tab-underline"></div>
+
+                       <!-- Conteúdo da Aba: ATIVAS -->
+                       <div class="tab-content content-ativas">
+                           <% RenderizadorTarefas.renderizar(tarefasAtivas, true, out);%>
+                       </div>
+
+                       <!-- Conteúdo da Aba: INATIVAS -->
+                       <div class="tab-content content-inativas">
+                           <% RenderizadorTarefas.renderizar(tarefasInativas, false, out); %>
+                       </div>
+                   </div>
+                </div>
+           <% } %>
 
         
         <%= RenderizarModalDeletarTarefa.renderizar() %>

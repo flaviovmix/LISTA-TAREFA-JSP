@@ -41,16 +41,27 @@
     <head>
         <meta charset="UTF-8">
         <title>Master-Detail de Tarefas</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link rel="stylesheet" href="./css/radio.css">
+        
         <% if (temaAtual == 1) { %>
             <link rel="stylesheet" href="./css/tarefaMasterDetail-claro.css">
             <link rel="stylesheet" href="./css/modal-claro.css">
-         <% } %>
-     
-         <% if (temaAtual == 2) { %>
+        <% } else if (temaAtual == 2) { %>
             <link rel="stylesheet" href="./css/tarefaMasterDetail-escuro.css">
-            <link rel="stylesheet" href="./css/modal-escuro.css">    
-         <% } %>   
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+            <link rel="stylesheet" href="./css/modal-escuro.css">   
+        <% } else { %>
+            <script>
+                const temaEscuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (temaEscuro) {
+                    document.write('<link rel="stylesheet" href="./css/tarefaMasterDetail-escuro.css">');
+                    document.write('<link rel="stylesheet" href="./css/modal-claro.css">');
+                } else {
+                    document.write('<link rel="stylesheet" href="./css/tarefaMasterDetail-claro.css">');
+                    document.write('<link rel="stylesheet" href="./css/modal-claro.css">');
+                }
+            </script>
+        <% } %>
 
     </head>
 
@@ -81,21 +92,39 @@
 
                         <textarea  name="descricao" id="descricao" placeholder="Descrição da tarefa"><%= Utilidades.nullTrim(tarefa.getDescricao()) %></textarea>
 
-                        <div class="linha">
-                            <select name="prioridade" id="prioridade">
-                                <option value="baixa" <%= "baixa".equals(tarefa.getPrioridade()) ? "selected" : "" %>>Baixa</option>
-                                <option value="media" <%= "media".equals(tarefa.getPrioridade()) ? "selected" : "" %>>Média</option>
-                                <option value="alta" <%= "alta".equals(tarefa.getPrioridade()) ? "selected" : "" %>>Alta</option>
-                            </select>
+                       
+                            
+                        <div class="area-radio">
+                           
 
-                            <select name="status" id="status">
-                                <option value="pendente" <%= "pendente".equals(tarefa.getStatus()) ? "selected" : "" %>>Pendente</option>
-                                <option value="feito" <%= "feito".equals(tarefa.getStatus()) ? "selected" : "" %>>Feito</option>
-                            </select>
+                            <div class="radio-group">
+                                <span class="texto-prioridade">Prioridade</span>
+                                <label class="radio radio--baixa">
+                                  <input type="radio" name="prioridade" value="baixa" required
+                                    <%= "baixa".equals(tarefa.getPrioridade()) ? "checked" : "" %> />
+                                  <span class="dot"></span>
+                                  <span>Baixa</span>
+                                </label>
 
+                                <label class="radio radio--media">
+                                  <input type="radio" name="prioridade" value="media"
+                                    <%= "media".equals(tarefa.getPrioridade()) ? "checked" : "" %> />
+                                  <span class="dot"></span>
+                                  <span>Média</span>
+                                </label>
+
+                                <label class="radio radio--alta">
+                                  <input type="radio" name="prioridade" value="alta"
+                                    <%= "alta".equals(tarefa.getPrioridade()) ? "checked" : "" %> />
+                                  <span class="dot"></span>
+                                  <span>Alta</span>
+                                </label>
+                            </div>
                         </div>
+                                  
+                        
 
-                        <label for="data">Data prevista para conclusão</label>
+                        <label for="data" class="label-data-prevista">Data prevista para conclusão</label>
                         <input type="date" name="data_conclusao" id="data_conclusao" value="<%= Utilidades.nullTrim(tarefa.getData_conclusao()) %>">
                     </div>
                     

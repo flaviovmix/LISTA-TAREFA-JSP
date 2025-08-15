@@ -47,18 +47,30 @@
         <title>To-Do List</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
         <link rel="stylesheet" href="./css/guias.css">
+        
         <% if (temaAtual == 1) { %>
             <link rel="stylesheet" href="./css/index-claro.css">
             <link rel="stylesheet" href="./css/modal-claro.css">
-        <% } else { %>
+        <% } else if (temaAtual == 2) { %>
             <link rel="stylesheet" href="./css/index-escuro.css">
             <link rel="stylesheet" href="./css/modal-escuro.css">
-        <% } %>        
+        <% } else { %>
+            <script>
+                const temaEscuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (temaEscuro) {
+                    document.write('<link rel="stylesheet" href="./css/index-escuro.css">');
+                    document.write('<link rel="stylesheet" href="./css/modal-escuro.css">');
+                } else {
+                    document.write('<link rel="stylesheet" href="./css/index-claro.css">');
+                    document.write('<link rel="stylesheet" href="./css/modal-claro.css">');
+                }
+            </script>
+        <% } %>
+    
         
     </head>
     
     <body>
-
         <header>
             <div class="container">
                 <button class="btn-add" onclick="window.location.href='tarefaMasterDetail.jsp?novoOuEditar=2'">Nova Tarefa</button>
@@ -67,10 +79,13 @@
                 </a>
             </div>
         </header>
-
         
         <%  
-            if ((tarefasAtivas == null || tarefasAtivas.isEmpty()) && (tarefasInativas == null || tarefasInativas.isEmpty())) { %> 
+            if (
+                    (tarefasAtivas == null || tarefasAtivas.isEmpty()) && 
+                    (tarefasInativas == null || tarefasInativas.isEmpty())
+               ) 
+            { %> 
                 <div class="container-imagem">
                     <img src="./img/personagem.png">
                 </div>
@@ -83,8 +98,8 @@
                                   checked       
                             <% } %>                              
                        >
-                       <label for="tab-ativas">Ativas</label>
-
+                       <label for="tab-ativas">Ativas</label>                       
+                       
                        <input type="radio" name="tabs" id="tab-inativas"
                             <% if (ativa != null && ativa.equals(1)) { %>
                                   checked       
@@ -92,13 +107,10 @@
                        >
                        <label for="tab-inativas">Concluídas</label>
 
-                       <div class="tab-underline"></div>
-
                        <!-- Conteúdo da Aba: ATIVAS -->
                        <div class="tab-content content-ativas">
                            <% RenderizadorTarefas.renderizar(tarefasAtivas, true, out);%>
                        </div>
-
                        <!-- Conteúdo da Aba: INATIVAS -->
                        <div class="tab-content content-inativas">
                            <% RenderizadorTarefas.renderizar(tarefasInativas, false, out); %>
@@ -118,7 +130,7 @@
          <% if (configuracao != null && configuracao.equals(1)) { %>
             <script>openModalConfig();</script>
          <% } %>
-     
+         
     </body>
     
     <% tarefaDAO.fecharConexao(); %>

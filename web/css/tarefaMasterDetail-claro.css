@@ -1,5 +1,5 @@
 body {
-  background-color: #f5f5f5;
+  background-color: #f9f9f9;
   color: #222;
   font-family: Arial, sans-serif;
   padding: 20px;
@@ -11,7 +11,7 @@ body {
   padding: 20px;
   display: flex;
   gap: 20px;
-  align-items: flex-start; /* evita o alongamento da .master */
+  align-items: flex-start; /* evita alongamento da .master */
 }
 
 input,
@@ -19,31 +19,33 @@ textarea,
 select {
   width: 100%;
   margin-bottom: 15px;
-  padding: 12px 14px;
+  padding: 12px 14px; /* espaçamento interno */
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 5px;
   color: #222;
-  box-sizing: border-box;
+  box-sizing: border-box; /* garante que o padding não estoure o tamanho */
 }
 
 .master {
   flex: 1;
-  background: #ffffff;
+  background: #fff;
   padding: 20px;
   border-radius: 8px;
-  min-height: 100%;
+  min-height: 100%; /* ou um valor como 500px */
 }
 
 .master, .detail {
-  background: #ffffff;
+  background: #fff;
   padding: 20px;
   border-radius: 8px;
   width: 50%;
+  border: 1px solid #ddd;
 }
 
 h2 {
   margin-bottom: 15px;
+  color: #333;
 }
 
 textarea {
@@ -95,6 +97,24 @@ button {
   width: 100px; 
 }
 
+.btn-add {
+  position: absolute;
+  top: 40px;
+  background-color: #2ecc71;
+  margin-left: 110px;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  font-size: 13px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-add:hover {
+  background-color: #27ae60;
+}
+
 .detail {
   max-height: 100vh;
   overflow-y: auto;
@@ -111,45 +131,36 @@ button {
 }
 
 #lista-tarefas li {
-  background: #fafafa;
+  background: #fff;
   padding: 10px;
   margin-bottom: 10px;
-  border-left: 5px solid #ccc;
+  border-left: 5px solid #aaa;
   border-radius: 4px;
+  border: 1px solid #ddd;
 }
 
 #lista-tarefas li.baixa { border-color: #27ae60; }
 #lista-tarefas li.media { border-color: #f39c12; }
 #lista-tarefas li.alta  { border-color: #e74c3c; }
 
-/* Checkboxes — mantidos iguais */
 input[type="checkbox"] {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 16px;
-    height: 16px;
-    border: 2px solid #28a745;
-    border-radius: 50%; 
-    margin-right: 10px;
-    margin-bottom: 8px;
-    cursor: pointer;
-    position: relative;
-    transition: background-color 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #28a745;
+  border-radius: 50%; 
+  margin-right: 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.2s;
 }
 
 input[type="checkbox"]:checked {
-    background-color: #28a745; /* verde */
-    border: 2px solid #28a745;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    margin-right: 10px;
-    margin-bottom: 8px;
-    cursor: pointer;
-    position: relative;
-    transition: background-color 0.2s;
-    box-shadow: inset 0 0 0 4px white; /* cria o centro branco */
-}    
+  background-color: #28a745;
+  border: 2px solid #28a745;
+}
 
 ul {
   list-style: none;
@@ -169,11 +180,12 @@ ul {
 
 hr {
   margin: 30px 0 20px 0;
+  border-color: #ddd;
 }
 
 input::placeholder,
 textarea::placeholder {
-  color: #555;
+  color: #777;
   opacity: 1;
 }
 
@@ -193,7 +205,7 @@ textarea::placeholder {
 }
 
 .icone-lixeira {
-  color: #555;
+  color: #666;
   text-decoration: none;
 }
 

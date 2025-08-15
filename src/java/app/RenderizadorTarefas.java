@@ -38,11 +38,15 @@ public class RenderizadorTarefas {
                     aux.append("    </div>");
 
                     aux.append("    <div class='task-meta ").append(AtivoInativo).append("'>");
-                    aux.append("      <span><i class='fas fa-layer-group'></i> ")
-                       .append(         tarefa.getQuantidade_de_subtarefas()).append(" subtarefas</span>");
+                    aux.append("      <a href='tarefaMasterDetail.jsp?id_tarefa=").append(tarefa.getId_tarefa())
+                       .append("&novoOuEditar=1' class='link-sem-estilo'>")
+                       .append("      <span><i class='fas fa-layer-group'></i> ")
+                       .append(         tarefa.getQuantidade_de_subtarefas()).append(" subtarefas</span>")
+                       .append("</a>");
                     aux.append("      <span><i class='fas fa-calendar-day'></i> ")
                         .append(Utilidades.dateToString(tarefa.getData_criacao(), "dd MMM - yyyy"))
                        .append("      </span>");
+                    
                     aux.append("      <span><i class='fas fa-comments'></i> 0</span>");
                     aux.append("    </div>");
 

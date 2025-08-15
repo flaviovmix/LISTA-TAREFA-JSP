@@ -4,16 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/src/ListaTarefas/web/tarefaMasterDetail.jsp</file>
-            <file>file:/C:/src/ListaTarefas/web/salvarTarefa.jsp</file>
-            <file>file:/C:/src/ListaTarefas/src/java/app/subtarefa/SubtarefaBean.java</file>
-            <file>file:/C:/src/ListaTarefas/web/salvarSubtarefa.jsp</file>
+            <file>file:/C:/src/ListaTarefas/web/css/tarefaMasterDetail-claro.css</file>
             <file>file:/C:/src/ListaTarefas/web/index.jsp</file>
-            <file>file:/C:/src/ListaTarefas/src/java/app/tarefas/TarefaBean.java</file>
-            <file>file:/C:/src/ListaTarefas/src/java/app/tarefas/TarefaDAO.java</file>
+            <file>file:/C:/src/ListaTarefas/web/css/tarefaMasterDetail-escuro.css</file>
+            <file>file:/C:/src/ListaTarefas/web/alterarTarefaAtivosInativos.jsp</file>
             <file>file:/C:/src/ListaTarefas/src/java/app/RenderizadorTarefas.java</file>
-            <file>file:/C:/src/ListaTarefas/web/css/guias.css</file>
-            <file>file:/C:/src/ListaTarefas/src/java/app/subtarefa/SubtarefaDAO.java</file>
-            <file>file:/C:/src/ListaTarefas/src/java/app/Utilidades.java</file>
         </group>
     </open-files>
 </project-private>

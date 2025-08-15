@@ -14,8 +14,6 @@
     tarefa.setStatus(request.getParameter("status"));
     tarefa.setPrioridade(request.getParameter("prioridade"));
     tarefa.setData_conclusao(stringToDate(request.getParameter("data_conclusao"), "yyyy-MM-dd"));
-
-
     
     if (tarefa.getId_tarefa()==0){
         dao.adicionarTarefa(tarefa);

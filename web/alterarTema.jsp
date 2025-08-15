@@ -10,8 +10,5 @@
     dao.alterarTema(tema, id_configuracao);
     dao.fecharConexao();
     
-    out.println("id_configuracao: " + id_configuracao);
-    out.println("<br>tema " + tema);
-    
     response.sendRedirect("index.jsp?configuracao=1");
 %>

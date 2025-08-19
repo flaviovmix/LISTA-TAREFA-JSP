@@ -1,7 +1,6 @@
 package app;
 
 import java.util.Date;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 
 public class Utilidades {
@@ -33,11 +32,19 @@ public class Utilidades {
         if (texto == null) return "";
 
         return texto.trim()
-            .replace("&", "&amp;")       // & ? &amp;
-            .replace("<", "&lt;")        // < ? &lt;
-            .replace(">", "&gt;")        // > ? &gt;
-            .replace("\"", "&quot;")     // " ? &quot;
-            .replace("'", "\\'");        // ' ? \'
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        // Para HTML
+        //.replace("\"", "&quot;") // só use se o contexto for atributo HTML
+        // Para JS (escapa mantendo as aspas no código)
+        .replace("\"", "\\\"")
+        .replace("'", "\\'")
+        .replace("\\", "\\\\")
+        .replace("/", "\\/")
+        .replace("`", "&#96;")
+        .replace("\n", "\\n")
+        .replace("\r", "\\r");
     }
 
     public static String dateToString(Date data, String pattern) {

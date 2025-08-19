@@ -7,8 +7,8 @@ public class ConfiguracaoDAO {
     private ConexaoPostGres dataBase;
 
     public ConfiguracaoDAO() {
-        dataBase = new ConexaoPostGres("lista_tarefas");
-        dataBase.abrirConexao();
+        dataBase = new ConexaoPostGres();
+        dataBase.abrirConexaoJNDI();
     }
         
     public void alterarTema(int tema, int id_configuracao) {

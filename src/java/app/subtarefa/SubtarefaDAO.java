@@ -9,8 +9,8 @@ public class SubtarefaDAO {
     private ConexaoPostGres dataBase;
 
     public SubtarefaDAO() {
-        dataBase = new ConexaoPostGres("lista_tarefas");
-        dataBase.abrirConexao();
+        dataBase = new ConexaoPostGres();
+        dataBase.abrirConexaoJNDI();
     }
     
     public void adicionarSubtarefa(SubtarefaBean subtarefa) {

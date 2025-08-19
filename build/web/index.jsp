@@ -67,7 +67,75 @@
             </script>
         <% } %>
     
-        
+        <style>
+            
+ .alert {
+    position: fixed;
+    top: 5px;
+    left: 50%;
+    transform: translate(-50%, -20px);
+    width: 700px;
+    max-width: 90%;
+    padding: 12px 15px;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    z-index: 9999;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    opacity: 0;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    display: none;
+    
+    display: flex; /* alinhamento horizontal */
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .alert.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  .alert-blue {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+  }
+
+  .alert-text {
+    flex: 1;
+  }
+
+  .btn {
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .btn-cancel {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+  }
+
+  .btn-cancel:hover {
+    background-color: #f5c6cb;
+  }
+
+  .btn-confirm {
+    background-color: #c3e6cb;
+    border: 1px solid #b1dfbb;
+    color: #155724;
+  }
+
+  .btn-confirm:hover {
+    background-color: #b1dfbb;
+  }
+            
+</style>
     </head>
     
     <body>
@@ -80,6 +148,8 @@
             </div>
         </header>
         
+
+        
         <%  
             if (
                     (tarefasAtivas == null || tarefasAtivas.isEmpty()) && 
@@ -91,6 +161,16 @@
                 </div>
             <%} else { %>
                 <div class='task-list '>
+                    
+
+                    <div class="alert alert-blue" id="alertBox">
+                      <span class="alert-text">
+                        <strong>ARRUMAR A SALA</strong> será movida para concluída em <span id="countdown">9</span>.
+                      </span>
+                      <button class="btn btn-cancel" onclick="cancelarAcao()">Cancelar</button>
+                      <button class="btn btn-confirm" onclick="confirmarAcao()">Confirmar agora</button>
+                    </div>
+                    
                     <div class="tabs">
                        <!-- Radios controlam as abas -->
                        <input type="radio" name="tabs" id="tab-ativas" 
@@ -135,4 +215,48 @@
     
     <% tarefaDAO.fecharConexao(); %>
     
+<script>
+  let tempo = 9;
+  let timer;
+  const alertBox = document.getElementById('alertBox');
+  const countdownEl = document.getElementById('countdown');
+
+  function mostrarAlerta() {
+    tempo = 9;
+    countdownEl.textContent = tempo;
+    alertBox.style.display = 'flex';
+    setTimeout(() => {
+      alertBox.classList.add('show');
+    }, 100);
+
+    timer = setInterval(() => {
+      tempo--;
+      countdownEl.textContent = tempo;
+      if (tempo <= 0) {
+        clearInterval(timer);
+        confirmarAcao();
+      }
+    }, 1000);
+  }
+
+  function confirmarAcao() {
+    clearInterval(timer);
+    fecharAlerta();
+  }
+
+  function cancelarAcao() {
+    clearInterval(timer);
+    fecharAlerta();
+  }
+
+  function fecharAlerta() {
+    alertBox.classList.remove('show');
+    setTimeout(() => {
+      alertBox.style.display = 'none';
+    }, 800);
+  }
+
+  // Simulação
+  mostrarAlerta();
+</script>
 </html>

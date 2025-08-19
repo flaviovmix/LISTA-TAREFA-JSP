@@ -9,12 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TarefaDAO {
+    private ConexaoPostGres dataBase;
     
     private ConexaoPostGres conexaoBanco;
 
     public TarefaDAO() {
-        conexaoBanco = new ConexaoPostGres("lista_tarefas");
-        conexaoBanco.abrirConexao();
+        dataBase = new ConexaoPostGres();
+        dataBase.abrirConexaoJNDI();
     }
     
  
@@ -40,7 +41,7 @@ public class TarefaDAO {
 
         sql.append("FROM tarefas WHERE ativo = ?;");
 
-        try (PreparedStatement ps = conexaoBanco.getConexao().prepareStatement(sql.toString())) {
+        try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql.toString())) {
 
             ps.setBoolean(1, ativoOuInativo);
 
@@ -76,7 +77,7 @@ public class TarefaDAO {
     public void selectUnico(TarefaBean tarefa) {
         String sql = "SELECT * FROM tarefas WHERE id_tarefa = ?";
 
-        try (PreparedStatement ps = conexaoBanco.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql)) {
             
             ps.setInt(1, tarefa.getId_tarefa()); // Evita SQL Injection
 
@@ -105,7 +106,7 @@ public class TarefaDAO {
         String sql = "INSERT INTO tarefas (titulo, descricao, status, prioridade, responsavel, data_conclusao) " +
                      "VALUES (?, ?, ?, ?, ?, ?) RETURNING id_tarefa;";
 
-        try (PreparedStatement ps = conexaoBanco.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql)) {
 
             ps.setString(1, tarefa.getTitulo());
             ps.setString(2, tarefa.getDescricao());
@@ -140,7 +141,7 @@ public class TarefaDAO {
            .append("WHERE id_tarefa = ?");
 
 
-        try (PreparedStatement ps = conexaoBanco .getConexao().prepareStatement(sql.toString())) {
+        try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql.toString())) {
             ps.setString(1, tarefa.getTitulo());
             ps.setString(2, tarefa.getDescricao());
             ps.setString(3, tarefa.getStatus());
@@ -159,7 +160,7 @@ public class TarefaDAO {
 
         String sql = ("DELETE FROM tarefas WHERE id_tarefa = ?");
         
-        try (PreparedStatement ps = conexaoBanco .getConexao().prepareStatement(sql);) {
+        try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql);) {
             
             ps.setInt(1, id_tarefa);
             
@@ -176,7 +177,7 @@ public class TarefaDAO {
         
         TarefaBean tarefa = null;
         try (
-                PreparedStatement ps = conexaoBanco .getConexao().prepareStatement(sql);
+                PreparedStatement ps = dataBase.getConexao().prepareStatement(sql);
                 ResultSet rs = ps.executeQuery();
             ) {
             
@@ -204,7 +205,7 @@ public class TarefaDAO {
     public void alterarAtivoInativo(int id_tarefa, boolean ativo) {
         String sql = "UPDATE tarefas SET ativo = ? WHERE id_tarefa = ?";
         
-        try (PreparedStatement ps = conexaoBanco.getConexao().prepareStatement(sql)) {
+        try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql)) {
         
             ps.setBoolean(1, ativo);
             ps.setInt(2, id_tarefa);
@@ -218,7 +219,7 @@ public class TarefaDAO {
     
     
     public void fecharConexao() {
-        conexaoBanco .fecharConexao();
+        dataBase.fecharConexao();
     }
 
 }

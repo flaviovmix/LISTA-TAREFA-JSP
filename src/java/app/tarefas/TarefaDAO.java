@@ -19,13 +19,28 @@ public class TarefaDAO {
     }
     
  
-    public List<TarefaBean> listaTarefasAtivas() {
-        return listarTarefasAtivoEInativas(true);
-    }    
-    public List<TarefaBean> listaTarefasInativas() {
-        return listarTarefasAtivoEInativas(false);
+    public int contarTarefas(boolean ativoOuInativo) {
+        String sql = "SELECT COUNT(*) FROM tarefas WHERE ativo = ?";
+        try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql)) {
+            ps.setBoolean(1, ativoOuInativo);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
-    private List<TarefaBean> listarTarefasAtivoEInativas(boolean ativoOuInativo) {
+    
+    public List<TarefaBean> listaTarefasAtivas(Integer offset) {
+        return listarTarefasAtivoEInativas(true, offset);
+    }    
+    public List<TarefaBean> listaTarefasInativas(Integer offset) {
+        return listarTarefasAtivoEInativas(false, offset);
+    }
+    private List<TarefaBean> listarTarefasAtivoEInativas(boolean ativoOuInativo, Integer offset) {
     List<TarefaBean> lista = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder();
@@ -39,11 +54,16 @@ public class TarefaDAO {
 
             sql.append(") AS quantidade_de_subtarefas ");
 
-        sql.append("FROM tarefas WHERE ativo = ?;");
+        sql.append("FROM tarefas WHERE ativo = ? ");
+        
+        sql.append("ORDER BY id_tarefa DESC "); 
+        
+        sql.append("LIMIT 5 OFFSET ?");  
 
         try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql.toString())) {
 
             ps.setBoolean(1, ativoOuInativo);
+            ps.setInt(2, offset != null ? offset : 0);
 
             try (ResultSet rs = ps.executeQuery()) {
 

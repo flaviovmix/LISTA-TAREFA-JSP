@@ -31,7 +31,7 @@
     }
     
     List<SubtarefaBean> ativas = subtarefaDAO.listaTarefasAtivas(tarefa.getId_tarefa());
-    List<SubtarefaBean> inativas = subtarefaDAO.listaTarefasInativas(tarefa.getId_tarefa());
+  //List<SubtarefaBean> inativas = subtarefaDAO.listaTarefasInativas(tarefa.getId_tarefa());
 
 %>
 

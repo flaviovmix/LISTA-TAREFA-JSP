@@ -3,11 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/src/ListaTarefas/web/index.jsp</file>
-            <file>file:/C:/src/ListaTarefas/web/css/index-claro.css</file>
-            <file>file:/C:/src/ListaTarefas/src/java/app/RenderizarModalDeletarTarefa.java</file>
-            <file>file:/C:/src/ListaTarefas/src/java/app/tarefas/TarefaDAO.java</file>
-            <file>file:/C:/src/ListaTarefas/src/java/app/RenderizadorTarefas.java</file>
+            <file>file:/C:/src/ListaTarefas/web/alterarAtivosInativos.jsp</file>
+            <file>file:/C:/src/ListaTarefas/web/alterarTarefaAtivosInativos.jsp</file>
         </group>
     </open-files>
 </project-private>

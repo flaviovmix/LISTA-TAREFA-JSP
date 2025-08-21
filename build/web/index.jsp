@@ -48,6 +48,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
         <link rel="stylesheet" href="./css/guias.css">
         
+        
         <% if (temaAtual == 1) { %>
             <link rel="stylesheet" href="./css/index-claro.css">
             <link rel="stylesheet" href="./css/modal-claro.css">
@@ -66,76 +67,9 @@
                 }
             </script>
         <% } %>
+        <link rel="stylesheet" href="./css/alert.css">
+        <link rel="stylesheet" href="./css/paginacao.css">
     
-        <style>
-            
- .alert {
-    position: fixed;
-    top: 5px;
-    left: 50%;
-    transform: translate(-50%, -20px);
-    width: 700px;
-    max-width: 90%;
-    padding: 12px 15px;
-    border-radius: 5px;
-    font-family: Arial, sans-serif;
-    z-index: 9999;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    opacity: 0;
-    transition: opacity 0.8s ease, transform 0.8s ease;
-    display: none;
-    
-    display: flex; /* alinhamento horizontal */
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .alert.show {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-
-  .alert-blue {
-    background-color: #d1ecf1;
-    color: #0c5460;
-    border: 1px solid #bee5eb;
-  }
-
-  .alert-text {
-    flex: 1;
-  }
-
-  .btn {
-    padding: 6px 10px;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    white-space: nowrap;
-  }
-
-  .btn-cancel {
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
-    color: #721c24;
-  }
-
-  .btn-cancel:hover {
-    background-color: #f5c6cb;
-  }
-
-  .btn-confirm {
-    background-color: #c3e6cb;
-    border: 1px solid #b1dfbb;
-    color: #155724;
-  }
-
-  .btn-confirm:hover {
-    background-color: #b1dfbb;
-  }
-            
-</style>
     </head>
     
     <body>
@@ -190,12 +124,58 @@
                        <!-- Conteúdo da Aba: ATIVAS -->
                        <div class="tab-content content-ativas">
                            <% RenderizadorTarefas.renderizar(tarefasAtivas, true, out);%>
+                            <nav class="pagination" aria-label="Paginação">
+                                <ul class="pagination__list">
+
+                                  <li class="pagination__item">
+                                    <a class="pagination__link opaco" href="?pagina=2" aria-label="Próxima página">«</a>
+                                  </li>
+                                  <li class="pagination__item">
+                                    <a class="pagination__link opaco" href="?pagina=99" aria-label="Última página">‹</a>
+                                  </li>
+
+                                  <li class="pagination__item"><a class="pagination__link is-active" href="?pagina=2">1</a></li>
+                                  <li class="pagination__item"><a class="pagination__link" href="?pagina=2">2</a></li>
+                                  <li class="pagination__item"><a class="pagination__link" href="?pagina=3">3</a></li>
+
+                                  <li class="pagination__item">
+                                    <a class="pagination__link" href="?pagina=2" aria-label="Próxima página">›</a>
+                                  </li>
+                                  <li class="pagination__item">
+                                    <a class="pagination__link" href="?pagina=99" aria-label="Última página">»</a>
+                                  </li>
+                                </ul>
+                            </nav>
                        </div>
                        <!-- Conteúdo da Aba: INATIVAS -->
                        <div class="tab-content content-inativas">
                            <% RenderizadorTarefas.renderizar(tarefasInativas, false, out); %>
+                            <nav class="pagination" aria-label="Paginação">
+                                <ul class="pagination__list">
+
+                                  <li class="pagination__item">
+                                    <a class="pagination__link opaco" href="?pagina=2" aria-label="Próxima página">«</a>
+                                  </li>
+                                  <li class="pagination__item">
+                                    <a class="pagination__link opaco" href="?pagina=99" aria-label="Última página">‹</a>
+                                  </li>
+
+                                  <li class="pagination__item"><a class="pagination__link is-active" href="?pagina=2">1</a></li>
+                                  <li class="pagination__item"><a class="pagination__link" href="?pagina=2">2</a></li>
+                                  <li class="pagination__item"><a class="pagination__link" href="?pagina=3">3</a></li>
+
+                                  <li class="pagination__item">
+                                    <a class="pagination__link" href="?pagina=2" aria-label="Próxima página">›</a>
+                                  </li>
+                                  <li class="pagination__item">
+                                    <a class="pagination__link" href="?pagina=99" aria-label="Última página">»</a>
+                                  </li>
+                                </ul>
+                            </nav>
                        </div>
+
                    </div>
+                       
                 </div>
            <% } %>
 
@@ -206,57 +186,16 @@
 
         <script src="./js/index.js"></script>  
         <script src="./js/Utilidades.js"></script>
+        <script src="./js/alert.js"></script>
 
          <% if (configuracao != null && configuracao.equals(1)) { %>
             <script>openModalConfig();</script>
          <% } %>
          
+         
+
     </body>
     
     <% tarefaDAO.fecharConexao(); %>
-    
-<script>
-  let tempo = 9;
-  let timer;
-  const alertBox = document.getElementById('alertBox');
-  const countdownEl = document.getElementById('countdown');
 
-  function mostrarAlerta() {
-    tempo = 9;
-    countdownEl.textContent = tempo;
-    alertBox.style.display = 'flex';
-    setTimeout(() => {
-      alertBox.classList.add('show');
-    }, 100);
-
-    timer = setInterval(() => {
-      tempo--;
-      countdownEl.textContent = tempo;
-      if (tempo <= 0) {
-        clearInterval(timer);
-        confirmarAcao();
-      }
-    }, 1000);
-  }
-
-  function confirmarAcao() {
-    clearInterval(timer);
-    fecharAlerta();
-  }
-
-  function cancelarAcao() {
-    clearInterval(timer);
-    fecharAlerta();
-  }
-
-  function fecharAlerta() {
-    alertBox.classList.remove('show');
-    setTimeout(() => {
-      alertBox.style.display = 'none';
-    }, 800);
-  }
-
-  // Simulação
-  mostrarAlerta();
-</script>
 </html>

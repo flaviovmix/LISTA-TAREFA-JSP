@@ -1,2 +1,1 @@
 app.util.RenderizadorTarefas
-RenderizadorTarefas

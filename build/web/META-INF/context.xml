@@ -6,7 +6,7 @@
         type="javax.sql.DataSource"
         factory="org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory"
         driverClassName="org.postgresql.Driver"
-        url="jdbc:postgresql://localhost:5432/lista_tarefas"
+        url="jdbc:postgresql://localhost:5432/LISTA_TAREFAS"
         username="postgres"
         password="masterkey"
 

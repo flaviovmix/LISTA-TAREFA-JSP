@@ -132,121 +132,108 @@
                            <% RenderizadorTarefas.renderizar(tarefasAtivas, true, out);%>
 
 
-                           <%
-    int limit = 5;
-    int total = tarefaDAO.contarTarefas(true); // true = ativas (ajuste p/ inativas)
-    int totalPaginas = Math.max(1, (int)Math.ceil((double) total / limit));
-
-    int off = (request.getParameter("offset") != null)
-                ? Integer.parseInt(request.getParameter("offset"))
-                : 0;
-    off = Math.max(0, Math.min(off, (totalPaginas - 1) * limit));
-
-    int paginaAtual = (off / limit) + 1;
-
-    String ativaParam = "0"; // 0=Ativas, 1=Concluídas (se você usa isso nas abas)
-    if (request.getParameter("ativa") != null) {
-        ativaParam = request.getParameter("ativa");
-    }
-
-    int offPrimeira  = 0;
-    int offAnterior  = Math.max(off - limit, 0);
-    int offMenos1    = Math.max(off - limit, 0);                 // botão “-1”
-    int offMais1     = Math.min(off + limit, (totalPaginas-1)*limit); // botão “+1”
-    int offProxima   = Math.min(off + limit, (totalPaginas-1)*limit);
-    int offUltima    = (totalPaginas - 1) * limit;
-%>
-
-<nav class="pagination" aria-label="Paginação">
-    <ul class="pagination__list">
-
-        <!-- PRIMEIRA -->
-        <li class="pagination__item">
-            <a class="pagination__link <%= (paginaAtual == 1 ? "opaco" : "") %>"
-               href="?ativa=<%= ativaParam %>&offset=0">««</a>
-        </li>
-
-        <!-- ANTERIOR -->
-        <li class="pagination__item">
-            <a class="pagination__link <%= (paginaAtual == 1 ? "opaco" : "") %>"
-               href="?ativa=<%= ativaParam %>&offset=<%= offAnterior %>">«</a>
-        </li>
-        
-        <% if (off == 0) { %>
-        <li class="pagination__item">
-            <a class="pagination__link opaco"
-               href="?ativa=<%= ativaParam %>&offset=0">1</a>
-        </li>
-        <li class="pagination__item">
-            <a class="pagination__link opaco"
-               href="?ativa=<%= ativaParam %>&offset=0">2</a>
-        </li>
-        <% } %>
-        
-        <% if (off == 5) { %>
-        <li class="pagination__item">
-            <a class="pagination__link opaco"
-               href="?ativa=<%= ativaParam %>&offset=0">2</a>
-        </li>
-        <% } %>
-       
-        
-        <!-- 2 PÁGINAS ANTERIORES -->
-        <%
-            for (int i = Math.max(1, paginaAtual - 2); i < paginaAtual; i++) {
-                int offCalc = (i - 1) * limit;
-        %>
-        
-            <li class="pagination__item">
-                <a class="pagination__link"
-                   href="?ativa=<%= ativaParam %>&offset=<%= offCalc %>"><%= i %></a>
-            </li>
-        <% } %>
-
-        <!-- DROPDOWN CENTRAL -->
-        <li class="pagination__item">
-            <form method="get" style="display:inline;">
-                <input type="hidden" name="ativa" value="<%= ativaParam %>">
-                <select name="offset" onchange="this.form.submit()" class="pagination__select">
-                    <%
-                        for (int i = 1; i <= totalPaginas; i++) {
-                            int o = (i - 1) * limit;
-                    %>
-                        <option value="<%= o %>" <%= (i == paginaAtual ? "selected" : "") %>>
-                            Página <%= i %> / <%= totalPaginas %>
-                        </option>
-                    <% } %>
-                </select>
-            </form>
-        </li>
-
-        <!-- 2 PÁGINAS SEGUINTES -->
-        <%
-            for (int i = paginaAtual + 1; i <= Math.min(totalPaginas, paginaAtual + 2); i++) {
-                int offCalc = (i - 1) * limit;
-        %>
-            <li class="pagination__item">
-                <a class="pagination__link"
-                   href="?ativa=<%= ativaParam %>&offset=<%= offCalc %>"><%= i %></a>
-            </li>
-        <% } %>
-
-        <!-- PRÓXIMA -->
-        <li class="pagination__item">
-            <a class="pagination__link <%= (paginaAtual == totalPaginas ? "opaco" : "") %>"
-               href="?ativa=<%= ativaParam %>&offset=<%= offProxima %>">»</a>
-        </li>
-
-        <!-- ÚLTIMA -->
-        <li class="pagination__item">
-            <a class="pagination__link <%= (paginaAtual == totalPaginas ? "opaco" : "") %>"
-               href="?ativa=<%= ativaParam %>&offset=<%= offUltima %>">»»</a>
-        </li>
-
-    </ul>
-</nav>
 
 
+                        <%
+                            int limit = 5;
+                            int total = tarefaDAO.contarTarefas(true); // true = ativas (ajuste p/ inativas)
+                            int totalPaginas = Math.max(1, (int) Math.ceil((double) total / limit));
+
+                            int off = (request.getParameter("offset") != null)
+                                        ? Integer.parseInt(request.getParameter("offset"))
+                                        : 0;
+                            off = Math.max(0, Math.min(off, (totalPaginas - 1) * limit));
+
+                            int paginaAtual = (off / limit) + 1;
+
+                            String ativaParam = "0"; // 0=Ativas, 1=Concluídas
+                            if (request.getParameter("ativa") != null) {
+                                ativaParam = request.getParameter("ativa");
+                            }
+
+                            int offPrimeira = 0;
+                            int offAnterior = Math.max(off - limit, 0);
+                            int offProxima  = Math.min(off + limit, (totalPaginas - 1) * limit);
+                            int offUltima   = (totalPaginas - 1) * limit;
+                        %>
+
+                        <nav class="pagination" aria-label="Paginação">
+                            <ul class="pagination__list">
+
+                                <!-- PRIMEIRA -->
+                                <li class="pagination__item">
+                                    <a class="pagination__link <%= (paginaAtual == 1 ? "opaco" : "") %>"
+                                       href="?ativa=<%= ativaParam %>&offset=<%= offPrimeira %>">««</a>
+                                </li>
+
+                                <!-- ANTERIOR -->
+                                <li class="pagination__item">
+                                    <a class="pagination__link <%= (paginaAtual == 1 ? "opaco" : "") %>"
+                                       href="?ativa=<%= ativaParam %>&offset=<%= offAnterior %>">«</a>
+                                </li>
+
+                                <!-- DUAS PÁGINAS ANTERIORES -->
+                                <%
+                                    int primeiro = Math.max(1, paginaAtual - 2);
+                                    int ultimo   = Math.min(totalPaginas, paginaAtual + 2);
+
+                                    for (int i = primeiro; i < paginaAtual; i++) {
+                                        int offCalc = (i - 1) * limit;
+                                %>
+                                    <li class="pagination__item">
+                                        <a class="pagination__link"
+                                           href="?ativa=<%= ativaParam %>&offset=<%= offCalc %>"><%= i %></a>
+                                    </li>
+                                <%
+                                    }
+                                %>
+
+                                <!-- DROPDOWN COM A PÁGINA ATUAL -->
+                                <li class="pagination__item">
+                                    <form method="get" style="display:inline;">
+                                        <input type="hidden" name="ativa" value="<%= ativaParam %>">
+                                        <select name="offset" onchange="this.form.submit()" class="pagination__select">
+                                            <%
+                                                for (int i = 1; i <= totalPaginas; i++) {
+                                                    int o = (i - 1) * limit;
+                                            %>
+                                                <option value="<%= o %>" <%= (i == paginaAtual ? "selected" : "") %>>
+                                                    Página <%= i %> / <%= totalPaginas %>
+                                                </option>
+                                            <%
+                                                }
+                                            %>
+                                        </select>
+                                    </form>
+                                </li>
+
+                                <!-- DUAS PÁGINAS SEGUINTES -->
+                                <%
+                                    for (int i = paginaAtual + 1; i <= ultimo; i++) {
+                                        int offCalc = (i - 1) * limit;
+                                %>
+                                    <li class="pagination__item">
+                                        <a class="pagination__link"
+                                           href="?ativa=<%= ativaParam %>&offset=<%= offCalc %>"><%= i %></a>
+                                    </li>
+                                <%
+                                    }
+                                %>
+
+                                <!-- PRÓXIMA -->
+                                <li class="pagination__item">
+                                    <a class="pagination__link <%= (paginaAtual == totalPaginas ? "opaco" : "") %>"
+                                       href="?ativa=<%= ativaParam %>&offset=<%= offProxima %>">»</a>
+                                </li>
+
+                                <!-- ÚLTIMA -->
+                                <li class="pagination__item">
+                                    <a class="pagination__link <%= (paginaAtual == totalPaginas ? "opaco" : "") %>"
+                                       href="?ativa=<%= ativaParam %>&offset=<%= offUltima %>">»»</a>
+                                </li>
+
+                            </ul>
+                        </nav>
 
 
 

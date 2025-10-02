@@ -1,6 +1,7 @@
 package app.tarefas;
 
 import app.ConexaoPostGres;
+import app.Utilidades;
 import static app.Utilidades.stringToDate;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -128,13 +129,14 @@ public class TarefaDAO {
 
         try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql)) {
 
-            ps.setString(1, tarefa.getTitulo());
-            ps.setString(2, tarefa.getDescricao());
-            ps.setString(3, tarefa.getStatus());
-            ps.setString(4, tarefa.getPrioridade());
-            ps.setString(5, tarefa.getResponsavel());
+            ps.setString(1, Utilidades.arrumarCaractereHtmlJs(tarefa.getTitulo()));
+            ps.setString(2, Utilidades.arrumarCaractereHtmlJs(tarefa.getDescricao()));
+            ps.setString(3, Utilidades.arrumarCaractereHtmlJs(tarefa.getStatus()));
+            ps.setString(4, Utilidades.arrumarCaractereHtmlJs(tarefa.getPrioridade()));
+            ps.setString(5, Utilidades.arrumarCaractereHtmlJs(tarefa.getResponsavel()));
             ps.setDate(6, tarefa.getData_conclusao());
-
+            
+           
             try (ResultSet rs = ps.executeQuery()) {
 
                 if (rs.next()) {
@@ -162,11 +164,11 @@ public class TarefaDAO {
 
 
         try (PreparedStatement ps = dataBase.getConexao().prepareStatement(sql.toString())) {
-            ps.setString(1, tarefa.getTitulo());
-            ps.setString(2, tarefa.getDescricao());
-            ps.setString(3, tarefa.getStatus());
-            ps.setString(4, tarefa.getPrioridade());
-            ps.setString(5, tarefa.getResponsavel());
+            ps.setString(1, Utilidades.arrumarCaractereHtmlJs(tarefa.getTitulo()));
+            ps.setString(2, Utilidades.arrumarCaractereHtmlJs(tarefa.getDescricao()));
+            ps.setString(3, Utilidades.arrumarCaractereHtmlJs(tarefa.getStatus()));
+            ps.setString(4, Utilidades.arrumarCaractereHtmlJs(tarefa.getPrioridade()));
+            ps.setString(5, Utilidades.arrumarCaractereHtmlJs(tarefa.getResponsavel()));
             ps.setDate(6, tarefa.getData_conclusao());
             ps.setInt(7, tarefa.getId_tarefa());
 

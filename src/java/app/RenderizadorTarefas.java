@@ -25,7 +25,7 @@ public class RenderizadorTarefas {
                 aux.append("<div class='task-list '>");
                 for (TarefaBean tarefa : tarefas) {
                     aux.append("<div class='task ")
-                       .append(Utilidades.arrumarCaractereHtmlJs(tarefa.getPrioridade()))
+                       .append(tarefa.getPrioridade())
                        .append("'>");
 
                     aux.append("  <div class='task-content'>");
@@ -33,7 +33,7 @@ public class RenderizadorTarefas {
                     aux.append("    <div class='task-title ").append(AtivoInativo).append("'>");
                     aux.append("      <a href='tarefaMasterDetail.jsp?id_tarefa=").append(tarefa.getId_tarefa())
                        .append("&novoOuEditar=1' class='link-sem-estilo'>")
-                       .append(Utilidades.arrumarCaractereHtmlJs(tarefa.getTitulo()))
+                       .append(tarefa.getTitulo())
                        .append("</a>");
                     aux.append("    </div>");
 
@@ -51,7 +51,7 @@ public class RenderizadorTarefas {
                     aux.append("    </div>");
 
                     aux.append("    <span class='descricao ").append(AtivoInativo).append("'>")
-                       .append(         Utilidades.arrumarCaractereHtmlJs(tarefa.getDescricao()))
+                       .append(         tarefa.getDescricao())
                        .append("     </span>");
                     aux.append("  </div>");
 

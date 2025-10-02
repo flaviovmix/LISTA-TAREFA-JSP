@@ -28,24 +28,40 @@ public class Utilidades {
         }
     }  
     
-    public static String arrumarCaractereHtmlJs(String texto) {
-        if (texto == null) return "";
+public static String arrumarCaractereHtmlJs(String texto) {
+    if (texto == null) return "";
 
-        return texto.trim()
-        .replace("&", "&amp;")
-        .replace("<", "&lt;")
-        .replace(">", "&gt;")
-        // Para HTML
-        //.replace("\"", "&quot;") // só use se o contexto for atributo HTML
-        // Para JS (escapa mantendo as aspas no código)
-        .replace("\"", "\\\"")
-        .replace("'", "\\'")
-        .replace("\\", "\\\\")
-        .replace("/", "\\/")
-        .replace("`", "&#96;")
-        .replace("\n", "\\n")
-        .replace("\r", "\\r");
+    StringBuilder sb = new StringBuilder();
+    String permitidosExtras = "áàâãéêíóôõúüçÁÀÂÃÉÊÍÓÔÕÚÜÇ’";
+
+    for (char c : texto.toCharArray()) {
+        if (Character.isLetterOrDigit(c)) {
+            sb.append(c);
+        } else if (c == ' ' || c == '\n') {
+            sb.append(c);
+        } else if (c == '.' || c == ',' || c == '-' || c == '_' ||
+                   c == '!' || c == '?' ||
+                   c == ':' || c == ';' || c == '(' || c == ')' ||
+                   c == '@' || c == '$') {
+            sb.append(c);
+        } else if (permitidosExtras.indexOf(c) >= 0) {
+            sb.append(c);
+        } else if (c == '"') {
+            sb.append("&quot;");
+        } else if (c == '\'') {
+            sb.append("&#39;");
+        } else if (c == '<') {
+            sb.append("&lt;");
+        } else if (c == '>') {
+            sb.append("&gt;");
+        }
+        // ? todo o resto é ignorado
     }
+
+    return sb.toString().trim();
+}
+
+
 
     public static String dateToString(Date data, String pattern) {
         String result = "";
